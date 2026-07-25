@@ -1,0 +1,31 @@
+topic: rust-frontend
+generated_from: ../claims.yml
+as_of: 2026-07-25
+deliverables:
+  - id: rust-frontend-brief
+    type: research-brief
+    status: complete
+    files:
+      - brief/rust-frontend-research-brief.md
+  - id: rust-frontend-deck
+    type: slidev-presentation
+    status: complete
+    files:
+      - slides/slidev/slides.md
+      - slides/slidev/style.css
+      - slides/slidev/README.md
+      - slides/rust-frontend-architecture-and-production-readiness.md
+      - slides/rust-frontend-architecture-and-production-readiness.pptx
+      - slides/deck-outline.md
+  - id: rust-frontend-chapter-handoff
+    type: chapter-handoff
+    status: complete
+    files:
+      - chapter-handoff/chapter-contributions.md
+  - id: rust-frontend-shared-figures
+    type: diagrams
+    status: complete
+    files:
+      - figures/rust-frontend-request-lifecycle.svg
+      - figures/rust-workspace-layering.svg
+      - figures/rust-frontend-feature-parity-matrix.svg

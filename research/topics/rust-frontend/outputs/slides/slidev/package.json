@@ -1,0 +1,21 @@
+{
+  "name": "vllm-rust-frontend-slidev",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare:assets": "node scripts/prepare-assets.mjs",
+    "predev": "npm run prepare:assets",
+    "dev": "slidev slides.md",
+    "prebuild": "npm run prepare:assets",
+    "build": "slidev build slides.md --out dist",
+    "preexport:pptx": "npm run prepare:assets",
+    "export:pptx": "slidev export slides.md --format pptx --output ../rust-frontend-architecture-and-production-readiness.pptx --executable-path \"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --timeout 120000",
+    "preexport:png": "npm run prepare:assets",
+    "export:png": "slidev export slides.md --format png --output .qa --executable-path \"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" --timeout 120000"
+  },
+  "devDependencies": {
+    "@slidev/cli": "52.18.0",
+    "@slidev/theme-default": "0.25.0",
+    "playwright-chromium": "1.62.0"
+  }
+}

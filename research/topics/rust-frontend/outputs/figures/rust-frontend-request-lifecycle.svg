@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071522"/>
+      <stop offset="1" stop-color="#102D3B"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#02070A" flood-opacity=".35"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0 0 L12 6 L0 12 Z" fill="#69D2C4"/>
+    </marker>
+    <style>
+      .sans{font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif}
+      .mono{font-family:"SFMono-Regular",Consolas,monospace}
+      .title{font-size:48px;font-weight:700;fill:#F4F7F9}
+      .sub{font-size:22px;fill:#A8BBC4}
+      .label{font-size:24px;font-weight:650;fill:#F4F7F9}
+      .small{font-size:18px;fill:#B9C8CE}
+      .tiny{font-size:15px;fill:#8298A2}
+      .box{fill:#123544;stroke:#2F6070;stroke-width:2}
+      .accent{fill:#123C3A;stroke:#69D2C4;stroke-width:3}
+      .engine{fill:#2E2745;stroke:#9C83D8;stroke-width:2}
+      .arrow{fill:none;stroke:#69D2C4;stroke-width:4;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <text x="96" y="92" class="sans title">Rust Frontend 请求生命周期</text>
+  <text x="96" y="132" class="sans sub">同一条增量流同时服务 streaming 与 non-streaming</text>
+
+  <g filter="url(#shadow)">
+    <rect x="96" y="218" rx="18" width="210" height="150" class="box"/>
+    <text x="201" y="274" text-anchor="middle" class="sans label">Client</text>
+    <text x="201" y="310" text-anchor="middle" class="mono small">OpenAI HTTP</text>
+    <text x="201" y="339" text-anchor="middle" class="mono small">SSE / JSON</text>
+
+    <rect x="376" y="218" rx="18" width="210" height="150" class="accent"/>
+    <text x="481" y="270" text-anchor="middle" class="sans label">Server</text>
+    <text x="481" y="306" text-anchor="middle" class="sans small">协议与路由</text>
+    <text x="481" y="335" text-anchor="middle" class="mono small">vllm-server</text>
+
+    <rect x="656" y="218" rx="18" width="210" height="150" class="accent"/>
+    <text x="761" y="270" text-anchor="middle" class="sans label">Chat</text>
+    <text x="761" y="306" text-anchor="middle" class="sans small">模板 · tool · reasoning</text>
+    <text x="761" y="335" text-anchor="middle" class="mono small">structured events</text>
+
+    <rect x="936" y="218" rx="18" width="210" height="150" class="accent"/>
+    <text x="1041" y="270" text-anchor="middle" class="sans label">Text</text>
+    <text x="1041" y="306" text-anchor="middle" class="sans small">tokenize · detokenize</text>
+    <text x="1041" y="335" text-anchor="middle" class="mono small">text deltas</text>
+
+    <rect x="1216" y="218" rx="18" width="210" height="150" class="accent"/>
+    <text x="1321" y="270" text-anchor="middle" class="sans label">LLM</text>
+    <text x="1321" y="306" text-anchor="middle" class="sans small">token-in / token-out</text>
+    <text x="1321" y="335" text-anchor="middle" class="mono small">request stream</text>
+  </g>
+
+  <path d="M306 293 H366" class="arrow"/>
+  <path d="M586 293 H646" class="arrow"/>
+  <path d="M866 293 H926" class="arrow"/>
+  <path d="M1146 293 H1206" class="arrow"/>
+
+  <g filter="url(#shadow)">
+    <rect x="930" y="493" rx="18" width="496" height="142" class="box"/>
+    <text x="1178" y="542" text-anchor="middle" class="sans label">Engine Core Client</text>
+    <text x="1178" y="578" text-anchor="middle" class="sans small">ZMQ · MessagePack · lifecycle · dispatch</text>
+    <text x="1178" y="607" text-anchor="middle" class="mono small">Rust ↔ Python boundary</text>
+
+    <rect x="174" y="493" rx="18" width="500" height="142" class="engine"/>
+    <text x="424" y="542" text-anchor="middle" class="sans label">Python vLLM Engine / EngineCore</text>
+    <text x="424" y="578" text-anchor="middle" class="sans small">scheduling · KV cache · model execution</text>
+    <text x="424" y="607" text-anchor="middle" class="sans small">GPU 推理路径保持不变</text>
+  </g>
+  <path d="M1321 368 V447 Q1321 467 1301 467 H1198 V483" class="arrow"/>
+  <path d="M930 564 H684" class="arrow"/>
+
+  <g>
+    <rect x="96" y="710" rx="14" width="1408" height="104" fill="#0B202B" stroke="#294A57"/>
+    <circle cx="132" cy="751" r="8" fill="#69D2C4"/>
+    <text x="154" y="758" class="sans small">Streaming：每层消费上游流并产生下游增量事件。</text>
+    <circle cx="794" cy="751" r="8" fill="#F2B84B"/>
+    <text x="816" y="758" class="sans small">Non-streaming：收集同一条流后一次返回，不维护第二套语义。</text>
+    <text x="132" y="792" class="sans tiny">证据：RF-C01 / RF-C02 / RF-C03 · SRC-vllm-rust-frontend-readme · 核对日期 2026-07-25</text>
+  </g>
+</svg>

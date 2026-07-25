@@ -16,8 +16,12 @@ Handoff: 第 3、6、9、13、14、15 章
 - [`feature-parity-roadmap.md`](feature-parity-roadmap.md) — Issue #44280 的动态能力与缺口快照。
 - [`vocabulary.md`](vocabulary.md) — 9 个核心 nouns、12 个核心 verbs 及其处理语法。
 - [`talk-transcript-part-01-notes.md`](talk-transcript-part-01-notes.md) — `00:00–16:38` 自动转写的内容理解、术语勘误与待验证问题。
+- [`talk-transcript-part-02-notes.md`](talk-transcript-part-02-notes.md) — 无时间戳续篇的内容理解，重点补齐分层、stream-native、parser、接入方式和长期方向。
+- [`claims.yml`](claims.yml) — Brief、PPT、章节转写包和共享图共同使用的 claim spine。
+- [`outputs/`](outputs/) — 从本专题研究转出的 Brief、PPT、章节转写包和共享图。
 - [`source/vllm-rust-frontend-introduction.pdf`](source/vllm-rust-frontend-introduction.pdf) — 16 页原始演讲 PDF，SHA-256：`dd20c1bd34448f25443fe19400e6493b8bcee4108625ff8af0edbafd0c906f60`。
 - [`source/transcripts/2026-07-25-rust-frontend-talk-part-01.txt`](source/transcripts/2026-07-25-rust-frontend-talk-part-01.txt) — 未清洗的 ASR 原始转写，只作为 D 级研究线索。
+- [`source/transcripts/2026-07-25-rust-frontend-talk-part-02.txt`](source/transcripts/2026-07-25-rust-frontend-talk-part-02.txt) — 未清洗且无时间戳的 ASR 续篇，只作为 D 级研究线索。
 
 ## 应如何进入书稿
 

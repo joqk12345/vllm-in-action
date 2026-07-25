@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071522"/>
+      <stop offset="1" stop-color="#17313A"/>
+    </linearGradient>
+    <style>
+      .sans{font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif}
+      .mono{font-family:"SFMono-Regular",Consolas,monospace}
+      .title{font-size:46px;font-weight:750;fill:#F4F7F9}
+      .sub{font-size:21px;fill:#A8BBC4}
+      .head{font-size:18px;font-weight:700;fill:#DDE8EB}
+      .row{font-size:18px;font-weight:650;fill:#F4F7F9}
+      .body{font-size:16px;fill:#B8C8CE}
+      .tiny{font-size:14px;fill:#8298A2}
+      .grid{stroke:#31505C;stroke-width:1}
+    </style>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#bg3)"/>
+  <text x="90" y="82" class="sans title">Feature parity：不是一个百分比，而是三层契约</text>
+  <text x="90" y="120" class="sans sub">2026-07-25 roadmap 快照 · 目标是按 workload 定义“够用”，不是机械 1:1 移植</text>
+
+  <g transform="translate(90,175)">
+    <rect width="1420" height="642" rx="16" fill="#0C222D" stroke="#31505C" stroke-width="2"/>
+    <rect width="1420" height="72" rx="16" fill="#123441"/>
+    <text x="28" y="44" class="sans head">能力域</text>
+    <text x="300" y="44" class="sans head">已有核心路径</text>
+    <text x="735" y="44" class="sans head">Roadmap 缺口示例</text>
+    <text x="1192" y="44" class="sans head">采用门槛</text>
+    <path d="M262 0 V642 M697 0 V642 M1154 0 V642" class="grid"/>
+
+    <g transform="translate(0,72)">
+      <rect width="1420" height="114" fill="#0D2833"/>
+      <text x="28" y="36" class="sans row">Endpoint</text>
+      <text x="28" y="66" class="sans body">北向 API</text>
+      <text x="300" y="37" class="sans body">Chat / Completions</text>
+      <text x="300" y="67" class="sans body">streaming + non-streaming</text>
+      <text x="735" y="31" class="sans body">Responses · Messages · Embeddings</text>
+      <text x="735" y="59" class="sans body">Speech · Realtime · Tokenization</text>
+      <text x="1192" y="42" class="sans body">目标 endpoint</text>
+      <text x="1192" y="70" class="sans body">契约测试通过</text>
+    </g>
+    <path d="M0 186 H1420" class="grid"/>
+
+    <g transform="translate(0,186)">
+      <rect width="1420" height="114" fill="#0B242F"/>
+      <text x="28" y="36" class="sans row">Parameter</text>
+      <text x="28" y="66" class="sans body">请求语义</text>
+      <text x="300" y="37" class="sans body">常用 sampling options</text>
+      <text x="300" y="67" class="sans body">部分 tool / reasoning</text>
+      <text x="735" y="31" class="sans body">n &gt; 1 · beam search · tracing</text>
+      <text x="735" y="59" class="sans body">tool choice · truncate prompt</text>
+      <text x="1192" y="42" class="sans body">参数级差异</text>
+      <text x="1192" y="70" class="sans body">明确失败或等价</text>
+    </g>
+    <path d="M0 300 H1420" class="grid"/>
+
+    <g transform="translate(0,300)">
+      <rect width="1420" height="114" fill="#0D2833"/>
+      <text x="28" y="36" class="sans row">Model / Media</text>
+      <text x="28" y="66" class="sans body">模型与模态</text>
+      <text x="300" y="37" class="sans body">关键 parser 家族</text>
+      <text x="300" y="67" class="sans body">有限 image-only 路径</text>
+      <text x="735" y="31" class="sans body">更多 parser · audio · video</text>
+      <text x="735" y="59" class="sans body">image embedding · broader models</text>
+      <text x="1192" y="42" class="sans body">目标模型 fixture</text>
+      <text x="1192" y="70" class="sans body">chunk roundtrip</text>
+    </g>
+    <path d="M0 414 H1420" class="grid"/>
+
+    <g transform="translate(0,414)">
+      <rect width="1420" height="114" fill="#0B242F"/>
+      <text x="28" y="36" class="sans row">Operations</text>
+      <text x="28" y="66" class="sans body">生产边界</text>
+      <text x="300" y="37" class="sans body">health · load · metrics</text>
+      <text x="300" y="67" class="sans body">sleep/wake · reset-cache</text>
+      <text x="735" y="31" class="sans body">TLS · API key · CORS · root path</text>
+      <text x="735" y="59" class="sans body">日志参数 · lifecycle · LoRA</text>
+      <text x="1192" y="42" class="sans body">信任边界、观测</text>
+      <text x="1192" y="70" class="sans body">与回退演练</text>
+    </g>
+    <path d="M0 528 H1420" class="grid"/>
+
+    <g transform="translate(0,528)">
+      <rect width="1420" height="114" fill="#0D2833"/>
+      <text x="28" y="36" class="sans row">Scale</text>
+      <text x="28" y="66" class="sans body">拓扑与控制面</text>
+      <text x="300" y="37" class="sans body">多 engine 内部负载均衡</text>
+      <text x="300" y="67" class="sans body">scheduler-stat-aware routing</text>
+      <text x="735" y="31" class="sans body">external / hybrid DP LB</text>
+      <text x="735" y="59" class="sans body">elastic EP · request draining</text>
+      <text x="1192" y="42" class="sans body">目标拓扑的</text>
+      <text x="1192" y="70" class="sans body">故障与容量测试</text>
+    </g>
+  </g>
+
+  <g transform="translate(90,854)">
+    <rect width="420" height="72" rx="14" fill="#173E39" stroke="#55B9A8"/>
+    <circle cx="30" cy="36" r="9" fill="#69D2C4"/>
+    <text x="53" y="32" class="sans body">可试用：目标核心路径存在</text>
+    <text x="53" y="55" class="sans tiny">仍不等于 production-ready</text>
+
+    <rect x="450" width="420" height="72" rx="14" fill="#443719" stroke="#D8A947"/>
+    <circle cx="480" cy="36" r="9" fill="#F2B84B"/>
+    <text x="503" y="32" class="sans body">需补齐：roadmap 中有明确缺口</text>
+    <text x="503" y="55" class="sans tiny">按 workload 建立 capability contract</text>
+
+    <rect x="900" width="510" height="72" rx="14" fill="#3D2331" stroke="#D9789B"/>
+    <circle cx="930" cy="36" r="9" fill="#E888A7"/>
+    <text x="953" y="32" class="sans body">不可外推：实验性 ≠ 默认生产替代</text>
+    <text x="953" y="55" class="sans tiny">证据：RF-C07 / RF-C08 · Issue #44280</text>
+  </g>
+  <text x="90" y="965" class="sans tiny">动态快照：引用具体 feature 前必须重查关联 PR、目标 release tag 与端到端测试。</text>
+</svg>

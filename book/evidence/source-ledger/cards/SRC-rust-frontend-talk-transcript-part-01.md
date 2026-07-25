@@ -5,8 +5,8 @@ evidence_grade: D
 source_type: asr-transcript
 title: "vLLM Rust Frontend 讲话自动转写 Part 01"
 author_or_issuer: "讲话人未识别"
-published: 2026-07-25
-verified: 2026-07-25
+published: ""
+verified: ""
 applies_to: "00:00:00–00:16:38；开头承接上文，末句不完整"
 url: ""
 archive_path: "research/topics/rust-frontend/source/transcripts/2026-07-25-rust-frontend-talk-part-01.txt"
