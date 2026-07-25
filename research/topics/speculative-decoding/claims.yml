@@ -1,0 +1,87 @@
+topic: speculative-decoding
+as_of: 2026-07-25
+policy:
+  body_ready_grades: [A, B]
+  transcript_grade: D
+  rule: "论文结果按作者报告处理；工程行为必须固定到 vLLM/Speculators tag、commit、源码或测试后才能进入正文。"
+claims:
+  - id: SD-C01
+    statement: "标准投机解码通过 drafter 提议候选、target 并行验证和拒绝采样，在满足算法假设时保持 target model 的输出分布。"
+    kind: algorithm-fact
+    grade: B
+    applies_to: "标准 rejection-sampling speculative decoding；不是任意启发式 draft/verify 实现"
+    sources: [SRC-dspark-paper-v1]
+    chapters: ["10"]
+    counterexample: "只比较 greedy token、截断候选却不保持正确接受/纠正分布的实现，不能自动宣称 lossless。"
+    verification_gap: "补充经典 speculative sampling 原始论文，并以固定 vLLM 测试验证采样分布。"
+
+  - id: SD-C02
+    statement: "投机解码每个生成 token 的平均延迟由 drafter 时间、target 验证时间和每轮接受 token 数共同决定，接受长度本身不是端到端加速比。"
+    kind: performance-model
+    grade: B
+    applies_to: "论文中的简化延迟模型 L=(T_draft+T_verify)/tau；生产系统还需计入调度和通信"
+    sources: [SRC-dspark-paper-v1]
+    chapters: ["10", "11"]
+    counterexample: "接受长度提高但 drafter、调度或验证批量成本增长时，ITL、吞吐或 goodput 仍可能下降。"
+    verification_gap: "为 vLLM benchmark 增加分阶段计时，并检验简化模型的残差。"
+
+  - id: SD-C03
+    statement: "DSpark 用并行 backbone 生成整块表示，再用轻量顺序 head 注入块内 token 依赖，以缓解并行 drafter 的后缀接受率衰减。"
+    kind: paper-design
+    grade: B
+    applies_to: "DSpark arXiv:2607.05147v1；默认实验主要使用 Markov-head variant"
+    sources: [SRC-dspark-paper-v1]
+    chapters: ["10", "11"]
+    counterexample: "顺序 head 增加的依赖建模并不保证所有任务的收益超过它的额外延迟。"
+    verification_gap: "复现 Markov/RNN head 的接受长度与 drafter latency 消融。"
+
+  - id: SD-C04
+    statement: "DSpark 将校准后的 prefix survival probability 与硬件吞吐曲线结合，按请求和负载动态裁剪 target 的验证前缀。"
+    kind: paper-design
+    grade: B
+    applies_to: "论文算法与 DeepSeek 内部 serving 实现；尚未证明 vLLM 已等价实现"
+    sources: [SRC-dspark-paper-v1]
+    chapters: ["10", "11"]
+    counterexample: "静态或失准的 confidence、变化后的硬件容量曲线以及低接受率请求都可能削弱调度收益。"
+    verification_gap: "核对开源实现完整度，并在目标硬件重新 profile SPS(B) 与校准误差。"
+
+  - id: SD-C05
+    statement: "DSpark 论文报告其在指定 Qwen3/Gemma4 离线设置中提高接受长度，并在 DeepSeek-V4 线上流量中相对 MTP-1 改善速度—吞吐 Pareto 前沿。"
+    kind: benchmark-observation
+    grade: B
+    applies_to: "arXiv v1 的模型、数据、temperature=1.0、baseline、内部系统与流量；属于作者报告"
+    sources: [SRC-dspark-paper-v1]
+    chapters: ["11"]
+    invalid_generalization: "不能写成 DSpark 在所有模型、vLLM 版本、硬件、并发或 workload 下都是最快方法。"
+    verification_gap: "本仓库尚无独立复现；DeepSeek-V4 生产流量和内部 serving 栈也无法完全重建。"
+
+  - id: SD-C06
+    statement: "截至 2026-07-25，Speculators 上游公开描述了 DSpark 训练支持和面向 vLLM 的部署路径。"
+    kind: upstream-status
+    grade: B
+    applies_to: "Speculators 浮动 main，核对至 2026-07-25；不是固定 release 承诺"
+    sources: [SRC-speculators-main]
+    chapters: ["10", "15"]
+    counterexample: "README 出现支持项不证明任意 vLLM release、模型配置和硬件组合均可运行。"
+    verification_gap: "固定 Speculators commit 与兼容 vLLM release，核对源码、测试和 checkpoint config。"
+
+  - id: SD-C07
+    statement: "演讲展示了通过在线隐藏状态提取、KVConnector/Mooncake 和跨节点训练连接 vLLM 与 Speculators 的工程方案。"
+    kind: talk-observation
+    grade: C
+    applies_to: "2026-07-22 演讲所示方案；命令与版本尚未回查"
+    sources: [SRC-dspark-talk-2026-07-22]
+    chapters: ["08", "12"]
+    publication_rule: "只能作为源码调查和实验设计入口，不能直接写成稳定生产能力。"
+    counterexample: "DSpark 论文本身描述的是 DeepSeek 内部 HAI-LLM 训练链路，没有为演讲中的 vLLM/Mooncake 方案提供直接证据。"
+    verification_gap: "固定相关 vLLM/Speculators commit，定位 connector 源码、测试、配置和失败行为。"
+
+  - id: SD-C08
+    statement: "即使动态裁剪 target 验证前缀，DSpark 仍需支付并行 backbone 生成初始 draft block 的固定成本，低接受率复杂请求可能无法回收该成本。"
+    kind: paper-limitation
+    grade: B
+    applies_to: "DSpark arXiv v1 所述固定 draft-side cost"
+    sources: [SRC-dspark-paper-v1]
+    chapters: ["10", "11"]
+    counterexample: "高接受率或 target 验证成本占主导的 workload 可能足以摊薄固定 drafter 成本。"
+    verification_gap: "建立 difficulty/acceptance 分桶，并与关闭投机解码的基线比较。"

@@ -66,8 +66,18 @@ topics:
     title: "高级解码"
     priority: P1
     chapters: ["10", "11"]
+    cadence: "每个 vLLM/Speculators release；论文与 checkpoint 每月复核"
+    tracker: "research/topics/speculative-decoding/tracking/README.md"
+    discovery_sources:
+      - "https://arxiv.org/abs/2607.05147"
+      - "https://github.com/vllm-project/speculators"
+      - "https://github.com/vllm-project/vllm"
+    authority: "固定论文版本、vLLM/Speculators tag 或 commit、源码、测试与本仓库实验"
     watch:
       - "speculative decoding"
+      - "DSpark and confidence-scheduled verification"
+      - "drafter/checkpoint compatibility"
+      - "acceptance length versus latency, throughput and goodput"
       - "structured and constrained outputs"
       - "sampling behavior"
 

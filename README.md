@@ -36,6 +36,8 @@ vLLM 的参数很多，但生产问题通常不是“某个 flag 怎么写”，
 - 看待追踪主题：[`research/watchlist.yml`](research/watchlist.yml)
 - 看 Rust Frontend 专题：[`research/topics/rust-frontend/`](research/topics/rust-frontend/)
 - 读 Rust Frontend 小册子：[`research/topics/rust-frontend/outputs/booklet/rust-frontend-topic-booklet.md`](research/topics/rust-frontend/outputs/booklet/rust-frontend-topic-booklet.md)
+- 看投机解码专题：[`research/topics/speculative-decoding/`](research/topics/speculative-decoding/)
+- 审阅投机解码正文落点建议：[`research/topics/speculative-decoding/outputs/chapter-handoff/chapter-placement-proposal.md`](research/topics/speculative-decoding/outputs/chapter-handoff/chapter-placement-proposal.md)
 - 新增来源：复制 [`templates/source-card.md`](templates/source-card.md)
 - 跑实验：复制 [`templates/experiment.md`](templates/experiment.md)
 - 跟进新版本：复制 [`templates/release-impact.md`](templates/release-impact.md)
@@ -81,6 +83,19 @@ python3 scripts/check_rust_frontend_tracking.py
 
 GitHub Actions 每周运行同一检查。检测到漂移只表示需要人工分诊，不代表能力已经发布、验证或可以进入正文。
 
+## 投机解码专题
+
+投机解码专题以 `draft → verify → accept/reject → measure` 为稳定分析框架，以 DSpark 为首个重点案例，研究 drafter 延迟、接受长度、验证预算和生产指标之间的取舍。
+
+当前已建立：
+
+- 版本化来源清单与文件校验值；
+- SD-C01～SD-C08 claim spine；
+- 论文、Speculators 和 vLLM 的持续跟踪协议；
+- 第 9、10、11、12、15 章的正文落点建议。
+
+专题仍处于 `captured` 状态。DSpark 论文结果属于作者报告，Speculators/vLLM 工程事实尚需固定到 tag 或 commit，并在本仓库复现低并发 latency 与高并发 throughput/goodput 场景后，才可进入正文。
+
 ## 建议的日常节奏
 
 每周处理一次 watchlist 和上游变化；每月复查所有 `stale_after` 到期的来源；每个 vLLM 版本发布后创建一份 release impact；每个进入正文的性能结论至少对应一份实验记录。
@@ -124,5 +139,7 @@ git diff --check
 - 仓库中的配置不是默认生产建议；只有在适用条件和证据齐全时才进入正文。
 - 暂不绑定具体出版工具链，避免知识结构被某个渲染器反向约束。
 - Rust Frontend 的 target release 尚未固定，本仓 benchmark 尚未复现。
+- 投机解码专题尚未固定兼容的 vLLM/Speculators 版本组合，也未独立复现 DSpark 端到端收益。
 - roadmap checkbox 和 Version Monitor 输出都是变化线索，不能替代 release/local-test 证据。
+- DSpark 演讲 PPT 与字幕的再分发授权状态尚未核对。
 - 许可证尚未选择；公开发布或接受外部贡献前应补充 `LICENSE` 与贡献约定。

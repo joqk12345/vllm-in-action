@@ -27,6 +27,11 @@
   - vLLM Version Monitor manifest 和工作流健康信号；
   - 每周 GitHub Actions 漂移检查；
   - 人工分诊协议和追加式变化日志。
+- 投机解码专题研究骨架，以 DSpark 为首个重点案例，包括：
+  - 版本化论文、演讲和字幕素材清单及文件校验值；
+  - SD-C01～SD-C08 claim spine 与最小术语表；
+  - 论文、Speculators 和 vLLM 的持续跟踪协议；
+  - 第 9、10、11、12、15 章的正文落点建议。
 - 通用主题小册子模板与专题研究准入条件。
 
 #### Changed
@@ -36,6 +41,7 @@
 - 将 feature-parity 图调整为稳定的三层 capability contract，不再嵌入易过期的 roadmap checkbox 判断。
 - 根据 Issue #44280 当前快照修正 TLS、API key、CORS、LoRA、DP 和生命周期能力的动态表述。
 - 明确 Version Monitor 只负责发现和初步分诊，最终事实必须回到 vLLM 官方上游验证。
+- 扩展高级解码 watchlist，加入 DSpark、drafter/checkpoint 兼容性，以及接受长度与 latency、throughput、goodput 的指标边界。
 
 #### Validation
 
@@ -50,6 +56,8 @@
 - RFC benchmark 尚未在本仓库复现，缺少 GPU-bound 对照和完整 CPU/RSS 数据。
 - Slidev/PPTX 仍包含早期 feature-parity 图，已标记 `needs-refresh`。
 - 第三方演讲 PDF 的开放许可尚未确认。
+- 投机解码专题尚未固定兼容的 vLLM/Speculators 版本组合，也未在本仓库独立复现 DSpark 端到端 serving benchmark。
+- DSpark 演讲 PPT 与字幕的再分发授权状态尚未核对。
 - `book/chapters/` 尚未开始正式章节草稿。
 
 ## [0.1.0] - 2026-07-25
