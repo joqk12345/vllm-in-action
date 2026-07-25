@@ -23,14 +23,14 @@ Handoff: 第 3、6、9、13、14、15 章
 
 这份材料不应整篇复制到正文。建议拆成六种用途：
 
-| 内容 | 进入位置 | 使用方式 |
-|---|---|---|
-| Python/Rust frontend 与 Python engine 的边界 | 第 3 章 | 请求生命周期图中的前端分支 |
-| stream-native、parser、API feature parity | 第 6 章 | API 契约与实验性前端案例 |
-| frontend-bound benchmark | 第 9 章 | “压力测试证明什么、不证明什么”的方法案例 |
-| CPU 前端瓶颈与多进程成本 | 第 13 章 | 可观测性和容量规划信号 |
-| TLS、鉴权、CORS 与能力缺口 | 第 14 章 | 生产安全边界 |
-| 可选启用、灰度与回退 | 第 15 章 | 实验性路径升级 runbook |
+| 内容                                       | 进入位置   | 使用方式                  |
+| ---------------------------------------- | ------ | --------------------- |
+| Python/Rust frontend 与 Python engine 的边界 | 第 3 章  | 请求生命周期图中的前端分支         |
+| stream-native、parser、API feature parity  | 第 6 章  | API 契约与实验性前端案例        |
+| frontend-bound benchmark                 | 第 9 章  | “压力测试证明什么、不证明什么”的方法案例 |
+| CPU 前端瓶颈与多进程成本                           | 第 13 章 | 可观测性和容量规划信号           |
+| TLS、鉴权、CORS 与能力缺口                        | 第 14 章 | 生产安全边界                |
+| 可选启用、灰度与回退                               | 第 15 章 | 实验性路径升级 runbook       |
 
 ## 当前可安全引用的判断
 
@@ -48,3 +48,4 @@ Handoff: 第 3、6、9、13、14、15 章
 - [ ] 同时采集 CPU、内存、TTFT、ITL、吞吐和错误率。
 - [ ] 验证启用、canary、回退和观测方法。
 - [ ] 复查 Rust frontend 在目标 release 中的稳定性标记。
+
