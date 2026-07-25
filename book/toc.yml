@@ -1,0 +1,76 @@
+version: 1
+working_title: "vLLM 工程实践"
+subtitle: "从推理原理到生产级服务"
+english_working_title: "vLLM in Action"
+english_subtitle: "From Inference Mechanics to Production Serving"
+reader_state_in: "会启动模型，但缺少可复现、可解释的生产方法"
+reader_state_out: "能从工作负载和 SLO 出发，设计、测量、优化并运营 vLLM 服务"
+
+parts:
+  - id: part-01
+    title: "建立正确的推理心智模型"
+    function: "先理解目标、瓶颈和 vLLM 的核心机制，再接触配置。"
+    chapters:
+      - id: "01"
+        slug: "from-demo-to-production"
+        title: "从能跑到能上线"
+      - id: "02"
+        slug: "workload-slo-and-metrics"
+        title: "工作负载、SLO 与指标"
+      - id: "03"
+        slug: "inside-vllm"
+        title: "vLLM 的请求生命周期"
+      - id: "04"
+        slug: "memory-and-kv-cache"
+        title: "显存、KV Cache 与容量边界"
+
+  - id: part-02
+    title: "从零到可复现服务"
+    function: "建立一个正确、可测、可迁移的服务基线。"
+    chapters:
+      - id: "05"
+        slug: "environment-and-installation"
+        title: "环境、安装与兼容性"
+      - id: "06"
+        slug: "serving-and-api"
+        title: "服务入口与 API 契约"
+      - id: "07"
+        slug: "model-loading-and-precision"
+        title: "模型加载、精度与量化"
+      - id: "08"
+        slug: "parallelism-and-topology"
+        title: "并行策略与硬件拓扑"
+
+  - id: part-03
+    title: "性能工程，而不是参数玄学"
+    function: "以可复现实验连接机制、配置和业务目标。"
+    chapters:
+      - id: "09"
+        slug: "benchmarking"
+        title: "构建可信的 Benchmark"
+      - id: "10"
+        slug: "scheduling-and-batching"
+        title: "调度、批处理与排队"
+      - id: "11"
+        slug: "latency-optimization"
+        title: "优化 TTFT 与 ITL"
+      - id: "12"
+        slug: "throughput-and-cost"
+        title: "吞吐、利用率与单位成本"
+
+  - id: part-04
+    title: "生产推理系统"
+    function: "把单机引擎纳入可观测、可恢复、可升级的平台。"
+    chapters:
+      - id: "13"
+        slug: "observability-and-capacity"
+        title: "可观测性与容量规划"
+      - id: "14"
+        slug: "reliability-and-security"
+        title: "可靠性、隔离与安全"
+      - id: "15"
+        slug: "upgrades-and-troubleshooting"
+        title: "升级、回滚与故障诊断"
+      - id: "16"
+        slug: "production-playbook"
+        title: "端到端生产 Playbook"

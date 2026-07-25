@@ -1,0 +1,93 @@
+version: 1
+last_triaged: 2026-07-25
+
+cadence:
+  releases: "每个上游版本"
+  docs_and_main_branch: "每周"
+  stale_sources: "每月"
+  benchmark_refresh: "每季度或关键版本后"
+
+topics:
+  - id: engine-and-scheduler
+    title: "引擎核心与调度器"
+    priority: P0
+    chapters: ["03", "10"]
+    watch:
+      - "scheduler behavior and defaults"
+      - "request lifecycle"
+      - "preemption and chunked prefill"
+
+  - id: kv-cache
+    title: "KV Cache 与内存管理"
+    priority: P0
+    chapters: ["04", "10", "13"]
+    watch:
+      - "block management"
+      - "prefix caching"
+      - "KV cache dtype and offload"
+
+  - id: serving-api
+    title: "服务 API 与兼容性"
+    priority: P0
+    chapters: ["06", "14", "15"]
+    watch:
+      - "OpenAI-compatible API behavior"
+      - "streaming and structured outputs"
+      - "authentication and request limits"
+
+  - id: parallelism
+    title: "并行与分布式执行"
+    priority: P0
+    chapters: ["08", "12", "14"]
+    watch:
+      - "tensor, pipeline and data parallel"
+      - "expert parallel"
+      - "multi-node backends and topology"
+
+  - id: kernels-and-hardware
+    title: "内核与硬件后端"
+    priority: P1
+    chapters: ["05", "08", "12"]
+    watch:
+      - "CUDA and ROCm compatibility"
+      - "attention backends"
+      - "non-GPU accelerators"
+
+  - id: quantization
+    title: "精度与量化"
+    priority: P1
+    chapters: ["07", "11", "12"]
+    watch:
+      - "supported quantization methods"
+      - "accuracy/performance tradeoffs"
+      - "KV cache quantization"
+
+  - id: advanced-decoding
+    title: "高级解码"
+    priority: P1
+    chapters: ["10", "11"]
+    watch:
+      - "speculative decoding"
+      - "structured and constrained outputs"
+      - "sampling behavior"
+
+  - id: production-operations
+    title: "生产运维"
+    priority: P0
+    chapters: ["13", "14", "15", "16"]
+    watch:
+      - "metrics and tracing"
+      - "autoscaling and load balancing"
+      - "failure modes and security advisories"
+
+  - id: rust-frontend
+    title: "Rust Frontend"
+    priority: P1
+    chapters: ["03", "06", "09", "13", "14", "15"]
+    watch:
+      - "experimental/stable/default status"
+      - "feature parity with Python frontend"
+      - "frontend-bound and GPU-bound performance"
+      - "CPU and memory resource cost"
+      - "packaging, canary and rollback path"
+      - "Issue #44280 roadmap and linked PRs"

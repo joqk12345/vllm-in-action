@@ -1,0 +1,40 @@
+# 最终阅读顺序的唯一事实来源。正文成熟后，构建工具应只读取本文件。
+version: 1
+canonical_text: book/chapters
+
+front_matter:
+  - file: book/front-matter/preface.md
+
+parts:
+  - id: I
+    title: "建立正确的推理心智模型"
+    chapters:
+      - "01-from-demo-to-production"
+      - "02-workload-slo-and-metrics"
+      - "03-inside-vllm"
+      - "04-memory-and-kv-cache"
+  - id: II
+    title: "从零到可复现服务"
+    chapters:
+      - "05-environment-and-installation"
+      - "06-serving-and-api"
+      - "07-model-loading-and-precision"
+      - "08-parallelism-and-topology"
+  - id: III
+    title: "性能工程，而不是参数玄学"
+    chapters:
+      - "09-benchmarking"
+      - "10-scheduling-and-batching"
+      - "11-latency-optimization"
+      - "12-throughput-and-cost"
+  - id: IV
+    title: "生产推理系统"
+    chapters:
+      - "13-observability-and-capacity"
+      - "14-reliability-and-security"
+      - "15-upgrades-and-troubleshooting"
+      - "16-production-playbook"
+
+back_matter:
+  - file: book/back-matter/glossary.md
+  - file: book/back-matter/references.md
