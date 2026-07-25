@@ -1,0 +1,187 @@
+schema_version: 1
+topic: rust-frontend
+scope: representative
+as_of: 2026-07-25
+roadmap_issue: "https://github.com/vllm-project/vllm/issues/44280"
+roadmap_updated_at: "2026-07-24T11:34:59Z"
+latest_release_signal: "v0.25.1"
+target_release: null
+policy:
+  roadmap_checked_means: "上游 roadmap 作者标记完成；不是 release 或本地验证证明"
+  release_verified_means: "已找到 merge commit、首个包含它的 tag，并在目标 tag 核对源码/测试"
+  locally_tested_means: "已在本仓库记录目标 workload 的可复现测试"
+statuses:
+  roadmap: [checked, unchecked, discussion-required]
+  release: [unverified, verified, not-in-target]
+  local_test: [not-run, passed, failed, partial]
+
+capabilities:
+  - id: endpoint-chat-completions
+    layer: endpoint
+    capability: "/v1/chat/completions streaming and non-streaming"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for: ["core-chat"]
+    chapters: ["06"]
+    source_ids: [SRC-vllm-rust-frontend-roadmap-44280]
+
+  - id: endpoint-completions
+    layer: endpoint
+    capability: "/v1/completions streaming and non-streaming"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for: ["legacy-completions"]
+    chapters: ["06"]
+    source_ids: [SRC-vllm-rust-frontend-roadmap-44280]
+
+  - id: endpoint-tokenization
+    layer: endpoint
+    capability: "/tokenize, /detokenize and /tokenizer_info"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for: ["tokenizer-operations"]
+    chapters: ["06"]
+    source_ids: [SRC-vllm-rust-frontend-roadmap-44280]
+
+  - id: endpoint-responses
+    layer: endpoint
+    capability: "Non-stateful POST /v1/responses"
+    roadmap_status: discussion-required
+    release_status: unverified
+    local_test_status: not-run
+    required_for: ["responses-api"]
+    chapters: ["06"]
+    source_ids: [SRC-vllm-rust-frontend-roadmap-44280]
+
+  - id: parameter-n-greater-than-one
+    layer: parameter-model
+    capability: "n > 1 for chat completions and completions"
+    roadmap_status: discussion-required
+    release_status: unverified
+    local_test_status: not-run
+    required_for: ["multi-candidate-generation"]
+    chapters: ["06"]
+    source_ids: [SRC-vllm-rust-frontend-roadmap-44280]
+
+  - id: parameter-request-id
+    layer: parameter-model
+    capability: "Request ID handling in requests and responses"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for: ["observability"]
+    chapters: ["06", "14"]
+    source_ids: [SRC-vllm-rust-frontend-roadmap-44280]
+
+  - id: parser-parallel-tool-calls
+    layer: parameter-model
+    capability: "parallel_tool_calls"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for: ["agent-tool-use"]
+    chapters: ["06", "14"]
+    source_ids: [SRC-vllm-rust-frontend-roadmap-44280]
+
+  - id: parser-roundtrip-fixtures
+    layer: parameter-model
+    capability: "Model-family roundtrip fixtures for newly added parsers"
+    roadmap_status: unchecked
+    release_status: unverified
+    local_test_status: not-run
+    required_for: ["agent-tool-use"]
+    chapters: ["06", "14"]
+    source_ids: [SRC-vllm-rust-frontend-roadmap-44280]
+
+  - id: routing-external-dp
+    layer: operations
+    capability: "External DP load balancing"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for: ["distributed-serving"]
+    chapters: ["13", "15"]
+    source_ids: [SRC-vllm-rust-frontend-roadmap-44280]
+
+  - id: routing-hybrid-dp
+    layer: operations
+    capability: "Hybrid DP load balancing"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for: ["distributed-serving"]
+    chapters: ["13", "15"]
+    source_ids: [SRC-vllm-rust-frontend-roadmap-44280]
+
+  - id: lifecycle-elastic-ep
+    layer: operations
+    capability: "Elastic EP scaling, draining and scaling-state rejection"
+    roadmap_status: discussion-required
+    release_status: unverified
+    local_test_status: not-run
+    required_for: ["elastic-serving"]
+    chapters: ["13", "15"]
+    source_ids: [SRC-vllm-rust-frontend-roadmap-44280]
+
+  - id: security-tls
+    layer: operations
+    capability: "TLS/SSL serving arguments"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for: ["direct-exposure"]
+    chapters: ["14"]
+    source_ids: [SRC-vllm-rust-frontend-roadmap-44280]
+
+  - id: security-api-key
+    layer: operations
+    capability: "API key authentication"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for: ["authenticated-serving"]
+    chapters: ["14"]
+    source_ids: [SRC-vllm-rust-frontend-roadmap-44280]
+
+  - id: proxy-root-path
+    layer: operations
+    capability: "Reverse-proxy root path"
+    roadmap_status: unchecked
+    release_status: unverified
+    local_test_status: not-run
+    required_for: ["path-prefixed-proxy"]
+    chapters: ["14"]
+    source_ids: [SRC-vllm-rust-frontend-roadmap-44280]
+
+  - id: observability-tracing
+    layer: operations
+    capability: "Tracing"
+    roadmap_status: discussion-required
+    release_status: unverified
+    local_test_status: not-run
+    required_for: ["distributed-tracing"]
+    chapters: ["13", "14"]
+    source_ids: [SRC-vllm-rust-frontend-roadmap-44280]
+
+  - id: lifecycle-abort
+    layer: operations
+    capability: "/abort_requests"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for: ["safe-cancellation"]
+    chapters: ["14", "15"]
+    source_ids: [SRC-vllm-rust-frontend-roadmap-44280]
+
+  - id: testing-real-serve-ci
+    layer: operations
+    capability: "E2E CI through real vllm serve with Rust Frontend enabled"
+    roadmap_status: unchecked
+    release_status: unverified
+    local_test_status: not-run
+    required_for: ["release-confidence"]
+    chapters: ["06", "14", "15"]
+    source_ids: [SRC-vllm-rust-frontend-roadmap-44280]

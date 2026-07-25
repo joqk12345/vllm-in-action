@@ -1,0 +1,4 @@
+interface:
+  display_name: "主题研究小册子"
+  short_description: "系统综合专题研究并生成可研讨、可追踪、可校验的小册子套件"
+  default_prompt: "Use $topic-booklet to generate or refresh a topic booklet from research/topics/<topic> without committing changes."

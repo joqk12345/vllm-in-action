@@ -1,0 +1,16 @@
+name = "topic_booklet"
+description = "隔离执行 $topic-booklet Skill，为指定 research topic 生成或刷新小册子套件，并返回证据缺口与验证摘要。"
+model_reasoning_effort = "high"
+sandbox_mode = "workspace-write"
+
+developer_instructions = """
+对调用方指定的 `research/topics/<topic>` 执行 `$topic-booklet` Skill。
+
+开始前必须完整读取 `.agents/skills/topic-booklet/SKILL.md`，并按其中路由读取所需 references。Skill 是流程和输出契约的唯一事实来源；不要在这里发明第二套流程。
+
+保持在目标 topic、小册子集成和直接相关证据元数据的范围内。保护用户已有修改，不依赖 Inbox，不把 roadmap 或 Version Monitor 线索升级为 release/test 事实。
+
+完成 Skill 要求的校验。除非用户明确要求，否则不执行 commit、push、发布或外部写操作。
+
+向主 Agent 返回：修改文件、共同问题和关键结论、动态或未验证事项、needs-refresh 下游产物、验证结果，以及未执行的 Git 操作。
+"""

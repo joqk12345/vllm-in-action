@@ -4,6 +4,20 @@
 
 项目目标：持续追踪 vLLM 的版本、设计与生产实践，写成一本证据充分、可复现、能随软件演进而维护的中文技术书——《vLLM 工程实践：从推理原理到生产级服务》。
 
+## 项目引用
+
+| 项目 | 地址 | 在本知识库中的职责 |
+|---|---|---|
+| vLLM | <https://github.com/vllm-project/vllm> | 上游技术事实源。源码、测试、文档、release、Issue 和 PR 用于验证功能、默认值、行为与版本边界。 |
+| vLLM Version Monitor | <https://github.com/joqk12345/vllm-version-monitor> | 版本变化发现与初步分诊入口。用于发现 release、PR 和潜在章节影响，但不能替代上游证据。 |
+
+使用规则：
+
+- 涉及 vLLM 行为、兼容性或发布状态时，最终结论必须回到 `vllm-project/vllm` 的 release tag、commit、源码、测试或官方讨论验证。
+- `vllm-version-monitor` 的输出属于变化线索；写入本仓库时要附带对应的上游 URL、目标版本或 commit，以及捕获日期。
+- 两个项目的信息不一致时，以固定版本的 vLLM 上游材料和本仓库复现实验为准，并记录差异。
+- 不在正文中引用浮动 `main` 作为永久事实；研究阶段可以跟踪 `main`，进入正文前必须固定 tag 或 commit。
+
 ## 五条总原则
 
 1. **先验证，再总结。** 任何性能、兼容性或行为结论都必须能追溯到文档、代码、Issue/PR 或本仓库实验。
@@ -82,6 +96,14 @@ Handoff:
 4. **形成建议：** 明确适用条件、收益、代价、反例与回退方案。
 5. **进入正文：** 只有 A/B 级证据可直接支撑正文；C 级需交叉验证。
 6. **双重审阅：** 事实核查与读者可用性审阅都通过后，章节才能标记 `ready`。
+
+## 专题小册子 Skill 与 Subagent
+
+- `.agents/skills/topic-booklet/SKILL.md` 是专题小册子流程、证据门禁和输出契约的唯一事实来源。
+- 普通调用：“使用 `$topic-booklet`，为 `research/topics/<topic>` 生成或刷新主题研究小册子，完成校验但不要 commit。”
+- 素材较多或需要隔离上下文时，使用项目级 `topic_booklet` Subagent 执行 `$topic-booklet` Skill。
+- Skill 必须以 `claims.yml` 为 claim spine，把动态 roadmap 状态与 release/local-test 状态分开，并遵守本文件证据等级。
+- Subagent 配置和调用示例位于 `.codex/agents/`；通用内容模板位于 `templates/topic-booklet.md`。
 
 ## 状态词
 

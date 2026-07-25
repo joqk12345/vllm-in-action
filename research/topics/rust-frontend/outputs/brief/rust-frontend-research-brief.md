@@ -101,13 +101,13 @@ Rust 提供的并不只是执行效率，还包括类型边界、所有权约束
 
 ![Rust workspace 分层](../figures/rust-workspace-layering.svg)
 
-| 层 | 主要职责 | 变化示例 | 需要守住的契约 |
-|---|---|---|---|
-| Server | 公共 HTTP/gRPC、路由 | 新 endpoint、响应编码 | OpenAI compatibility、错误码、headers |
-| Chat | chat template、tool/reasoning、结构化事件 | 新模型 parser | chunk roundtrip、safe text、finish reason |
-| Text | tokenizer、增量 detokenizer、stop | tokenizer 行为变化 | token/text 一致性、UTF-8 边界 |
-| LLM | token-in/token-out 抽象 | 请求/输出内部模型 | backpressure、取消、usage |
-| Engine Core Client | ZMQ、MessagePack、生命周期与分发 | engine 协议变化 | 版本、超时、重连、输出归属 |
+| 层                  | 主要职责                               | 变化示例            | 需要守住的契约                                 |
+| ------------------ | ---------------------------------- | --------------- | --------------------------------------- |
+| Server             | 公共 HTTP/gRPC、路由                    | 新 endpoint、响应编码 | OpenAI compatibility、错误码、headers        |
+| Chat               | chat template、tool/reasoning、结构化事件 | 新模型 parser      | chunk roundtrip、safe text、finish reason |
+| Text               | tokenizer、增量 detokenizer、stop      | tokenizer 行为变化  | token/text 一致性、UTF-8 边界                 |
+| LLM                | token-in/token-out 抽象              | 请求/输出内部模型       | backpressure、取消、usage                   |
+| Engine Core Client | ZMQ、MessagePack、生命周期与分发            | engine 协议变化     | 版本、超时、重连、输出归属                           |
 
 分层的价值可以用一句可测试的规则表达：
 
@@ -132,7 +132,7 @@ engine token output
   → SSE/API event
 ```
 
-non-streaming 只是收集同一条流后一次返回。[RF-C03]
+non-streaming 只是收集同一条流后一次返回。\[RF-C03]
 
 这不会自动保证 streaming 正确，但把验证问题压缩到同一个语义源。最小测试集应包括：
 
@@ -149,7 +149,7 @@ non-streaming 只是收集同一条流后一次返回。[RF-C03]
 
 tool/reasoning parser 面临的核心矛盾是：模型输出格式随家族变化，网络和 token 流又可以在任意位置切分。当当前 chunk 以 `<tool_` 结尾时，系统不能立即判断它是普通文本还是特殊 marker 的前缀。
 
-演讲转写把 Python 路径描述为正则、临时字符串处理与手写状态机并存；这只能作为问题线索。官方 roadmap 更可靠地确认：Rust parser 架构经过重新设计，新增 parser 应适配当前设计，而不是逐行移植 Python。[RF-C04]
+演讲转写把 Python 路径描述为正则、临时字符串处理与手写状态机并存；这只能作为问题线索。官方 roadmap 更可靠地确认：Rust parser 架构经过重新设计，新增 parser 应适配当前设计，而不是逐行移植 Python。\[RF-C04]
 
 生产验证应围绕性质而不是示例：
 
@@ -165,17 +165,17 @@ tool/reasoning parser 面临的核心矛盾是：模型输出格式随家族变�
 
 ## 7. 性能证据：两组刻意放大前端瓶颈的测试
 
-RFC #40846 的共同配置是 vLLM 0.19.0、Qwen3-0.6B、DP=4、4×GB200、并发 1024、无限请求速率。作者明确说明这不是典型真实配置，而是用于暴露 Python frontend ceiling。[RF-C06]
+RFC #40846 的共同配置是 vLLM 0.19.0、Qwen3-0.6B、DP=4、4×GB200、并发 1024、无限请求速率。作者明确说明这不是典型真实配置，而是用于暴露 Python frontend ceiling。\[RF-C06]
 
 ### Decode / streaming-sensitive
 
 输入 32 token、输出 512 token、关闭 prefix cache。
 
-| Frontend | 吞吐 req/s | P50 TTFT | P90 TTFT | P50 TPOT | P90 TPOT |
-|---|---:|---:|---:|---:|---:|
-| Rust | 559.79 | 50.51 ms | 67.71 ms | 3.29 ms | 3.32 ms |
-| Python，asc=4 | 509.56 | 165.95 ms | 206.52 ms | 3.39 ms | 3.74 ms |
-| Python，asc=16 | 521.80 | 58.97 ms | 80.77 ms | 3.54 ms | 3.68 ms |
+| Frontend      | 吞吐 req/s |  P50 TTFT |  P90 TTFT | P50 TPOT | P90 TPOT |
+| ------------- | -------: | --------: | --------: | -------: | -------: |
+| Rust          |   559.79 |  50.51 ms |  67.71 ms |  3.29 ms |  3.32 ms |
+| Python，asc=4  |   509.56 | 165.95 ms | 206.52 ms |  3.39 ms |  3.74 ms |
+| Python，asc=16 |   521.80 |  58.97 ms |  80.77 ms |  3.54 ms |  3.68 ms |
 
 Rust 相比默认 Python 的吞吐高约 9.9%，P50 TTFT 低约 69.6%。相比 asc=16，吞吐仍高约 7.3%，但差距已经明显缩小。
 
@@ -183,11 +183,11 @@ Rust 相比默认 Python 的吞吐高约 9.9%，P50 TTFT 低约 69.6%。相比 a
 
 输入约 10K token、输出 16 token、prefix cache 预热。
 
-| Frontend | 吞吐 req/s | P50 TTFT | P90 TTFT | P50 TPOT | P90 TPOT |
-|---|---:|---:|---:|---:|---:|
-| Rust | 837.00 | 596.92 ms | 807.64 ms | 39.90 ms | 46.42 ms |
-| Python，asc=4 | 162.23 | 6076.09 ms | 7936.50 ms | 1.96 ms | 9.77 ms |
-| Python，asc=32 | 785.98 | 657.15 ms | 1211.37 ms | 38.89 ms | 46.66 ms |
+| Frontend      | 吞吐 req/s |   P50 TTFT |   P90 TTFT | P50 TPOT | P90 TPOT |
+| ------------- | -------: | ---------: | ---------: | -------: | -------: |
+| Rust          |   837.00 |  596.92 ms |  807.64 ms | 39.90 ms | 46.42 ms |
+| Python，asc=4  |   162.23 | 6076.09 ms | 7936.50 ms |  1.96 ms |  9.77 ms |
+| Python，asc=32 |   785.98 |  657.15 ms | 1211.37 ms | 38.89 ms | 46.66 ms |
 
 Rust 相比默认 Python 的吞吐约为 5.16 倍；但默认 Python 的低 TPOT 不能单独解释为更优，因为吞吐和 TTFT 表明大量请求仍在前端排队。相比 asc=32，Rust 吞吐高约 6.5%，P90 TTFT 低约 33.3%。
 
@@ -210,7 +210,7 @@ Rust 相比默认 Python 的吞吐约为 5.16 倍；但默认 Python 的低 TPOT
 
 ![Feature parity matrix](../figures/rust-frontend-feature-parity-matrix.svg)
 
-roadmap 已列出 chat/completions 核心路径、常用采样参数、部分 tool/reasoning、有限 image-only 多模态、多 engine 内部负载均衡和运维路由；同时仍列出大量缺口。[RF-C07]
+roadmap 已列出 chat/completions 核心路径、常用采样参数、部分 tool/reasoning、有限 image-only 多模态、多 engine 内部负载均衡和运维路由；同时仍列出大量缺口。\[RF-C07]
 
 本书建议用三层 capability contract：
 

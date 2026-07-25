@@ -113,7 +113,7 @@ OpenAI compatibility 为什么不能只用一个成功响应证明？
 
 ### 可写入命题
 
-- Rust 的类型与所有权可以减少一类运行时错误，但不能补齐 API key、TLS、CORS、root path、tracing 和日志契约。
+- Rust 的类型与所有权可以减少一类运行时错误，但不能自动证明 API key、TLS、CORS、root path、tracing 和日志契约在目标 release 中正确可用。
 - 2026-07-25 roadmap 仍把多项 production-readiness 能力列为缺口。[RF-C07]
 - parser 正确性需要 property/fixture 测试；编译通过不是增量语义证明。
 
@@ -123,7 +123,7 @@ OpenAI compatibility 为什么不能只用一个成功响应证明？
 |---|---|---|
 | 不支持参数被静默忽略 | 参数差异测试 | 明确 fail closed |
 | tool marker 跨 chunk 误判 | 任意边界 fixture | safe-text buffer |
-| TLS/鉴权缺口 | 信任边界审查 | 上游 gateway + 网络隔离 |
+| TLS/鉴权实现与部署契约不一致 | 目标 release 契约测试与信任边界审查 | 上游 gateway + 网络隔离 |
 | 取消未传播 | 断连/超时演练 | lifecycle instrumentation |
 | 观测语义不同 | 双路径 trace 对比 | request ID 贯通 |
 

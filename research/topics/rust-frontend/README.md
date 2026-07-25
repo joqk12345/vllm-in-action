@@ -18,6 +18,8 @@ Handoff: 第 3、6、9、13、14、15 章
 - [`talk-transcript-part-01-notes.md`](talk-transcript-part-01-notes.md) — `00:00–16:38` 自动转写的内容理解、术语勘误与待验证问题。
 - [`talk-transcript-part-02-notes.md`](talk-transcript-part-02-notes.md) — 无时间戳续篇的内容理解，重点补齐分层、stream-native、parser、接入方式和长期方向。
 - [`claims.yml`](claims.yml) — Brief、PPT、章节转写包和共享图共同使用的 claim spine。
+- [`tracking/`](tracking/) — Issue #44280、vLLM release 与 Version Monitor 的持续漂移检测、基线和变化日志。
+- [`outputs/booklet/`](outputs/booklet/) — 系统性主题阅读小册子、专项研讨指南、阅读清单和 capability matrix。
 - [`outputs/`](outputs/) — 从本专题研究转出的 Brief、PPT、章节转写包和共享图。
 - [`source/vllm-rust-frontend-introduction.pdf`](source/vllm-rust-frontend-introduction.pdf) — 16 页原始演讲 PDF，SHA-256：`dd20c1bd34448f25443fe19400e6493b8bcee4108625ff8af0edbafd0c906f60`。
 - [`source/transcripts/2026-07-25-rust-frontend-talk-part-01.txt`](source/transcripts/2026-07-25-rust-frontend-talk-part-01.txt) — 未清洗的 ASR 原始转写，只作为 D 级研究线索。
@@ -33,7 +35,7 @@ Handoff: 第 3、6、9、13、14、15 章
 | stream-native、parser、API feature parity  | 第 6 章  | API 契约与实验性前端案例        |
 | frontend-bound benchmark                 | 第 9 章  | “压力测试证明什么、不证明什么”的方法案例 |
 | CPU 前端瓶颈与多进程成本                           | 第 13 章 | 可观测性和容量规划信号           |
-| TLS、鉴权、CORS 与能力缺口                        | 第 14 章 | 生产安全边界                |
+| 安全、观测与仍未闭合的能力契约                        | 第 14 章 | 生产安全边界                |
 | 可选启用、灰度与回退                               | 第 15 章 | 实验性路径升级 runbook       |
 
 ## 当前可安全引用的判断
@@ -53,3 +55,19 @@ Handoff: 第 3、6、9、13、14、15 章
 - [ ] 验证启用、canary、回退和观测方法。
 - [ ] 复查 Rust frontend 在目标 release 中的稳定性标记。
 
+## 持续跟踪
+
+本专题使用两个发现信号，但只以固定版本的 vLLM 上游材料作为最终事实：
+
+- Issue #44280：发现 roadmap、checkbox、评论和关联实现发生变化；
+- vLLM Version Monitor：发现新 release 和可能相关的 release note；
+- vLLM tag/commit/test：确认能力是否真正发布；
+- 本仓库实验：确认能力是否适用于书中的目标 workload。
+
+每周自动运行：
+
+```bash
+python3 scripts/check_rust_frontend_tracking.py
+```
+
+检测到漂移时，按 [`tracking/README.md`](tracking/README.md) 完成人工分诊；不要因为 Issue 被勾选或 Version Monitor 出现关键词就直接修改正文结论。

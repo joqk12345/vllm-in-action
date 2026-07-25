@@ -18,7 +18,11 @@ chapters: ["06", "13", "14", "15"]
 
 ## 2026-07-25 能力快照
 
-Roadmap 当时列出的已有核心能力：
+本次基线对应 Issue 更新时间 `2026-07-24T11:34:59Z`，正文 SHA-256 为
+`18dc5249c3be01bccde1edfb76a092c4938936dd728a56451e284b19b3e64a5a`。
+Roadmap 共记录 40 项完成、61 项未完成。
+
+Roadmap 当前列出的已有核心能力包括：
 
 - `/v1/chat/completions` 与 `/v1/completions` 的流式、非流式处理；
 - 若干关键模型家族的 tool calling 与 reasoning output；
@@ -27,22 +31,26 @@ Roadmap 当时列出的已有核心能力：
 - 多 engine 内部负载均衡和 scheduler-stat-aware routing；
 - health、load、version、metrics、reset-cache、sleep/wake 等运维路由；
 - mock engine 与 HTTP integration-test 基础设施。
+- external/hybrid DP load balancing 与 tokenization APIs；
+- TLS、API key、CORS 和 `/server_info`；
+- LoRA 启动加载、动态加载和多 adapter 路由；
+- pause/resume、abort、world size 与部分新增 parser/request 能力。
 
 这些是 roadmap 作者对当前状态的描述，不等于已经在本书目标 release 和目标模型上验证。
 
 ## 缺口分类
 
-| 类别 | Roadmap 中的代表性缺口 | 对书稿的意义 |
-|---|---|---|
-| 分布式服务 | external/hybrid DP load balancing、elastic EP | 不能仅凭单节点成功外推集群控制面能力 |
-| API 覆盖 | Messages、Responses、embedding/pooling、speech、realtime | “OpenAI-compatible”必须细化到 endpoint |
-| 请求兼容 | `n > 1`、beam search、prompt truncation、request ID、tracing | 需要参数级契约测试，不能只做 smoke test |
-| 生产就绪 | TLS、API key、CORS、root path、日志参数 | 安全与网关前提必须明确 |
-| LoRA | 启动加载、动态加载、adapter routing | 多租户和动态模型服务仍需专项验证 |
-| 多模态 | image embedding、audio、video、更广模型覆盖 | 不能用 text-only 结果代表多模态能力 |
-| 生命周期 | pause/resume、abort、weight update、world size | 运维和在线训练/更新场景存在差距 |
-| Parser | tool/reasoning parser 家族覆盖 | 需要按目标模型建立 roundtrip fixture |
-| 测试设施 | 真正的 `vllm serve` Rust CI 路径 | feature 存在与端到端可用需要分开判断 |
+| 类别     | Roadmap 中的代表性缺口                                          | 对书稿的意义                            |
+| ------ | -------------------------------------------------------- | --------------------------------- |
+| 分布式服务  | elastic EP、扩缩容期间 draining 与 rejection behavior        | 不能仅凭常规请求成功外推动态集群控制面能力              |
+| API 覆盖 | Messages、Responses、embedding/pooling、speech、realtime     | “OpenAI-compatible”必须细化到 endpoint |
+| 请求兼容   | `n > 1`、beam search、prompt truncation、tracing            | 需要参数级契约测试，不能只做 smoke test         |
+| 生产就绪   | reverse-proxy root path、日志参数、tracing                    | 已勾选安全能力仍需在目标 release 验证            |
+| LoRA   | 已勾选启动、动态加载和多 adapter 路由                                | roadmap 完成不等于目标 release/模型组合已验证      |
+| 多模态    | image embedding、audio、video、更广模型覆盖                       | 不能用 text-only 结果代表多模态能力           |
+| 生命周期   | weight update、weight transfer engine                      | 运维和在线训练/更新场景仍存在差距                 |
+| Parser | tool/reasoning parser 家族覆盖                               | 需要按目标模型建立 roundtrip fixture       |
+| 测试设施   | 真正的 `vllm serve` Rust CI 路径                              | feature 存在与端到端可用需要分开判断            |
 
 ## 一个正在发生的例子
 
@@ -62,4 +70,4 @@ Roadmap 中的 `truncate_prompt_tokens` 已关联到 PR #48584。2026-07-25 核�
 
 ## 追踪方式
 
-每周复查 Issue #44280；只把“已合并并进入目标 release、且本书验证通过”的能力升级为正文事实。其他条目保留为 roadmap 或实验假设。
+每周通过 [`tracking/`](tracking/) 复查 Issue #44280，并结合 vLLM Version Monitor 发现新 release。只把“已合并并进入目标 release、且本书验证通过”的能力升级为正文事实。其他条目保留为 roadmap 或实验假设。

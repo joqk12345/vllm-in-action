@@ -84,6 +84,13 @@ topics:
     title: "Rust Frontend"
     priority: P1
     chapters: ["03", "06", "09", "13", "14", "15"]
+    cadence: "每周；每个新 vLLM release 立即复核"
+    tracker: "research/topics/rust-frontend/tracking/upstream-snapshot.json"
+    check: "python3 scripts/check_rust_frontend_tracking.py"
+    discovery_sources:
+      - "https://github.com/vllm-project/vllm/issues/44280"
+      - "https://github.com/joqk12345/vllm-version-monitor"
+    authority: "固定 vLLM release tag/commit、源码、测试与本仓库实验"
     watch:
       - "experimental/stable/default status"
       - "feature parity with Python frontend"

@@ -7,9 +7,21 @@ deliverables:
     status: complete
     files:
       - brief/rust-frontend-research-brief.md
+  - id: rust-frontend-topic-booklet
+    type: topic-booklet
+    status: complete
+    research_status: captured
+    files:
+      - booklet/README.md
+      - booklet/rust-frontend-topic-booklet.md
+      - booklet/seminar-guide.md
+      - booklet/reading-list.md
+      - booklet/capability-matrix.yml
   - id: rust-frontend-deck
     type: slidev-presentation
     status: complete
+    research_status: needs-refresh
+    stale_reason: "Issue #44280 已更新部分 production-readiness checkbox；PPTX 内嵌的 feature-parity 图仍是早期快照"
     files:
       - slides/slidev/slides.md
       - slides/slidev/style.css

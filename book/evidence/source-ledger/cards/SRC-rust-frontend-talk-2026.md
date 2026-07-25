@@ -1,7 +1,7 @@
 ---
 source_id: SRC-rust-frontend-talk-2026
 status: verified
-evidence_grade: B
+evidence_grade: C
 source_type: conference-slides
 title: "Introduction to vLLM's new Rust Frontend"
 author_or_issuer: "ZHAO Ziqi, Inferact"

@@ -12,6 +12,8 @@ claims:
     applies_to: "vLLM 主仓 Rust frontend，核对至 2026-07-25"
     sources: [SRC-vllm-rust-frontend-rfc-40846, SRC-vllm-rust-frontend-roadmap-44280]
     chapters: ["03", "06"]
+    counterexample: "Frontend 与 Engine 的协议或生命周期仍可能联动变化，但这不等于重写 EngineCore。"
+    verification_gap: "固定目标 release 后核对进程边界、协议版本和取消语义。"
   - id: RF-C02
     statement: "workspace 通过 Server、Chat、Text、LLM、Engine Core Client 分层隔离协议、语义、文本、token 流和后端通信。"
     kind: upstream-fact
@@ -19,6 +21,8 @@ claims:
     applies_to: "官方 rust/ README；进入正文前固定 release tag"
     sources: [SRC-vllm-rust-frontend-readme]
     chapters: ["03", "06"]
+    counterexample: "浮动 main 的 crate、职责和依赖关系可能在下一 release 前变化。"
+    verification_gap: "将五层概念映射到目标 tag 的 crate、类型、函数和测试。"
   - id: RF-C03
     statement: "streaming 是主路径，非流式通过收集同一输出流构造，以减少双路径语义漂移。"
     kind: design-fact
@@ -26,6 +30,8 @@ claims:
     applies_to: "官方 README/设计说明；正确性仍需契约测试"
     sources: [SRC-vllm-rust-frontend-readme, SRC-rust-frontend-talk-2026]
     chapters: ["03", "06"]
+    counterexample: "共享输出流不能自动保证任意 chunk 边界下的结构语义正确。"
+    verification_gap: "补 streaming/non-streaming 等价和任意 chunk-boundary 契约测试。"
   - id: RF-C04
     statement: "tool/reasoning parser 采用面向增量流的重构设计；新增模型应适配 Rust 设计而非逐行移植 Python。"
     kind: upstream-fact
@@ -33,6 +39,8 @@ claims:
     applies_to: "roadmap 对 parser 架构的说明；具体 parser 覆盖动态变化"
     sources: [SRC-vllm-rust-frontend-roadmap-44280, SRC-vllm-rust-frontend-readme]
     chapters: ["06", "14"]
+    counterexample: "重新设计的架构仍可能缺少目标模型 parser 或 roundtrip fixture。"
+    verification_gap: "按目标模型核对 parser 注册、fixture 和错误输入行为。"
   - id: RF-C05
     statement: "Rust frontend 可由 Python launcher 监管，并通过 VLLM_USE_RUST_FRONTEND=1 选择。"
     kind: upstream-fact
@@ -40,6 +48,8 @@ claims:
     applies_to: "RFC 与 roadmap 核对至 2026-07-25；部署前验证目标 release"
     sources: [SRC-vllm-rust-frontend-rfc-40846, SRC-vllm-rust-frontend-roadmap-44280]
     chapters: ["06", "15"]
+    counterexample: "环境变量提供选择面，但不证明编排系统已经具备 drain 和回退。"
+    verification_gap: "在目标 release 和编排环境验证 launcher、信号、drain 与 fallback。"
   - id: RF-C06
     statement: "RFC benchmark 显示：当前端成为瓶颈时，单个 Rust frontend 可在特定压力测试中超过默认或扩容后的 Python frontend。"
     kind: benchmark-observation
@@ -48,6 +58,7 @@ claims:
     sources: [SRC-vllm-rust-frontend-rfc-40846]
     chapters: ["09", "13"]
     invalid_generalization: "不能外推到大模型、低并发、GPU-bound 或其他硬件。"
+    verification_gap: "本仓库尚未复现实验，也缺少成对 GPU-bound 对照和完整 CPU/RSS 指标。"
   - id: RF-C07
     statement: "截至 2026-07-25，官方仍将 Rust frontend 标为 experimental 且未 feature-complete。"
     kind: upstream-status
@@ -55,6 +66,8 @@ claims:
     applies_to: "动态 roadmap 快照；引用前重查"
     sources: [SRC-vllm-rust-frontend-roadmap-44280, SRC-vllm-rust-frontend-readme]
     chapters: ["06", "14", "15"]
+    counterexample: "单个 roadmap 条目被勾选不改变整体 experimental/not feature-complete 状态。"
+    verification_gap: "每周刷新动态状态，并在目标 release 检查稳定性标记。"
   - id: RF-C08
     statement: "生产采用必须通过 endpoint/parameter/ops 三级 capability contract，而不是依据启动成功或平均吞吐。"
     kind: engineering-judgment
@@ -62,6 +75,8 @@ claims:
     applies_to: "本书建议；由 roadmap 缺口和 RFC 边界推导"
     sources: [SRC-vllm-rust-frontend-roadmap-44280, SRC-vllm-rust-frontend-rfc-40846]
     chapters: ["06", "14", "15"]
+    counterexample: "只覆盖单一内部 workload 时，完整 parity 不是前置条件，但目标 capability profile 仍必须验证。"
+    verification_gap: "将代表性矩阵扩展为目标 workload 可执行契约测试。"
   - id: RF-C09
     statement: "Rust 模块未来可复用于 gateway/router/control plane。"
     kind: hypothesis
@@ -70,3 +85,5 @@ claims:
     sources: [SRC-rust-frontend-talk-transcript-part-02]
     chapters: ["03", "15"]
     publication_rule: "只可放入未来方向或待验证问题，不得写成现有能力。"
+    counterexample: "上游可能选择不将这些模块产品化为 gateway 或 control plane。"
+    verification_gap: "需要正式 RFC、roadmap、PR 或 release 证据才能升级此假设。"

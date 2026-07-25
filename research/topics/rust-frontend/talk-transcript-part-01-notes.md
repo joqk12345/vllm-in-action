@@ -118,23 +118,23 @@ Agent 场景包含长对话、tool call、reasoning 和 structured output。一�
 
 以下是根据上下文作出的高置信度还原；仍应在有音频时复核：
 
-| 转写文本示例 | 推定原词 |
-|---|---|
-| `russ`、`rast`、`rass` | Rust |
-| `房贷`、`房看`、`方面` | Frontend |
-| `vr`、`voi` | vLLM |
-| `gll` | GIL |
-| `open ai工作口` | OpenAI API/interface |
-| `multiprocessor` | multiprocessing |
-| `fairout`、`get out` | fan-out / scale-out，需听音频确认 |
-| `dt`、`adp` | DP / data parallel，需结合语境确认 |
-| `digreagagagaigreationg` | disaggregation |
-| `incorporal client` | Engine Core Client |
-| `dmp transport` | ZMQ transport |
-| `messagepacked` | MessagePack |
-| `to call` | tool call |
-| `structure output` | structured output |
-| `link`、`tap int` | lint、type hint |
+| 转写文本示例                   | 推定原词                       |
+| ------------------------ | -------------------------- |
+| `russ`、`rast`、`rass`     | Rust                       |
+| `房贷`、`房看`、`方面`           | Frontend                   |
+| `vr`、`voi`               | vLLM                       |
+| `gll`                    | GIL                        |
+| `open ai工作口`             | OpenAI API/interface       |
+| `multiprocessor`         | multiprocessing            |
+| `fairout`、`get out`      | fan-out / scale-out，需听音频确认 |
+| `dt`、`adp`               | DP / data parallel，需结合语境确认 |
+| `digreagagagaigreationg` | disaggregation             |
+| `incorporal client`      | Engine Core Client         |
+| `dmp transport`          | ZMQ transport              |
+| `messagepacked`          | MessagePack                |
+| `to call`                | tool call                  |
+| `structure output`       | structured output          |
+| `link`、`tap int`         | lint、type hint             |
 
 ## 不可直接引用的内容
 

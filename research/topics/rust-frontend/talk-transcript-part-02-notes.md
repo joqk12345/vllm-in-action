@@ -71,7 +71,7 @@ Rust 方案使用 parser combinator 以声明式规则描述格式，并复用�
 
 ### 6. Feature parity 是生产采用的主要约束
 
-续篇提及 `n > 1`、更多 API、鉴权等缺口。2026-07-25 官方 roadmap 仍把 Rust frontend 标记为 experimental 且未 feature-complete，并列出 TLS、API key、CORS、root path、tracing、LoRA、多模态和更多 endpoint 等待补能力。
+续篇提及 `n > 1`、更多 API、鉴权等缺口。2026-07-25 的最新复核中，官方 roadmap 仍把 Rust frontend 标记为 experimental 且未 feature-complete；TLS、API key、CORS 和 LoRA 等条目已经被勾选，但 root path、tracing、日志、多模态和更多 endpoint 等仍未完成。勾选状态只表示 roadmap 进展，不能替代目标 release 验证。
 
 因此，“可以启动”与“可以无条件替代生产 Python frontend”必须分开。采用决策应以目标 workload 的 capability contract 为门槛。
 

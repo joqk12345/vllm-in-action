@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-07-25T00:00:00+00:00",
+  "roadmap": {
+    "repository": "vllm-project/vllm",
+    "issue": 44280,
+    "url": "https://github.com/vllm-project/vllm/issues/44280",
+    "state": "open",
+    "updated_at": "2026-07-24T11:34:59Z",
+    "comments": 20,
+    "body_sha256": "18dc5249c3be01bccde1edfb76a092c4938936dd728a56451e284b19b3e64a5a",
+    "checked_items": 40,
+    "unchecked_items": 61
+  },
+  "authoritative_release": {
+    "tag": "v0.25.1",
+    "published_at": "2026-07-14T08:51:20Z",
+    "url": "https://github.com/vllm-project/vllm/releases/tag/v0.25.1"
+  },
+  "version_monitor": {
+    "repository": "joqk12345/vllm-version-monitor",
+    "manifest_commit": "53cd60b2fd17f77c1b6993343ee7d6a1a74d7435",
+    "cutoff": "2026-07-18",
+    "latest_stable": "v0.25.1",
+    "latest_successful_run_id": 30139818348,
+    "latest_successful_run_at": "2026-07-25T02:07:56Z",
+    "latest_successful_run_url": "https://github.com/joqk12345/vllm-version-monitor/actions/runs/30139818348"
+  }
+}

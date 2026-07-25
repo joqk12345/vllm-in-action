@@ -7,6 +7,14 @@
 
 它参考了 `../no-one-did-it` 的“正文—证据—流程—出版”分层，但当前保持轻量：先把研究、实验和章节契约做扎实，等正文成熟后再加入 EPUB/PDF 构建。
 
+## 当前版本
+
+- 知识库开发版本：[`0.2.0-dev`](VERSION.md)
+- 变更记录：[`CHANGELOG.md`](CHANGELOG.md)
+- 当前书稿阶段：知识库骨架完成，进入证据采集、专题研究和章节调研
+
+知识库版本、vLLM 上游版本和单项实验版本是三个不同概念。知识库版本描述本仓库的结构与研究能力；技术结论仍必须在 Source Card、claim 或实验记录中单独声明适用的 vLLM tag/commit。
+
 ## 这本书解决什么问题
 
 vLLM 的参数很多，但生产问题通常不是“某个 flag 怎么写”，而是目标和约束没有对齐：
@@ -26,10 +34,52 @@ vLLM 的参数很多，但生产问题通常不是“某个 flag 怎么写”，
 - 看全书结构：[`book/toc.yml`](book/toc.yml)
 - 看当前进度：[`book/STATUS.md`](book/STATUS.md)
 - 看待追踪主题：[`research/watchlist.yml`](research/watchlist.yml)
+- 看 Rust Frontend 专题：[`research/topics/rust-frontend/`](research/topics/rust-frontend/)
+- 读 Rust Frontend 小册子：[`research/topics/rust-frontend/outputs/booklet/rust-frontend-topic-booklet.md`](research/topics/rust-frontend/outputs/booklet/rust-frontend-topic-booklet.md)
 - 新增来源：复制 [`templates/source-card.md`](templates/source-card.md)
 - 跑实验：复制 [`templates/experiment.md`](templates/experiment.md)
 - 跟进新版本：复制 [`templates/release-impact.md`](templates/release-impact.md)
+- 生成专题小册子：使用 `$topic-booklet`
 - 写章节：先完成对应的 `book/chapter-briefs/`，再在 `book/chapters/` 起草
+
+## 主题研究小册子
+
+专题研究小册子位于 Research Brief 与正式书稿之间，用共同问题组织多个来源，并把结论转成研讨、能力测试、实验和章节交接。
+
+直接在当前 Agent 中执行：
+
+```text
+使用 $topic-booklet，为 research/topics/<topic>
+生成或刷新主题研究小册子，完成校验但不要 commit。
+```
+
+素材较多、需要隔离上下文时：
+
+```text
+使用 topic_booklet subagent，为 research/topics/<topic>
+执行 $topic-booklet，完成校验但不要 commit。
+```
+
+- Skill：[`.agents/skills/topic-booklet/SKILL.md`](.agents/skills/topic-booklet/SKILL.md)
+- Subagent：[`.codex/agents/topic-booklet.toml`](.codex/agents/topic-booklet.toml)
+- 通用模板：[`templates/topic-booklet.md`](templates/topic-booklet.md)
+- 专题方法：[`research/topics/README.md`](research/topics/README.md)
+
+## 持续跟踪 Rust Frontend
+
+Rust Frontend 使用双信号跟踪：
+
+- vLLM Issue #44280 发现 roadmap、checkbox 和评论变化；
+- vLLM Version Monitor 发现新 release 和 release-note 线索；
+- 最终结论回到 vLLM 官方 tag、commit、源码、测试和本仓库实验。
+
+手动检查：
+
+```bash
+python3 scripts/check_rust_frontend_tracking.py
+```
+
+GitHub Actions 每周运行同一检查。检测到漂移只表示需要人工分诊，不代表能力已经发布、验证或可以进入正文。
 
 ## 建议的日常节奏
 
@@ -53,18 +103,26 @@ process/
   reader-reports/       读者测试
 templates/              所有标准模板
 scripts/                知识库校验工具
+.agents/skills/         仓库级可复用工作流
+.codex/agents/          项目级自定义 Subagent
+.github/workflows/      定时上游漂移检查
 ```
 
 ## 校验
 
 ```bash
 python3 scripts/validate_kb.py
+python3 .agents/skills/topic-booklet/scripts/validate_topic_booklet.py \
+  research/topics/rust-frontend
+git diff --check
 ```
 
-校验器会检查必要目录、书脊与章节 brief 的对应关系、front matter 和 Source ID 的基本格式。
+知识库校验器检查必要目录、书脊、章节 brief、front matter 和 Source ID 的基本格式；小册子校验器检查五类标准输出、claims、来源卡、capability matrix 和 deliverables 登记。
 
 ## 当前边界
 
 - 仓库中的配置不是默认生产建议；只有在适用条件和证据齐全时才进入正文。
 - 暂不绑定具体出版工具链，避免知识结构被某个渲染器反向约束。
+- Rust Frontend 的 target release 尚未固定，本仓 benchmark 尚未复现。
+- roadmap checkbox 和 Version Monitor 输出都是变化线索，不能替代 release/local-test 证据。
 - 许可证尚未选择；公开发布或接受外部贡献前应补充 `LICENSE` 与贡献约定。
