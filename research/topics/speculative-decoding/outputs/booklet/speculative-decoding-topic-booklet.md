@@ -81,16 +81,16 @@ Handoff: 第 10、11、15 章；hidden states 训练链路可作为第 8、12 �
 
 ## 4. 最小概念系统（Minimal concept system）
 
-| Noun | 定义 | 关键 verbs | 容易混淆的概念 |
-|---|---|---|---|
-| Target model | 定义最终采样分布并验证候选 token 的模型 | verify, accept, correct | 不是 drafter；不是 benchmark baseline 的全部系统 |
-| Drafter | 低成本提出候选 token 的模型、预测头或结构 | draft, propose, train | 小模型、大模型自带 MTP head、DSpark drafter 不是同一种能力 |
-| Draft block | 一轮提出的候选 token 序列 | generate, truncate, verify | proposal length 不等于 acceptance length |
-| Accepted prefix | 被 target 连续接受的最长前缀 | measure, append | 不是随机抽样下“每次输出完全相同” |
-| Acceptance length | 每轮平均接受 token 数 | measure, maximize, compare | 不是端到端 speedup |
-| Confidence | 对 token 或前缀通过验证概率的估计 | predict, calibrate, rank | 未校准 confidence 可能误导 scheduler |
-| Verification budget | target 一步验证的 batch/compute 容量 | allocate, schedule, prune | 不是无限资源；高并发时可能成为瓶颈 |
-| Workload | 模型、采样、并发、长度、硬件和请求域组合 | profile, benchmark, segment | 不能跨模型/硬件/并发无条件外推 |
+| Noun                | 定义                            | 关键 verbs                    | 容易混淆的概念                                   |
+| ------------------- | ----------------------------- | --------------------------- | ----------------------------------------- |
+| Target model        | 定义最终采样分布并验证候选 token 的模型       | verify, accept, correct     | 不是 drafter；不是 benchmark baseline 的全部系统    |
+| Drafter             | 低成本提出候选 token 的模型、预测头或结构      | draft, propose, train       | 小模型、大模型自带 MTP head、DSpark drafter 不是同一种能力 |
+| Draft block         | 一轮提出的候选 token 序列              | generate, truncate, verify  | proposal length 不等于 acceptance length     |
+| Accepted prefix     | 被 target 连续接受的最长前缀            | measure, append             | 不是随机抽样下“每次输出完全相同”                         |
+| Acceptance length   | 每轮平均接受 token 数                | measure, maximize, compare  | 不是端到端 speedup                             |
+| Confidence          | 对 token 或前缀通过验证概率的估计          | predict, calibrate, rank    | 未校准 confidence 可能误导 scheduler             |
+| Verification budget | target 一步验证的 batch/compute 容量 | allocate, schedule, prune   | 不是无限资源；高并发时可能成为瓶颈                         |
+| Workload            | 模型、采样、并发、长度、硬件和请求域组合          | profile, benchmark, segment | 不能跨模型/硬件/并发无条件外推                          |
 
 最小流程：
 
@@ -126,27 +126,27 @@ DSpark 针对并行 drafter 的一个核心问题：并行生成多个位置时�
 
 ## 6. 跨来源命题（Cross-source claims）
 
-| Claim | Proposition | Evidence | Applies to | Counterexample |
-|---|---|---|---|---|
-| SD-C01 | 标准投机解码在满足算法假设时保持 target distribution | DSpark 论文；需补经典论文和 vLLM 测试 | 标准 rejection-sampling speculative decoding | 启发式 greedy accept 不自动 lossless |
-| SD-C02 | 接受长度不是端到端加速比 | DSpark 延迟模型 | 简化模型与生产 benchmark 设计 | drafter/调度成本上升可抵消接受长度收益 |
-| SD-C03 | DSpark 用并行 backbone + 轻量顺序 head 缓解后缀接受率衰减 | DSpark arXiv v1 | 论文设计，默认实验主要 Markov-head variant | 顺序 head 延迟可能超过收益 |
-| SD-C04 | DSpark 用 prefix survival probability 和硬件曲线动态裁剪验证前缀 | DSpark arXiv v1 | 论文算法与作者内部 serving 描述 | confidence 失准或硬件曲线变化削弱收益 |
-| SD-C05 | 论文报告 DSpark 在指定离线/线上设置改善接受长度或 Pareto 前沿 | DSpark arXiv v1 | 作者报告的模型、数据、内部系统 | 不能外推所有 vLLM 版本和 workload |
-| SD-C06 | Speculators 公开描述 DSpark 训练支持与 vLLM 部署路径 | Speculators 浮动 main | 发现能力，不是 release 承诺 | README 支持不证明目标版本可运行 |
-| SD-C07 | 演讲展示 vLLM/Speculators/Mooncake hidden states 工程链路 | PPT/ASR 线索 | 源码调查入口 | 不能直接写成稳定生产能力 |
-| SD-C08 | DSpark 仍需支付并行 backbone 固定成本，低接受率请求可能无法回收 | DSpark arXiv v1 | 论文限制 | 高接受率 workload 可摊薄固定成本 |
+| Claim  | Proposition                                        | Evidence                  | Applies to                                 | Counterexample                 |
+| ------ | -------------------------------------------------- | ------------------------- | ------------------------------------------ | ------------------------------ |
+| SD-C01 | 标准投机解码在满足算法假设时保持 target distribution               | DSpark 论文；需补经典论文和 vLLM 测试 | 标准 rejection-sampling speculative decoding | 启发式 greedy accept 不自动 lossless |
+| SD-C02 | 接受长度不是端到端加速比                                       | DSpark 延迟模型               | 简化模型与生产 benchmark 设计                       | drafter/调度成本上升可抵消接受长度收益        |
+| SD-C03 | DSpark 用并行 backbone + 轻量顺序 head 缓解后缀接受率衰减          | DSpark arXiv v1           | 论文设计，默认实验主要 Markov-head variant            | 顺序 head 延迟可能超过收益               |
+| SD-C04 | DSpark 用 prefix survival probability 和硬件曲线动态裁剪验证前缀 | DSpark arXiv v1           | 论文算法与作者内部 serving 描述                       | confidence 失准或硬件曲线变化削弱收益       |
+| SD-C05 | 论文报告 DSpark 在指定离线/线上设置改善接受长度或 Pareto 前沿            | DSpark arXiv v1           | 作者报告的模型、数据、内部系统                            | 不能外推所有 vLLM 版本和 workload       |
+| SD-C06 | Speculators 公开描述 DSpark 训练支持与 vLLM 部署路径            | Speculators 浮动 main       | 发现能力，不是 release 承诺                         | README 支持不证明目标版本可运行            |
+| SD-C07 | 演讲展示 vLLM/Speculators/Mooncake hidden states 工程链路  | PPT/ASR 线索                | 源码调查入口                                     | 不能直接写成稳定生产能力                   |
+| SD-C08 | DSpark 仍需支付并行 backbone 固定成本，低接受率请求可能无法回收           | DSpark arXiv v1           | 论文限制                                       | 高接受率 workload 可摊薄固定成本          |
 
 ## 7. 来源如何相互校正（Source correction map）
 
-| 来源 | 最适合回答 | 不支持 | 与其他来源的关系 |
-|---|---|---|---|
-| DSpark arXiv v1 | 算法结构、训练目标、作者报告 benchmark、论文限制 | vLLM release 支持状态；本仓目标 workload 加速 | 是算法和作者实验的一手来源，但需本地复现校正生产结论 |
-| Speculators 浮动 main | 发现训练脚本、checkpoint config、转换/部署路径 | 任意固定 release 可运行；性能收益 | 需要固定 commit，并与 vLLM 兼容矩阵交叉核查 |
-| vLLM 浮动 spec decode 文档 | 发现当前配置、限制和支持矩阵 | 稳定正文事实；历史版本行为 | 需要固定 release 文档和测试 |
-| 2026-07-22 PPT | 工程链路、训练流程、研讨问题 | 版本事实、代码事实、性能结论 | 可生成 tracker 和实验计划 |
-| 2026-07-22 ASR 字幕 | QA、术语误识别、待核验问题 | 任何正文技术结论 | 只作为 D 级线索，不能直接引用为事实 |
-| 本仓实验 | 目标 workload 的 latency/throughput/goodput | 其他硬件/模型的泛化结论 | 尚未运行，是进入正文前的关键缺口 |
+| 来源                     | 最适合回答                                    | 不支持                                | 与其他来源的关系                     |
+| ---------------------- | ---------------------------------------- | ---------------------------------- | ---------------------------- |
+| DSpark arXiv v1        | 算法结构、训练目标、作者报告 benchmark、论文限制            | vLLM release 支持状态；本仓目标 workload 加速 | 是算法和作者实验的一手来源，但需本地复现校正生产结论   |
+| Speculators 浮动 main    | 发现训练脚本、checkpoint config、转换/部署路径         | 任意固定 release 可运行；性能收益              | 需要固定 commit，并与 vLLM 兼容矩阵交叉核查 |
+| vLLM 浮动 spec decode 文档 | 发现当前配置、限制和支持矩阵                           | 稳定正文事实；历史版本行为                      | 需要固定 release 文档和测试           |
+| 2026-07-22 PPT         | 工程链路、训练流程、研讨问题                           | 版本事实、代码事实、性能结论                     | 可生成 tracker 和实验计划            |
+| 2026-07-22 ASR 字幕      | QA、术语误识别、待核验问题                           | 任何正文技术结论                           | 只作为 D 级线索，不能直接引用为事实          |
+| 本仓实验                   | 目标 workload 的 latency/throughput/goodput | 其他硬件/模型的泛化结论                       | 尚未运行，是进入正文前的关键缺口             |
 
 ## 8. 分歧、反例与未决问题（Disagreements, counterexamples, and open questions）
 
@@ -156,19 +156,19 @@ DSpark 针对并行 drafter 的一个核心问题：并行生成多个位置时�
 - **LoRA 兼容**：演讲只说“能兼容但不了解细节”，这是高风险生产问题。
 - **训练数据量**：50 万、100 万、3 万/7 万 fine-tune 都是线索，不能作为通用建议。
 - **hidden states 在线训练**：Mooncake/KVConnector 的 P2P、分片、eviction、容错和跨节点行为需要源码/测试核查。
-- **长上下文**：sliding window attention 缓解 max_model_len 错配的说法需要固定实现和实验。
+- **长上下文**：sliding window attention 缓解 max\_model\_len 错配的说法需要固定实现和实验。
 
 ## 9. 验证与实验（Tests and experiments）
 
-| Test/Experiment | Hypothesis | Baseline | Metrics | Completion criteria |
-|---|---|---|---|---|
-| E1：低并发 latency benchmark | 高接受率 workload 下 speculative decoding 降低 ITL | target-only vLLM | TTFT、ITL、acceptance length、T_draft、T_verify、GPU 利用率 | 固定 vLLM/Speculators commit，保存命令、配置、原始结果 |
-| E2：高并发 throughput/goodput benchmark | compute-bound 时额外 drafter 成本可能抵消收益 | target-only vLLM；不同并发 | throughput、goodput、p50/p95 latency、GPU 利用率、队列长度 | 找到启用/关闭/动态裁剪的切换边界 |
-| E3：proposal length ablation | 推理 draft token 数减少可提高接受率但不一定提高 goodput | 固定模型与数据 | acceptance rate by position、acceptance length、ITL、throughput | 区分 train draft length 和 inference proposal length |
-| E4：DSpark vs DFlash/EAGLE | DSpark 的顺序 head 能改善后缀接受率 | 同 target、同数据、同硬件 | acceptance by position、drafter latency、端到端指标 | 复现或反驳论文趋势，记录失败原因 |
-| E5：LoRA compatibility smoke test | target LoRA 可能改变 target distribution 并影响 drafter 接受率 | no-LoRA target | correctness、acceptance length、错误/回退行为 | 明确 vLLM release 支持与限制 |
-| E6：long context mismatch | 训练 max length 短于推理上下文可能退化 | target-only；不同上下文长度 | acceptance length、ITL、显存、错误率 | 验证 sliding window attention 说法是否成立 |
-| E7：hidden states connector failure drill | 在线训练链路需要可驱逐、可恢复、可观测 | 离线写盘 hidden states | 吞吐、丢弃率、重试、磁盘/网络/GPU 利用率 | 记录 producer/consumer 失效和恢复路径 |
+| Test/Experiment                          | Hypothesis                                           | Baseline              | Metrics                                                      | Completion criteria                               |
+| ---------------------------------------- | ---------------------------------------------------- | --------------------- | ------------------------------------------------------------ | ------------------------------------------------- |
+| E1：低并发 latency benchmark                 | 高接受率 workload 下 speculative decoding 降低 ITL          | target-only vLLM      | TTFT、ITL、acceptance length、T\_draft、T\_verify、GPU 利用率        | 固定 vLLM/Speculators commit，保存命令、配置、原始结果           |
+| E2：高并发 throughput/goodput benchmark      | compute-bound 时额外 drafter 成本可能抵消收益                   | target-only vLLM；不同并发 | throughput、goodput、p50/p95 latency、GPU 利用率、队列长度              | 找到启用/关闭/动态裁剪的切换边界                                 |
+| E3：proposal length ablation              | 推理 draft token 数减少可提高接受率但不一定提高 goodput               | 固定模型与数据               | acceptance rate by position、acceptance length、ITL、throughput | 区分 train draft length 和 inference proposal length |
+| E4：DSpark vs DFlash/EAGLE                | DSpark 的顺序 head 能改善后缀接受率                             | 同 target、同数据、同硬件      | acceptance by position、drafter latency、端到端指标                 | 复现或反驳论文趋势，记录失败原因                                  |
+| E5：LoRA compatibility smoke test         | target LoRA 可能改变 target distribution 并影响 drafter 接受率 | no-LoRA target        | correctness、acceptance length、错误/回退行为                        | 明确 vLLM release 支持与限制                             |
+| E6：long context mismatch                 | 训练 max length 短于推理上下文可能退化                            | target-only；不同上下文长度   | acceptance length、ITL、显存、错误率                                 | 验证 sliding window attention 说法是否成立                |
+| E7：hidden states connector failure drill | 在线训练链路需要可驱逐、可恢复、可观测                                  | 离线写盘 hidden states    | 吞吐、丢弃率、重试、磁盘/网络/GPU 利用率                                      | 记录 producer/consumer 失效和恢复路径                      |
 
 ## 10. 生产采用、canary 与 rollback（Production decision）
 
@@ -190,7 +190,7 @@ DSpark 针对并行 drafter 的一个核心问题：并行生成多个位置时�
 ### 观测信号
 
 - acceptance length / acceptance rate by position；
-- T_draft、T_verify、scheduler time；
+- T\_draft、T\_verify、scheduler time；
 - TTFT、ITL、throughput、goodput；
 - GPU 利用率、显存、队列长度；
 - fallback 次数、错误率、OOM、connector eviction/drop。
@@ -263,3 +263,4 @@ Required tests/experiments:
 Owner:
 Review date:
 ```
+

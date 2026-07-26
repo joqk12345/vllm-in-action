@@ -1,0 +1,18 @@
+# Efficient long-context attention seed papers
+
+Evidence grade: D — source discovery only. Do not use these entries as factual support before downloading/reading the papers, recording checksums, and creating source cards.
+
+## Sparse / block / hybrid attention
+
+- DeepSeek, 《Native Sparse Attention: Hardware-Aligned and Natively Trainable Sparse Attention》 — https://arxiv.org/pdf/2502.11089
+- Kimi, 《MoBA: Mixture of Block Attention for Long-Context LLMs》 — https://arxiv.org/pdf/2502.13189
+
+## Linear / lightning attention
+
+- MiniMax, 《MiniMax-01: Scaling Foundation Models with Lightning Attention》 — https://arxiv.org/pdf/2501.08313
+- Kimi, 《Kimi Linear: An Expressive, Efficient Attention Architecture》 — https://arxiv.org/pdf/2510.26692
+
+## Metadata pending
+
+- arXiv:2506.13585 — https://arxiv.org/abs/2506.13585
+- arXiv:2401.06066 — https://arxiv.org/abs/2401.06066

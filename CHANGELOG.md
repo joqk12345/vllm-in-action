@@ -42,6 +42,11 @@
   - llm-d、vLLM、InferenceX/AgentX、Gateway API 和 deployment operator 的持续跟踪规则；
   - llm-d agentic serving 主题小册子 bundle：主题综合、研讨指南、阅读路径和 capability matrix；
   - Office Hours、llm-d repository 和 InferenceX/AgentX 的来源卡。
+- 高效长上下文注意力专题研究骨架，从原 `linear-attention` 线索扩展为 `efficient-long-context-attention`，包括：
+  - GLM-5 v2 PDF 与 NSA/MoBA/Lightning Attention seed list 的规范化 source 目录；
+  - EA-C01～EA-C07 claim spine 与最小术语表；
+  - DSA、sparse/linear/window/block/hybrid attention、vLLM 支持状态和长上下文 benchmark 的持续跟踪规则；
+  - GLM-5 v2 与 seed list 的来源卡。
 - 通用主题小册子模板与专题研究准入条件。
 
 #### Changed

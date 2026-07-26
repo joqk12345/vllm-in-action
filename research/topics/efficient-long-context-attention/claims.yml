@@ -1,0 +1,176 @@
+topic: efficient-long-context-attention
+as_of: 2026-07-26
+policy:
+  body_ready_grades: [A, B]
+  seed_list_grade: D
+  rule: "论文结果按作者报告处理；vLLM serving 行为必须固定到 release/tag/commit、源码、测试或本仓实验后才能进入正文。"
+claims:
+  - id: EA-C01
+    statement: "`linear attention` 不能覆盖当前材料中的全部方法；更准确的问题域是高效长上下文注意力，包含 sparse、linear、window、block-routing 和 hybrid attention。"
+    kind: taxonomy
+    grade: B
+    applies_to: "本专题命名与研究边界"
+    sources: [SRC-glm5-paper-v2, SRC-efficient-attention-seed-list]
+    chapters: ["04", "08", "11", "12"]
+    counterexample: "若只研究 Gated DeltaNet、SimpleGDN 等线性递归方法，`linear attention` 才是合适名称。"
+    verification_gap: "补齐 NSA、MoBA、Lightning Attention 原文后刷新分类。"
+
+  - id: EA-C02
+    statement: "GLM-5 论文报告其采用 DSA 来降低长上下文训练和推理成本，并将 DSA 描述为基于 token 重要性的动态稀疏选择机制，而非固定滑动窗口。"
+    kind: paper-design
+    grade: B
+    applies_to: "GLM-5 arXiv v2 对 DSA 的描述；不证明 vLLM 已支持该机制"
+    sources: [SRC-glm5-paper-v2]
+    chapters: ["04", "11", "12"]
+    counterexample: "固定 SWA、block sparse 或 linear recurrence 机制不能直接等同于 DSA。"
+    verification_gap: "回查 DeepSeek Sparse Attention 原论文和开源实现，确认算法细节和硬件 kernel。"
+
+  - id: EA-C03
+    statement: "GLM-5 论文中的 efficient attention 消融显示，不同高效注意力方法在长上下文质量与效率之间存在显著取舍，不能由复杂度阶数直接推出生产可用性。"
+    kind: benchmark-observation
+    grade: B
+    applies_to: "GLM-5 v2 中 GLM-9B/GLM-4.7-Flash 等实验设置；作者报告"
+    sources: [SRC-glm5-paper-v2]
+    chapters: ["09", "11", "12"]
+    counterexample: "某个方法在 RULER 上表现好，不代表 RepoQA、代码长上下文或 agentic trace 中同样好。"
+    verification_gap: "提取表格设置，复现实验或构造本仓长上下文 benchmark。"
+
+  - id: EA-C04
+    statement: "服务端是否受益于高效注意力，取决于模型架构、kernel、KV layout、prefill/decode 比例、上下文长度和并行拓扑，而不是论文中的理论复杂度单项。"
+    kind: performance-model
+    grade: B
+    applies_to: "长上下文 serving 的工程判断；需用目标 vLLM release 实测"
+    sources: [SRC-glm5-paper-v2]
+    chapters: ["08", "11", "12"]
+    counterexample: "短上下文或 decode-dominated workload 中，降低 prefill attention FLOPs 未必改善端到端指标。"
+    verification_gap: "建立 vLLM benchmark，分别计量 prefill、decode、KV cache、kernel time、ITL/TTFT。"
+
+  - id: EA-C05
+    statement: "GLM-5 论文提示 DSA 引入 indexer/top-k selection 等新组件，这会把长上下文推理的瓶颈从 dense attention 部分转移到选择、kernel 和确定性实现等问题。"
+    kind: implementation-risk
+    grade: B
+    applies_to: "GLM-5 v2 对 DSA indexer、top-k 和 kernel 的描述"
+    sources: [SRC-glm5-paper-v2]
+    chapters: ["11", "13", "15"]
+    counterexample: "如果硬件提供高度优化的 sparse/indexer kernel，选择开销可能被摊薄。"
+    verification_gap: "核查相关 kernel、top-k determinism、Ascend/NVIDIA 支持和 vLLM 集成路径。"
+
+  - id: EA-C06
+    statement: "GLM-5 论文同时讨论 DP-aware routing 和长上下文 KV reuse，说明高效注意力架构与 serving routing/KV cache 策略可能耦合。"
+    kind: system-design
+    grade: B
+    applies_to: "GLM-5 v2 的 long-context agentic inference 叙述；与 llm-d topic 有交叉"
+    sources: [SRC-glm5-paper-v2]
+    chapters: ["08", "12", "15"]
+    counterexample: "单请求离线评测可以不涉及集群 routing 或 KV reuse。"
+    verification_gap: "与 `llm-d-agentic-serving` 的 DP-aware routing/Wide EP 研究交叉核查。"
+
+  - id: EA-C07
+    statement: "NSA、MoBA、MiniMax Lightning Attention、Kimi Linear 等目前只作为 seed list 线索，尚不能支撑本专题正文结论。"
+    kind: evidence-boundary
+    grade: D
+    applies_to: "source/notes/seed-papers.txt"
+    sources: [SRC-efficient-attention-seed-list]
+    chapters: ["09"]
+    invalid_generalization: "不能在未读原文和未固定版本前比较这些方法的优劣。"
+    verification_gap: "下载论文、记录校验值、建立 source cards、抽取 claims 和反例；优先核查 Kimi Linear 与 GLM-5 DSA/GDN/SimpleGDN 的关系。"
+
+  - id: EA-C08
+    statement: "中文访谈材料提示 Kimi Linear/KDA、Qwen3-Next、MiniMax M1/M2 和 DeepSeek sparse attention 可作为比较 hybrid linear 与 sparse attention 路线的研究入口。"
+    kind: research-lead
+    grade: D
+    applies_to: "source/transcripts/2026-kimi-linear-yang-songlin-interview.zh.txt；原始节目、发布日期和转写准确性尚未核对"
+    sources: [SRC-kimi-linear-yang-songlin-interview]
+    chapters: ["09", "11", "12"]
+    invalid_generalization: "不能把访谈中对 KDA、MiniMax、Qwen、DeepSeek 的判断写成事实或性能比较。"
+    verification_gap: "Kimi Linear 已下载并建立 source card；仍需核查 Qwen3-Next、MiniMax M1/M2、DeepSeek sparse attention 官方材料。"
+
+  - id: EA-C09
+    statement: "Kimi Linear 论文提出 Kimi Delta Attention（KDA），将其描述为扩展 Gated DeltaNet 的线性注意力模块，并引入更细粒度的 gating 机制。"
+    kind: paper-design
+    grade: B
+    applies_to: "Kimi Linear arXiv:2510.26692v2；论文设计描述，不证明任意 vLLM release 已支持"
+    sources: [SRC-kimi-linear-paper-v2]
+    chapters: ["08", "11", "12"]
+    counterexample: "早期 Lightning Attention、RetNet、GDN-H 或 SimpleGDN 不能直接等同于 KDA。"
+    verification_gap: "KDA kernel 与 vLLM research commit 已固定；仍需定位 vLLM release tag、模型 config 和端到端 serving 结果。"
+
+  - id: EA-C10
+    statement: "Kimi Linear 论文报告其采用 3:1 KDA:MLA 的 layerwise hybrid 结构，并将该比例描述为质量与吞吐之间较好的折中。"
+    kind: paper-design
+    grade: B
+    applies_to: "Kimi Linear v2 的模型设计和消融设置"
+    sources: [SRC-kimi-linear-paper-v2]
+    chapters: ["09", "11", "12"]
+    counterexample: "3:1 不应写成所有 hybrid attention、所有模型规模或所有任务的通用最优比例。"
+    verification_gap: "抽取 Table 1 的完整设置与结果，并与 Qwen3-Next、MiniMax 等来源交叉核查。"
+
+  - id: EA-C11
+    statement: "Kimi Linear 论文报告 Kimi Linear 在作者设置中减少 KV cache 使用并提高长上下文 decoding throughput，但这些数字必须固定实现、硬件和 workload 后才能转化为生产结论。"
+    kind: benchmark-observation
+    grade: B
+    applies_to: "Kimi Linear v2 作者报告的实验、checkpoint 和实现；尚未本地复现"
+    sources: [SRC-kimi-linear-paper-v2]
+    chapters: ["09", "11", "12"]
+    invalid_generalization: "不能写成 KDA 在任意 vLLM release、硬件、上下文长度或 workload 下都有相同加速。"
+    verification_gap: "MoonshotAI/Kimi-Linear、flash-linear-attention KDA kernel 和 vLLM research commit 已固定；仍需定位 release tag 并运行本仓 serving benchmark。"
+
+  - id: EA-C12
+    statement: "vLLM `v0.11.1` 是当前已观察到的首个包含 KimiLinearForCausalLM 支持入口的稳定 tag；`v0.25.1` 作为当前应优先验证的 release 基线仍包含 Kimi Linear/KDA 支持路径。"
+    kind: implementation-support
+    grade: A
+    applies_to: "vLLM v0.11.1 tag commit 439368496db48d8f992ba8c606a0c0b1eebbfa69；v0.25.1 tag commit 752a3a504485790a2e8491cacbb35c137339ad34；以及 research snapshot 1240c74c0a47473449cf0c3a9c2d87a1e159f73b"
+    sources: [SRC-vllm-kimi-linear-support-v0-11-1, SRC-vllm-kimi-linear-support-v0-25-1, SRC-vllm-kimi-linear-support-2026-07-26]
+    chapters: ["11", "12", "15"]
+    invalid_generalization: "不能写成所有 vLLM release、所有硬件、所有量化或并行配置都生产支持 Kimi Linear。"
+    verification_gap: "基于 v0.25.1 运行最小 smoke test 与 serving benchmark，并核查 v0.11.1→v0.25.1→后续 snapshot 的路径重构对配置和性能的影响。"
+
+  - id: EA-C13
+    statement: "Kimi-Linear-48B-A3B-Instruct 的 HF config 显示 27 层中有 20 个 KDA 层和 7 个 full-attention/MLA 层，serving 验证应以 checkpoint config 而不是论文中的概括比例作为直接事实。"
+    kind: model-config
+    grade: A
+    applies_to: "moonshotai/Kimi-Linear-48B-A3B-Instruct config.json downloaded 2026-07-26; HF revision 尚未固定"
+    sources: [SRC-kimi-linear-hf-config-2026-07-26]
+    chapters: ["09", "11", "12", "15"]
+    counterexample: "Kimi Linear 论文中的 3:1 表述不能替代具体 checkpoint config；其他 Kimi Linear checkpoint 或后续 revision 可能不同。"
+    verification_gap: "固定 HF revision，核查 tokenizer/chat template 和 vLLM v0.25.1 实际加载行为。"
+
+  - id: EA-C14
+    statement: "MiniMax-M1 论文将 Lightning Attention 作为 long-context/long-output/test-time compute 效率路线的核心组件，并报告 1M context 与 40K/80K thinking budget；但这些效率数字仍属于作者报告。"
+    kind: paper-design
+    grade: B
+    applies_to: "MiniMax-M1 arXiv:2506.13585v1；未本地复现，未核查 vLLM support tag"
+    sources: [SRC-minimax-m1-paper-v1]
+    chapters: ["09", "11", "12"]
+    invalid_generalization: "不能把 MiniMax-M1 作者报告的 FLOPs、训练成本或 benchmark 结果直接写成 vLLM serving 成本结论。"
+    verification_gap: "核查 MiniMax-M1 repo/HF config/vLLM support，并抽取长上下文与长输出 benchmark 设置。"
+
+  - id: EA-C15
+    statement: "MiniMax-M2 论文报告 M2 采用 full multi-head attention with GQA，并将其与 MiniMax-Text-01 的 hybrid Lightning/full attention 设计区分开；作者称在 reasoning、coding、agent tasks 的生产设置中未找到可靠匹配 full attention 质量的 efficient attention 变体。"
+    kind: counterexample
+    grade: B
+    applies_to: "MiniMax-M2 arXiv:2605.26494v1；作者报告的 M2 生产设置和消融观察"
+    sources: [SRC-minimax-m2-series-paper-v1]
+    chapters: ["09", "11", "12", "15"]
+    invalid_generalization: "不能写成 linear/sparse/hybrid attention 普遍不如 full attention，也不能否定 Kimi Linear 或其他模型的作者报告结果。"
+    verification_gap: "M2 Table 2/3 已快速抽取，进入正文前需回看 PDF 复核 OCR/表格排版；仍需核查 M2 repo/HF/vLLM support，并与 M1 Lightning case study 对齐。"
+
+  - id: EA-C16
+    statement: "Gated DeltaNet 论文提出 gated delta rule，将 Mamba2 式 gating 的快速遗忘能力与 DeltaNet delta rule 的定向更新能力结合，并扩展 chunkwise parallel algorithm 以支持硬件友好训练。"
+    kind: paper-design
+    grade: B
+    applies_to: "Gated DeltaNet arXiv:2412.06464v3 / ICLR 2025；机制和作者报告实验，未本地复现"
+    sources: [SRC-gated-deltanet-paper-v3, SRC-deltanet-explained-part-ii]
+    chapters: ["09", "11", "12"]
+    counterexample: "GDN 机制不能直接等同于 Kimi KDA 或 Qwen3-Next 的具体实现；不同模型的 gating 粒度、state layout 和 kernel path 可能不同。"
+    verification_gap: "GDN 论文 Table 2/3/4/5 已快速抽取；进入正文前需回看 PDF 复核 OCR/表格排版，核查 NVlabs/GatedDeltaNet repo，并与 Kimi Linear/KDA 和 Qwen3-Next config 对齐。"
+
+  - id: EA-C17
+    statement: "Qwen3-Next-80B-A3B-Instruct 的 HF config 与 vLLM v0.25.1 Qwen3NextConfig 显示：默认每 4 层一个 full_attention，其余为 linear_attention/GDN path；48 层对应 36 个 linear/GDN 层和 12 个 full attention 层。"
+    kind: model-config
+    grade: A
+    applies_to: "Qwen/Qwen3-Next-80B-A3B-Instruct config.json downloaded 2026-07-26；vLLM v0.25.1；HF revision 尚未固定"
+    sources: [SRC-qwen3-next-hf-config-2026-07-26, SRC-vllm-qwen3-next-gdn-support-v0-25-1]
+    chapters: ["09", "11", "12", "15"]
+    invalid_generalization: "不能把 Qwen3-Next 的 3:1 层分布写成所有 Qwen3.5 或所有 GDN 模型的通用配置。"
+    verification_gap: "固定 Qwen3.5 具体 HF config，运行 vLLM v0.25.1 Qwen3-Next/GDN smoke test，并记录 GDN backend。"

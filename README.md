@@ -38,6 +38,7 @@ vLLM 的参数很多，但生产问题通常不是“某个 flag 怎么写”，
 - 读 Rust Frontend 小册子：[`research/topics/rust-frontend/outputs/booklet/rust-frontend-topic-booklet.md`](research/topics/rust-frontend/outputs/booklet/rust-frontend-topic-booklet.md)
 - 看投机解码专题：[`research/topics/speculative-decoding/`](research/topics/speculative-decoding/)
 - 看 llm-d agentic serving 专题：[`research/topics/llm-d-agentic-serving/`](research/topics/llm-d-agentic-serving/)
+- 看高效长上下文注意力专题：[`research/topics/efficient-long-context-attention/`](research/topics/efficient-long-context-attention/)
 - 读 llm-d agentic serving 小册子：[`research/topics/llm-d-agentic-serving/outputs/booklet/llm-d-agentic-serving-topic-booklet.md`](research/topics/llm-d-agentic-serving/outputs/booklet/llm-d-agentic-serving-topic-booklet.md)
 - 读投机解码小册子：[`research/topics/speculative-decoding/outputs/booklet/speculative-decoding-topic-booklet.md`](research/topics/speculative-decoding/outputs/booklet/speculative-decoding-topic-booklet.md)
 - 跟踪 DSpark 分享 QA：[`research/topics/speculative-decoding/tracking/2026-07-22-dspark-talk-qa.yml`](research/topics/speculative-decoding/tracking/2026-07-22-dspark-talk-qa.yml)
@@ -107,6 +108,12 @@ GitHub Actions 每周运行同一检查。检测到漂移只表示需要人工�
 llm-d agentic serving 专题研究 Kubernetes 上的分布式 LLM serving：prefix-aware routing、KV cache tiering、prefill/decode disaggregation、Wide EP / DP attention、flow control 和 batch processing 如何共同支撑长上下文多轮 agentic workloads。
 
 当前已建立初始主题骨架、source 清单、LD-C01～LD-C07 claim spine、最小术语表、tracking 规则、Office Hours QA tracker 和主题小册子 bundle。该主题仍处于 `captured` 状态，Office Hours 幻灯片和自动字幕只能作为 C/D 级线索；进入正文前必须固定 llm-d/vLLM release 或 commit，并复现 AgentX-like workload 的关键指标。
+
+## 高效长上下文注意力专题
+
+高效长上下文注意力专题从原 `linear-attention` 线索扩展而来，覆盖 DSA/NSA、MoBA、Lightning Attention、linear/window/hybrid attention 等方法，研究它们对长上下文质量、prefill/decode 成本、KV cache、kernel 和 vLLM serving 的影响。
+
+当前已建立初始主题骨架、GLM-5 v2 来源清单、EA-C01～EA-C07 claim spine、最小术语表和 tracking 规则。该主题仍处于 `captured` 状态；seed paper list 只是 D 级线索，进入正文前必须补齐论文版本、vLLM 支持状态和本仓长上下文 serving benchmark。
 
 ## 建议的日常节奏
 

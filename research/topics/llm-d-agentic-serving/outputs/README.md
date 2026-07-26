@@ -6,6 +6,7 @@
 
 - [`deliverables.yml`](deliverables.yml) — 输出登记表。
 - [`booklet/`](booklet/) — 主题研究小册子、研讨指南、阅读路径和 capability matrix。
+- [`chapter-handoff/chapter-placement-proposal.md`](chapter-handoff/chapter-placement-proposal.md) — 全书章节落点建议与目录调整评估。
 - [`2026-07-09-office-hours-53-llm-d-wide-ep-analysis.md`](2026-07-09-office-hours-53-llm-d-wide-ep-analysis.md) — Office Hours #53 PDF/自动字幕结构化分析与 QA，C/D 级线索。
 
 ## 后续输出计划
