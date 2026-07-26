@@ -1,0 +1,11 @@
+deliverables:
+  - id: speculative-decoding-topic-booklet
+    type: topic-booklet
+    status: complete
+    research_status: captured
+    files:
+      - booklet/README.md
+      - booklet/speculative-decoding-topic-booklet.md
+      - booklet/seminar-guide.md
+      - booklet/reading-list.md
+      - booklet/capability-matrix.yml

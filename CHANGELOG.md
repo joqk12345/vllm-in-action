@@ -31,6 +31,9 @@
   - 版本化论文、演讲和字幕素材清单及文件校验值；
   - SD-C01～SD-C08 claim spine 与最小术语表；
   - 论文、Speculators 和 vLLM 的持续跟踪协议；
+  - 2026-07-22 DSpark 分享 QA 结构化整理、可维护 tracker 与 QA tracking best practices；
+  - 投机解码主题小册子 bundle：主题综合、研讨指南、阅读路径和 capability matrix；
+  - DSpark 论文、演讲、字幕、Speculators 和 vLLM spec decode 的来源卡；
   - 第 9、10、11、12、15 章的正文落点建议。
 - 通用主题小册子模板与专题研究准入条件。
 
@@ -45,7 +48,7 @@
 
 #### Validation
 
-- Topic-booklet validator：通过。
+- Topic-booklet validator：Rust Frontend 与投机解码专题均通过。
 - Knowledge-base validator：通过。
 - Skill frontmatter、metadata、YAML 和 Subagent TOML：通过。
 - 两轮独立 Subagent forward test 已执行；发现的问题均已回写 Skill、校验器和 Rust Frontend 小册子。

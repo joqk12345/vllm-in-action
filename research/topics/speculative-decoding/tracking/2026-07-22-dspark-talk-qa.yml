@@ -1,0 +1,399 @@
+# QA tracker for source/transcripts/2026-07-22-dspark-speculative-decoding-talk.zh.srt
+# Evidence grade defaults to D because entries are captured from ASR subtitle / live talk.
+# Status vocabulary: captured, needs-source, verifying, verified, answered, stale, wont-track.
+
+metadata:
+  owner: ""
+  purpose: "持续追踪 D-Spark 投机解码分享中的 QA，区分讲者回答、待验证问题与可进入正文的项目结论。"
+  status: active
+  applies_to: "research/topics/speculative-decoding"
+  source_transcript: "source/transcripts/2026-07-22-dspark-speculative-decoding-talk.zh.srt"
+  evidence_grade: D
+  captured_date: "2026-07-25"
+  notes:
+    - "字幕存在 ASR 误识别；所有技术结论进入正文前必须回到 vLLM/speculators 源码、测试、release 文档、论文或本仓实验核验。"
+    - "speaker_answer 只代表分享现场表述；project_conclusion 留给核验后一手证据结论。"
+
+items:
+  - id: QA-dspark-talk-001
+    time: "00:06:13"
+    category: logistics
+    question: "PPT 会和回放一起给吗？"
+    speaker_answer: "直播间问 PPT 是否会和回放一起提供；现场未展开技术回答。"
+    project_conclusion: ""
+    status: wont-track
+    priority: low
+    evidence_grade: D
+    needs_verification: []
+    upstream_refs: []
+    related_claims: []
+    owner: ""
+    last_checked: "2026-07-25"
+    next_action: "无需持续追踪。"
+
+  - id: QA-dspark-talk-002
+    time: "00:06:22"
+    category: algorithm-peego
+    question: "PEEGO 是不是 DLM / 并行非自回归形式推理？"
+    speaker_answer: "PEEGO attention 仍是 causal；与 EAGLE-3 架构相近，使用 memory saving technique、mask token 和 masked hidden states 来替代自回归中前序 token 的 hidden-state 信息。"
+    project_conclusion: ""
+    status: needs-source
+    priority: medium
+    evidence_grade: D
+    needs_verification:
+      - "核对 PEEGO 论文/源码中的 attention mask、mask token、masked hidden states 设计。"
+      - "确认 speculators 是否支持 PEEGO 及支持范围。"
+    upstream_refs: []
+    related_claims: []
+    owner: ""
+    last_checked: "2026-07-25"
+    next_action: "查 PEEGO 原始论文与 speculators 模型实现。"
+
+  - id: QA-dspark-talk-003
+    time: "00:07:55"
+    category: interface-logprobs
+    question: "drafter 给 target 的 logprobs shape 是什么样？"
+    speaker_answer: "取决于不同模型；训练/推理时可能截取较自信部分，也可能 reduce token embedding / vocabulary；draft model 不需要完整大词表。"
+    project_conclusion: ""
+    status: needs-source
+    priority: medium
+    evidence_grade: D
+    needs_verification:
+      - "核查 speculators 各 drafter 的输出 tensor shape。"
+      - "核查 vLLM speculative decoding sampler 接收 drafter logprobs 的接口约束。"
+    upstream_refs: []
+    related_claims: []
+    owner: ""
+    last_checked: "2026-07-25"
+    next_action: "从 speculators/vLLM 源码提取 shape contract。"
+
+  - id: QA-dspark-talk-004
+    time: "00:17:46"
+    category: rl-integration
+    question: "speculators 是否和 RL 框架集成？"
+    speaker_answer: "目前没有，但未来可能会和 RL 框架集成；RL 中 target 权重变化会让 draft model 与 target 发生偏移，理想情况是一起训练。"
+    project_conclusion: ""
+    status: needs-source
+    priority: high
+    evidence_grade: D
+    needs_verification:
+      - "搜索 speculators/vLLM issue、PR、README 是否有 RL 集成计划。"
+      - "核查 vLLM 生态 RL 框架是否已有 speculative decoding 联动。"
+    upstream_refs: []
+    related_claims: []
+    owner: ""
+    last_checked: "2026-07-25"
+    next_action: "检索 speculators 与 vLLM GitHub。"
+
+  - id: QA-dspark-talk-005
+    time: "00:24:05"
+    category: algorithm-medusa-domino
+    question: "Medusa head 这类投机解码方法现在是不是用得不多了？"
+    speaker_answer: "相对过时；加速相比 EAGLE-3 有差距，speculators 未选择支持；Domino 与 D-Spark 思路相似但实验不如 D-Spark。"
+    project_conclusion: ""
+    status: needs-source
+    priority: medium
+    evidence_grade: D
+    needs_verification:
+      - "核查 speculators 支持矩阵是否不支持 Medusa/Domino。"
+      - "查 D-Spark、Domino、Medusa 与 EAGLE-3 的公开 benchmark 条件。"
+    upstream_refs: []
+    related_claims: []
+    owner: ""
+    last_checked: "2026-07-25"
+    next_action: "建立算法支持矩阵与 benchmark 对比来源。"
+
+  - id: QA-dspark-talk-006
+    time: "00:24:58"
+    category: training-data
+    question: "个人开发者想训练自己的 draft model，数据从哪里找？"
+    speaker_answer: "可用 Magpie、UltraChat、DeepSeek 使用的 OpenThought/PerfectBlend 一类数据；speculators 支持 response regeneration；生产领域数据可用于 fine-tune，场景越单一越有利于接受率。"
+    project_conclusion: ""
+    status: needs-source
+    priority: high
+    evidence_grade: D
+    needs_verification:
+      - "核查 speculators 数据准备脚本原生支持哪些数据集。"
+      - "核查 DeepSeek D-Spark/D-Flash 论文或 repo 使用的数据集名称。"
+      - "验证 response regeneration 工作流。"
+    upstream_refs: []
+    related_claims: []
+    owner: ""
+    last_checked: "2026-07-25"
+    next_action: "读取 speculators README/tutorial 与数据脚本。"
+
+  - id: QA-dspark-talk-007
+    time: "00:27:04"
+    category: maintenance
+    question: "老的投机解码代码，例如 n-gram、小模型大模型方案，是否应该删掉？"
+    speaker_answer: "未明确说会删除；新算法也可能反向优化旧算法；vLLM 中相关算法仍有支持与测试。"
+    project_conclusion: ""
+    status: needs-source
+    priority: medium
+    evidence_grade: D
+    needs_verification:
+      - "核查 vLLM speculative decoding 支持矩阵。"
+      - "核查 n-gram、小模型 drafter、EAGLE 等代码是否仍在测试覆盖中。"
+    upstream_refs: []
+    related_claims: []
+    owner: ""
+    last_checked: "2026-07-25"
+    next_action: "查 vLLM docs、tests 与 release notes。"
+
+  - id: QA-dspark-talk-008
+    time: "00:30:29"
+    category: benchmark
+    question: "加速多少算训练得好？加速上限大约是多少？"
+    speaker_answer: "经验上 3–5 倍较正常；有论文声称 6–8 倍但分享者未观测到；compute-bound 高并发场景可能不适合开启。"
+    project_conclusion: ""
+    status: needs-source
+    priority: high
+    evidence_grade: D
+    needs_verification:
+      - "查 D-Spark / D-Flash / EAGLE-3 论文 benchmark 条件。"
+      - "设计本仓端到端 benchmark：模型、硬件、精度、请求分布、并发、指标。"
+      - "确认 vLLM 动态关闭 speculative decoding 的配置与行为。"
+    upstream_refs: []
+    related_claims: []
+    owner: ""
+    last_checked: "2026-07-25"
+    next_action: "建立 benchmark evidence card。"
+
+  - id: QA-dspark-talk-009
+    time: "00:33:36"
+    category: acceptance-rate
+    question: "提升接受率有什么 trick？"
+    speaker_answer: "训练时 draft 16 个 token，推理时只 draft 8 个 token，通常接受率会更高。"
+    project_conclusion: ""
+    status: needs-source
+    priority: medium
+    evidence_grade: D
+    needs_verification:
+      - "查 speculators 是否有 train draft length 与 inference draft length 分离配置。"
+      - "实验验证不同 num_speculative_tokens 对接受率、吞吐和延迟的影响。"
+    upstream_refs: []
+    related_claims: []
+    owner: ""
+    last_checked: "2026-07-25"
+    next_action: "纳入 acceptance-rate ablation 实验计划。"
+
+  - id: QA-dspark-talk-010
+    time: "00:34:23"
+    category: benchmark
+    question: "3–5 倍是在某个大模型上测的吗？"
+    speaker_answer: "回答较含糊；当天测的是某个仍在训练模型的接受长度，不是完整加速测试；不同领域数据上接受长度约 3–5。"
+    project_conclusion: ""
+    status: needs-source
+    priority: high
+    evidence_grade: D
+    needs_verification:
+      - "不要将 3–5 倍作为已验证结论写入正文。"
+      - "区分 speedup 与 acceptance length，补齐模型/硬件/数据集/并发条件。"
+    upstream_refs: []
+    related_claims: []
+    owner: ""
+    last_checked: "2026-07-25"
+    next_action: "与 QA-dspark-talk-008 合并进 benchmark 计划。"
+
+  - id: QA-dspark-talk-011
+    time: "00:35:31"
+    category: lora-compatibility
+    question: "投机解码和 LoRA 如何兼容？"
+    speaker_answer: "分享者不负责该部分，只知道 vLLM 中可以做到兼容，但不了解细节。"
+    project_conclusion: ""
+    status: needs-source
+    priority: high
+    evidence_grade: D
+    needs_verification:
+      - "核查 vLLM speculative decoding + LoRA 支持状态、限制和测试。"
+      - "确认 draft model 是否也需要对应 LoRA，或 target LoRA 如何影响接受率。"
+    upstream_refs: []
+    related_claims: []
+    owner: ""
+    last_checked: "2026-07-25"
+    next_action: "搜索 vLLM docs/tests/issues 中 LoRA + spec decode。"
+
+  - id: QA-dspark-talk-012
+    time: "00:43:36"
+    category: dspark-mechanism
+    question: "D-Spark 的加速中，多少来自半自回归解码，多少来自 adaptive verify length？"
+    speaker_answer: "未给精确拆分；vLLM 支持 dynamic speculative decoding；D-Spark 在 vLLM 中先支持 Markov head，confidence head 推理支持尚未完全完成；两者是独立机制，可单独使用或叠加。"
+    project_conclusion: ""
+    status: needs-source
+    priority: high
+    evidence_grade: D
+    needs_verification:
+      - "核查 vLLM 当前 release 中 D-Spark Markov head 与 confidence head 支持状态。"
+      - "核查 D-Spark 论文 ablation，拆分 Markov head/confidence head/adaptive verify length 贡献。"
+      - "跟踪 confidence head inference PR/branch。"
+    upstream_refs: []
+    related_claims: []
+    owner: ""
+    last_checked: "2026-07-25"
+    next_action: "建立 D-Spark 支持状态 claim，并绑定 vLLM/speculators commit。"
+
+  - id: QA-dspark-talk-013
+    time: "00:55:47"
+    category: hidden-states-connector
+    question: "训练时生产者和消费者如果使用相同切分 / head 并行方式，可以直接 P2P 传 hidden states 吗？"
+    speaker_answer: "理论上应该可以，但取决于 Mooncake connector / KV connector 的具体实现；hidden states 被拆成类似 KV cache 的格式传输。"
+    project_conclusion: ""
+    status: needs-source
+    priority: high
+    evidence_grade: D
+    needs_verification:
+      - "核查 Mooncake/KV connector 支持的传输后端。"
+      - "确认 hidden states 的分片布局、head 切分要求和是否需要重组。"
+      - "确认在线训练生产者/消费者容错与 eviction 机制。"
+    upstream_refs: []
+    related_claims: []
+    owner: ""
+    last_checked: "2026-07-25"
+    next_action: "读取 connector 相关源码和设计文档。"
+
+  - id: QA-dspark-talk-014
+    time: "00:58:46"
+    category: training-architecture
+    question: "训练支持 PD 分离吗？"
+    speaker_answer: "一般训练不太需要 PD 分离；target 大模型主要用于 prefill 抽取 hidden states，不需要完整 decode，decode 最多一个 token；训练更接近 SFT。"
+    project_conclusion: ""
+    status: needs-source
+    priority: medium
+    evidence_grade: D
+    needs_verification:
+      - "核查 speculators hidden-state extraction 是否只依赖 prefill。"
+      - "核查训练时 target logits/logprobs 的生成路径是否需要 decode。"
+      - "比较与 vLLM PD disaggregation 的关系。"
+    upstream_refs: []
+    related_claims: []
+    owner: ""
+    last_checked: "2026-07-25"
+    next_action: "梳理 training data pipeline。"
+
+  - id: QA-dspark-talk-015
+    time: "01:03:51"
+    category: community-models
+    question: "个人开发者训练的模型能贡献到 Hugging Face 仓库吗？"
+    speaker_answer: "可以；如果使用 speculators 训练更好。"
+    project_conclusion: ""
+    status: captured
+    priority: low
+    evidence_grade: D
+    needs_verification:
+      - "核查 speculators 或 Red Hat/vLLM drafter 模型仓库是否有贡献指南。"
+    upstream_refs: []
+    related_claims: []
+    owner: ""
+    last_checked: "2026-07-25"
+    next_action: "如要写入社区实践章节，再核查贡献流程。"
+
+  - id: QA-dspark-talk-016
+    time: "01:04:36"
+    category: training-data
+    question: "数据集一般准备多少合适？"
+    speaker_answer: "经验上约 500K/50 万条；也在尝试 100 万条；以前只支持单轮对话，现在支持多轮对话。"
+    project_conclusion: ""
+    status: needs-source
+    priority: high
+    evidence_grade: D
+    needs_verification:
+      - "核查 speculators tutorial 推荐数据量与格式。"
+      - "核查多轮对话支持的代码和 release 边界。"
+      - "实验不同数据量对接受率/加速的影响。"
+    upstream_refs: []
+    related_claims: []
+    owner: ""
+    last_checked: "2026-07-25"
+    next_action: "建立数据量 ablation TODO。"
+
+  - id: QA-dspark-talk-017
+    time: "01:05:21"
+    category: finetuning
+    question: "能否从现成 draft model 继续做投机解码后训练？这样数据是否可以少一些？"
+    speaker_answer: "可以；有用户用 3 万或 7 万条生产数据 fine-tune 获得较好加速；speculators 支持 from_pretrained；D-Flash model 可较容易转换成 D-Spark model。"
+    project_conclusion: ""
+    status: needs-source
+    priority: high
+    evidence_grade: D
+    needs_verification:
+      - "核查 speculators from_pretrained 参数与 checkpoint conversion 工具。"
+      - "验证 D-Flash 到 D-Spark 转换路径和限制。"
+      - "确认 3 万/7 万数据结论是否有公开证据，否则只作为线索。"
+    upstream_refs: []
+    related_claims: []
+    owner: ""
+    last_checked: "2026-07-25"
+    next_action: "读取 speculators conversion/fine-tuning tutorial。"
+
+  - id: QA-dspark-talk-018
+    time: "01:06:58"
+    category: multimodal
+    question: "多模态模型怎么训练？"
+    speaker_answer: "speculators 支持图像数据；已有用户用于训练 multimodal model，但分享者团队未深入研究；实际加速主要针对文字生成部分。"
+    project_conclusion: ""
+    status: needs-source
+    priority: medium
+    evidence_grade: D
+    needs_verification:
+      - "核查 speculators VLM 支持的数据格式、模型列表与测试。"
+      - "确认图像 hidden states 与文本 hidden states 的处理边界。"
+      - "核查 vLLM speculative decoding 对 VLM 的支持限制。"
+    upstream_refs: []
+    related_claims: []
+    owner: ""
+    last_checked: "2026-07-25"
+    next_action: "读取 VLM training 相关代码/文档。"
+
+  - id: QA-dspark-talk-019
+    time: "01:07:59"
+    category: rl-integration
+    question: "RL 一般会考虑投机解码吗？"
+    speaker_answer: "会，RL 场景一般会开投机解码。"
+    project_conclusion: ""
+    status: needs-source
+    priority: medium
+    evidence_grade: D
+    needs_verification:
+      - "核查主流 RLHF/RLVR 框架是否默认或推荐使用 speculative decoding。"
+      - "与 QA-dspark-talk-004 合并跟踪 target/draft 同步训练问题。"
+    upstream_refs: []
+    related_claims: []
+    owner: ""
+    last_checked: "2026-07-25"
+    next_action: "并入 RL integration 调研。"
+
+  - id: QA-dspark-talk-020
+    time: "01:08:08"
+    category: long-context
+    question: "训练时 max token / max model length 设小了，比如 2048，推理长上下文时需要重新训练吗？"
+    speaker_answer: "过去超过训练 max model length 会明显退化；现在加入 sliding window attention 优化后，训练 max length 可以稍短，推理几万上下文退化不明显甚至持平。"
+    project_conclusion: ""
+    status: needs-source
+    priority: high
+    evidence_grade: D
+    needs_verification:
+      - "核查 speculators 是否实现 sliding window attention 优化及适用算法。"
+      - "确认 long-context 推理退化的实验条件。"
+      - "设计 max_model_len 训练/推理错配 ablation。"
+    upstream_refs: []
+    related_claims: []
+    owner: ""
+    last_checked: "2026-07-25"
+    next_action: "跟踪 long-context drafter 支持与实验。"
+
+  - id: QA-dspark-talk-021
+    time: "01:09:43"
+    category: diffusion-lm
+    question: "Diffusion LM / DLM 可以用投机解码吗？"
+    speaker_answer: "理论上可能可以，但分享者认为没有必要；DLM 生产落地较少，表现不够理想，并行生成本身有精确度不足问题；再套投机解码意义不明确。"
+    project_conclusion: ""
+    status: captured
+    priority: low
+    evidence_grade: D
+    needs_verification:
+      - "如后续讨论 diffusion LLM serving，再核查 vLLM general diffusion 支持与 D-Flash 关系。"
+    upstream_refs: []
+    related_claims: []
+    owner: ""
+    last_checked: "2026-07-25"
+    next_action: "暂不优先追踪；保留为背景线索。"

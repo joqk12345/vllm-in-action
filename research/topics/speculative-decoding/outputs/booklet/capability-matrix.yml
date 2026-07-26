@@ -1,0 +1,225 @@
+schema_version: 1
+topic: speculative-decoding
+scope: "DSpark、Speculators、vLLM speculative decoding、hidden states 训练链路；核对至 2026-07-25，未固定 release/commit"
+as_of: "2026-07-25"
+target_release: "unfixed"
+policy:
+  evidence_rule: "roadmap_status 不证明 release_status；release_status 不证明 local_test_status；ASR QA 只作 D 级线索。"
+  stable_body_grades: [A, B]
+  transcript_grade: D
+statuses:
+  roadmap_status:
+    checked: "已在 roadmap、README、演讲或讨论中观察到，但不代表 release。"
+    unchecked: "未观察到或未检查。"
+    discussion-required: "需要进一步上游讨论或解释。"
+  release_status:
+    unverified: "尚未绑定固定 release/tag/commit 或未检查目标版本。"
+    verified: "已确认 merge commit 与目标 release/tag 中的源码/测试/文档。"
+    not-in-target: "已确认不在目标版本。"
+  local_test_status:
+    not-run: "本仓未运行复现实验或 smoke test。"
+    passed: "本仓有可复现实验通过。"
+    failed: "本仓实验失败。"
+    partial: "只完成部分场景。"
+capabilities:
+  - id: cap-specdec-lossless-correctness
+    layer: algorithm
+    capability: "标准 speculative decoding 的 rejection-sampling 正确性与 target distribution 保持"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "正文解释 lossless 前提"
+      - "采样正确性章节"
+    chapters: ["10"]
+    source_ids:
+      - SRC-dspark-paper-v1
+    related_claims:
+      - SD-C01
+    related_qa: []
+    next_check: "补充经典 speculative sampling 原始论文，并核查 vLLM 固定版本测试。"
+
+  - id: cap-acceptance-speedup-model
+    layer: performance-model
+    capability: "将 acceptance length、T_draft、T_verify、调度/通信成本映射到 ITL、throughput 和 goodput"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "性能建议"
+      - "benchmark 设计"
+    chapters: ["10", "11"]
+    source_ids:
+      - SRC-dspark-paper-v1
+    related_claims:
+      - SD-C02
+      - SD-C08
+    related_qa:
+      - QA-dspark-talk-008
+      - QA-dspark-talk-010
+    next_check: "建立本仓 benchmark 记录，避免将接受长度误写成 speedup。"
+
+  - id: cap-dspark-markov-head
+    layer: drafter-architecture
+    capability: "DSpark Markov/轻量顺序 head 缓解并行 drafter 后缀依赖不足"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "DSpark 设计说明"
+      - "DFlash/EAGLE 对比"
+    chapters: ["10", "11"]
+    source_ids:
+      - SRC-dspark-paper-v1
+      - SRC-dspark-talk-2026-07-22
+    related_claims:
+      - SD-C03
+    related_qa:
+      - QA-dspark-talk-012
+    next_check: "固定 speculators/vLLM commit，确认 Markov head 训练与 inference 支持状态。"
+
+  - id: cap-dspark-confidence-head
+    layer: scheduler
+    capability: "DSpark confidence head / prefix survival probability 用于 adaptive verification length"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "动态验证预算说明"
+      - "生产 canary 与 rollback"
+    chapters: ["10", "11"]
+    source_ids:
+      - SRC-dspark-paper-v1
+      - SRC-dspark-talk-transcript-2026-07-22
+    related_claims:
+      - SD-C04
+    related_qa:
+      - QA-dspark-talk-012
+    next_check: "核查 vLLM 中 confidence head inference 是否已合并、发布并有测试。"
+
+  - id: cap-vllm-dynamic-speculation
+    layer: serving-scheduler
+    capability: "vLLM 根据负载或请求量动态调整 speculative tokens 或关闭 speculation"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "高并发 compute-bound 生产建议"
+    chapters: ["11", "15"]
+    source_ids:
+      - SRC-vllm-spec-decode
+      - SRC-dspark-talk-transcript-2026-07-22
+    related_claims: []
+    related_qa:
+      - QA-dspark-talk-008
+      - QA-dspark-talk-012
+    next_check: "固定 vLLM release 文档和 scheduler 测试，确认配置与默认行为。"
+
+  - id: cap-speculators-dspark-training
+    layer: training-framework
+    capability: "Speculators 提供 DSpark 训练、checkpoint config 和 vLLM 部署路径"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "训练流程"
+      - "部署路径"
+    chapters: ["10", "15"]
+    source_ids:
+      - SRC-speculators-main
+      - SRC-dspark-talk-2026-07-22
+    related_claims:
+      - SD-C06
+    related_qa:
+      - QA-dspark-talk-006
+      - QA-dspark-talk-016
+      - QA-dspark-talk-017
+    next_check: "固定 speculators commit，检查 README、tutorial、脚本和测试。"
+
+  - id: cap-hidden-states-online-training
+    layer: distributed-training
+    capability: "通过 vLLM hidden states extraction、KVConnector/Mooncake 和生产者-消费者链路进行在线 drafter 训练"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "大模型 drafter 训练可扩展性"
+      - "跨节点训练链路"
+    chapters: ["08", "12", "15"]
+    source_ids:
+      - SRC-dspark-talk-2026-07-22
+      - SRC-dspark-talk-transcript-2026-07-22
+    related_claims:
+      - SD-C07
+    related_qa:
+      - QA-dspark-talk-013
+      - QA-dspark-talk-014
+    next_check: "定位 connector 源码、传输后端、分片布局、eviction 和失败恢复测试。"
+
+  - id: cap-lora-specdecode-compatibility
+    layer: serving-compatibility
+    capability: "LoRA 与 speculative decoding 的兼容性、限制和接受率影响"
+    roadmap_status: discussion-required
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "生产部署建议"
+      - "LoRA serving 章节引用"
+    chapters: ["11", "15"]
+    source_ids:
+      - SRC-dspark-talk-transcript-2026-07-22
+      - SRC-vllm-spec-decode
+    related_claims: []
+    related_qa:
+      - QA-dspark-talk-011
+    next_check: "搜索 vLLM docs/tests/issues 中 LoRA + spec decode，并运行 smoke test。"
+
+  - id: cap-long-context-drafter
+    layer: model-context
+    capability: "drafter 训练 max_model_len 与推理长上下文错配的退化和 sliding-window 缓解"
+    roadmap_status: discussion-required
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "长上下文生产边界"
+    chapters: ["11", "15"]
+    source_ids:
+      - SRC-dspark-talk-transcript-2026-07-22
+    related_claims: []
+    related_qa:
+      - QA-dspark-talk-020
+    next_check: "核查 speculators sliding window attention 实现并设计 long-context ablation。"
+
+  - id: cap-multimodal-drafter-training
+    layer: multimodal-training
+    capability: "Speculators 对图像/多模态数据的 drafter 训练支持"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "多模态扩展边界"
+    chapters: ["15"]
+    source_ids:
+      - SRC-dspark-talk-transcript-2026-07-22
+    related_claims: []
+    related_qa:
+      - QA-dspark-talk-018
+    next_check: "核查 VLM 数据格式、测试覆盖和 vLLM speculative decoding 对 VLM 的限制。"
+
+  - id: cap-rl-draft-target-drift
+    layer: training-integration
+    capability: "RL/RLVR 训练中 target 权重变化导致 drafter 漂移，以及联合/周期性重训需求"
+    roadmap_status: discussion-required
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "训练后 serving 一致性"
+      - "RL 集成研究"
+    chapters: ["15"]
+    source_ids:
+      - SRC-dspark-talk-transcript-2026-07-22
+    related_claims: []
+    related_qa:
+      - QA-dspark-talk-004
+      - QA-dspark-talk-019
+    next_check: "核查 speculators/vLLM/RL 框架是否有集成 PR 或设计讨论。"

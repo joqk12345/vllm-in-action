@@ -38,6 +38,8 @@ EAGLE、MTP、DFlash、P-EAGLE 等方法只在回答共同问题时纳入，不�
 - [`claims.yml`](claims.yml) — 本专题的 claim spine。
 - [`vocabulary.md`](vocabulary.md) — 最小 nouns、verbs 与分析语法。
 - [`tracking/README.md`](tracking/README.md) — 论文、Speculators 和 vLLM 的持续跟踪规则。
+- [`tracking/2026-07-22-dspark-talk-qa.yml`](tracking/2026-07-22-dspark-talk-qa.yml) — 2026-07-22 分享 QA 的持续追踪表。
+- [`outputs/booklet/`](outputs/booklet/) — 投机解码主题研究小册子 bundle。
 
 ## 三层内容
 
@@ -73,4 +75,4 @@ EAGLE、MTP、DFlash、P-EAGLE 等方法只在回答共同问题时纳入，不�
 - [ ] 同时记录 `T_draft`、`T_verify`、接受长度、ITL、吞吐、GPU 利用率和显存。
 - [ ] 覆盖代码、数学、开放式对话以及一个低接受率反例。
 - [ ] 验证禁用投机解码的回退路径和配置兼容性。
-- [ ] 在至少两个独立来源围绕共同问题形成综合判断后，再运行 `$topic-booklet`。
+- [x] 已生成第一版 `$topic-booklet` bundle；当前状态仍为 `captured`，需要先补 release/commit 与本仓实验后才能进入正文。
