@@ -35,6 +35,13 @@
   - 投机解码主题小册子 bundle：主题综合、研讨指南、阅读路径和 capability matrix；
   - DSpark 论文、演讲、字幕、Speculators 和 vLLM spec decode 的来源卡；
   - 第 9、10、11、12、15 章的正文落点建议。
+- llm-d agentic serving 专题研究骨架，包括：
+  - vLLM Office Hours #53 PDF 与自动字幕的规范化 source 目录；
+  - LD-C01～LD-C07 claim spine 与最小术语表；
+  - Office Hours #53 结构化分析、QA tracker 与 benchmark 线索；
+  - llm-d、vLLM、InferenceX/AgentX、Gateway API 和 deployment operator 的持续跟踪规则；
+  - llm-d agentic serving 主题小册子 bundle：主题综合、研讨指南、阅读路径和 capability matrix；
+  - Office Hours、llm-d repository 和 InferenceX/AgentX 的来源卡。
 - 通用主题小册子模板与专题研究准入条件。
 
 #### Changed

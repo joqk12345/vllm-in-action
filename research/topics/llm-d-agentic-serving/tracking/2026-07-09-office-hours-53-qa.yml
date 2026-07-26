@@ -1,0 +1,180 @@
+# QA tracker for vLLM Office Hours #53 llm-d Project Update and Wide EP for Agentic Workloads.
+# Evidence grade defaults to D for auto-generated subtitles and C for public slides.
+# Status vocabulary: captured, needs-source, verifying, verified, answered, stale, wont-track.
+
+metadata:
+  owner: ""
+  purpose: "持续追踪 Office Hours #53 中与 llm-d、agentic workloads、Wide EP、PD、KV routing 和 deployment 边界相关的 QA。"
+  status: active
+  applies_to: "research/topics/llm-d-agentic-serving"
+  source_talk: "source/talks/2026-07-09-vllm-office-hours-53-llm-d-wide-ep.pdf"
+  source_transcript: "source/transcripts/2026-07-09-vllm-office-hours-53-llm-d-wide-ep.en.srt"
+  evidence_grade: "C/D"
+  captured_date: "2026-07-26"
+  notes:
+    - "自动字幕存在 ASR 误识别；所有技术结论进入正文前必须回到 llm-d/vLLM 源码、测试、PR、release 文档或本仓实验。"
+    - "speaker_answer 只代表分享现场表述；project_conclusion 留给核验后一手证据结论。"
+
+items:
+  - id: QA-llmd-oh53-001
+    time: "00:49:05"
+    category: hardware-topology
+    question: "多节点场景的硬件互联是什么？单节点是 NVLink，多节点 PD 是什么？"
+    speaker_answer: "单节点 GPU 之间有 NVLink；多节点 PD 使用 InfiniBand，而不是 NVLink。"
+    project_conclusion: ""
+    status: needs-source
+    priority: high
+    evidence_grade: D
+    verification_type: source+experiment
+    review_cadence: before-chapter-freeze
+    blocking: true
+    needs_verification:
+      - "核查演讲 benchmark 的具体硬件：H200/B300、节点数、每节点 GPU、NVLink/NVL、InfiniBand、云环境。"
+      - "核查 PD KV transfer 使用的 NIXL/UCX 配置。"
+      - "本仓 benchmark 记录硬件拓扑和网络带宽。"
+    upstream_refs: []
+    related_claims:
+      - LD-C04
+      - LD-C05
+      - LD-C07
+    impacts:
+      chapters: ["11", "12", "15"]
+      claims: ["LD-C04", "LD-C05", "LD-C07"]
+      experiments:
+        - "agentic-serving-hardware-topology-benchmark"
+    risk_if_wrong: "会错误外推 PD/Wide EP 在无高速互联环境中的收益。"
+    done_criteria:
+      - "找到固定 benchmark 配置或上游说明。"
+      - "本仓实验 manifest 记录网络拓扑。"
+    owner: ""
+    last_checked: "2026-07-26"
+    next_action: "核查 Office Hours 配套链接、InferenceX PR 和 llm-d/vLLM PD transfer 文档。"
+
+  - id: QA-llmd-oh53-002
+    time: "00:49:48"
+    category: architecture-boundary
+    question: "vLLM production stack 和 llm-d 是什么关系？二者功能有重叠，应该如何组合或消费？"
+    speaker_answer: "回答者认为二者解决类似问题，可能更像 either/or，而不是一起用；但如果 production stack 支持 Gateway API inference extension，则某些 llm-d 功能可能可以通过 inference extension 接入。"
+    project_conclusion: ""
+    status: needs-source
+    priority: high
+    evidence_grade: D
+    verification_type: source
+    review_cadence: per-vllm-release
+    blocking: true
+    needs_verification:
+      - "核查 vLLM production stack 的当前定位、组件和 Gateway API inference extension 支持。"
+      - "核查 llm-d 的 InferencePool、EPP/endpoint picker、Gateway API inference extension 接入方式。"
+      - "区分替代关系、互补关系和可组合边界。"
+    upstream_refs: []
+    related_claims:
+      - LD-C02
+    impacts:
+      chapters: ["12", "15"]
+      claims: ["LD-C02"]
+      experiments: []
+    risk_if_wrong: "会误导读者将两个部署栈错误叠加，或错过可组合的 Gateway API 路径。"
+    done_criteria:
+      - "找到 vLLM production stack 与 llm-d 官方文档或设计说明。"
+      - "明确哪些组件重叠、哪些可组合、哪些是 deployment-time 选择。"
+    owner: ""
+    last_checked: "2026-07-26"
+    next_action: "搜索 vLLM production stack、llm-d docs 和 Gateway API inference extension 相关文档/PR。"
+
+  - id: QA-llmd-oh53-003
+    time: "00:51:19"
+    category: deployment-operator
+    question: "llm-d 是否支持 gang scheduling？资源不齐时是否不会启动相关 prefill/decode 组件？"
+    speaker_answer: "llm-d 项目本身不包含 deployment API，对服务器如何部署保持 unopinionated；可与 Deployment、NVIDIA Grove、LeaderWorkerSet 或其他 scheduler/operator 组合。复杂 PD 版本滚动需要避免选择不同 vLLM 版本的 pod；社区有 disaggregated set operator 等工作。"
+    project_conclusion: ""
+    status: needs-source
+    priority: high
+    evidence_grade: D
+    verification_type: source
+    review_cadence: monthly
+    blocking: true
+    needs_verification:
+      - "核查 llm-d 是否明确不提供 deployment API。"
+      - "核查 LeaderWorkerSet、Grove、disaggregated set operator 与 llm-d 示例的关系。"
+      - "核查 PD disaggregation 版本滚动和 pod 选择一致性的推荐做法。"
+    upstream_refs: []
+    related_claims:
+      - LD-C04
+      - LD-C06
+    impacts:
+      chapters: ["12", "15"]
+      claims: ["LD-C04", "LD-C06"]
+      experiments: []
+    risk_if_wrong: "会把 deployment/operator 能力误写成 llm-d router 自带能力，导致生产部署边界错误。"
+    done_criteria:
+      - "将 llm-d router 能力与 deployment operator 能力分开记录。"
+      - "找到至少一个官方/上游示例说明 co-scheduling 或版本一致性方案。"
+    owner: ""
+    last_checked: "2026-07-26"
+    next_action: "核查 llm-d examples、LeaderWorkerSet/Grove 文档和 disaggregated set operator 线索。"
+
+  - id: QA-llmd-oh53-004
+    time: "00:37:25"
+    category: benchmark-agentx
+    question: "AgentX/Cloud Code traces 为什么适合展示 llm-d？"
+    speaker_answer: "Agentic traces 具有高多轮复用和很长输入，上下文会反复发回模型；平均输入可达约 100K tokens，prefix affinity 和 Wide EP/YDP 对这类 workload 很有用。"
+    project_conclusion: ""
+    status: needs-source
+    priority: high
+    evidence_grade: D
+    verification_type: source+experiment
+    review_cadence: monthly
+    blocking: true
+    needs_verification:
+      - "核查 AgentX/InferenceX trace 是否公开、如何重放、指标定义是什么。"
+      - "确认 100K input tokens 等数字来自何处。"
+      - "建立本仓 agentic multi-turn long-context trace 或替代 workload。"
+    upstream_refs: []
+    related_claims:
+      - LD-C01
+      - LD-C06
+      - LD-C07
+    impacts:
+      chapters: ["11", "15"]
+      claims: ["LD-C01", "LD-C06", "LD-C07"]
+      experiments:
+        - "agentic-serving-agentx-like-benchmark"
+    risk_if_wrong: "会把特定 benchmark 的复用特征错误泛化到所有 agentic workloads。"
+    done_criteria:
+      - "固定 AgentX/InferenceX commit 和 trace 配置，或建立本仓替代 trace。"
+      - "记录输入/输出长度、多轮复用率和并发。"
+    owner: ""
+    last_checked: "2026-07-26"
+    next_action: "查看 SemiAnalysisAI/InferenceX PR #2050 和 AgentX benchmark 文档。"
+
+  - id: QA-llmd-oh53-005
+    time: "00:44:31"
+    category: benchmark-cost
+    question: "演讲中的 OpenRouter 对比和 $/million tokens 成本能否作为生产结论？"
+    speaker_answer: "演讲用约 50 output tokens/s/user、约 400 output tokens/s/GPU、约 $3/hr/GPU reserved pricing 推导约 $2/million output tokens，并指出与共享 endpoint 比较并不完全公平，因为假设 100% utilization。"
+    project_conclusion: ""
+    status: needs-source
+    priority: medium
+    evidence_grade: D
+    verification_type: source+experiment
+    review_cadence: before-chapter-freeze
+    blocking: false
+    needs_verification:
+      - "补齐模型、硬件、并发、利用率、定价、OpenRouter 数据来源和统计时间。"
+      - "区分 output tokens cost 与 total tokens cost。"
+      - "避免将演讲估算写成通用成本结论。"
+    upstream_refs: []
+    related_claims:
+      - LD-C07
+    impacts:
+      chapters: ["11"]
+      claims: ["LD-C07"]
+      experiments:
+        - "agentic-serving-cost-model"
+    risk_if_wrong: "会误导读者低估生产成本或忽略利用率、SLO 和运维成本。"
+    done_criteria:
+      - "建立成本模型模板并记录所有假设。"
+      - "如果无可复现数据，则保留为 D 级线索。"
+    owner: ""
+    last_checked: "2026-07-26"
+    next_action: "从演讲 PDF/InferenceX PR 提取图表上下文，并建立成本模型草案。"

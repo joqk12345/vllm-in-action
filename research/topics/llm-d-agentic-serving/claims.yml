@@ -1,0 +1,77 @@
+topic: llm-d-agentic-serving
+as_of: 2026-07-26
+policy:
+  body_ready_grades: [A, B]
+  talk_grade: C
+  transcript_grade: D
+  rule: "Office Hours 材料只能发现问题和工程线索；llm-d/vLLM 行为必须固定到 release/tag/commit、源码、测试、PR、官方文档或本仓实验。"
+claims:
+  - id: LD-C01
+    statement: "Agentic workloads 的长上下文、多轮复用和长尾请求特征，使普通 round-robin pod routing 难以稳定获得 prefix cache 命中。"
+    kind: workload-property
+    grade: C
+    applies_to: "Office Hours #53 所描述的 Cloud Code/AgentX-like multi-turn long-context traces"
+    sources: [SRC-vllm-office-hours-53-llm-d]
+    chapters: ["11", "15"]
+    counterexample: "短 prompt、低复用或单轮请求中，round-robin 的 prefix cache miss 代价可能不主导。"
+    verification_gap: "用可复现 trace 对比 round-robin 与 prefix-aware routing 的 hit rate、TTFT 和 throughput。"
+
+  - id: LD-C02
+    statement: "llm-d endpoint picker 将 prefix cache affinity 与 load/backpressure 信号结合，用于改进集群级请求路由。"
+    kind: system-design
+    grade: C
+    applies_to: "演讲所述 llm-d router/EPP；具体 API 和实现需固定 commit"
+    sources: [SRC-vllm-office-hours-53-llm-d]
+    chapters: ["12", "15"]
+    counterexample: "若 router 状态滞后、prefix 索引不准或 pod 过载，prefix affinity 可能不优于负载均衡。"
+    verification_gap: "核查 llm-d EPP/router 源码、配置、状态采集和测试。"
+
+  - id: LD-C03
+    statement: "KV cache tiering 可以扩大多轮请求的有效 working set，但需要 router 感知 GPU、CPU 和存储层级中的 KV 状态。"
+    kind: system-design
+    grade: C
+    applies_to: "演讲所述 vLLM KV offloading/tiering 与 llm-d tiered prefix cache affinity"
+    sources: [SRC-vllm-office-hours-53-llm-d]
+    chapters: ["11", "12"]
+    counterexample: "如果 CPU/NVMe/远程存储读取延迟超过重算收益，tiering 可能降低 TTFT 或吞吐。"
+    verification_gap: "固定 vLLM KV connector/offloading 版本，测 GPU/CPU/NVMe/remote tier 的命中和恢复成本。"
+
+  - id: LD-C04
+    statement: "Prefill/decode disaggregation 将 prefill 与 decode 放到不同 worker，可减少长 prefill 对 decode 的干扰，但引入 KV transfer、网络和版本编排复杂度。"
+    kind: system-design
+    grade: C
+    applies_to: "演讲所述 PD disaggregation、NIXL/UCX/InfiniBand KV transfer"
+    sources: [SRC-vllm-office-hours-53-llm-d]
+    chapters: ["12", "15"]
+    counterexample: "无高速网络、短 prompt 或 KV transfer 失败时，PD 的额外复杂度可能不划算。"
+    verification_gap: "核查 vLLM/llm-d PD 支持状态、传输后端、失败恢复和版本滚动约束。"
+
+  - id: LD-C05
+    statement: "对 MLA/MoE 大模型，传统 tensor parallelism 在多节点上受 all-reduce 和 KV 复制限制；DP attention + Wide EP 旨在减少跨节点密集通信并释放 KV cache 空间。"
+    kind: parallelism-design
+    grade: C
+    applies_to: "演讲以 GLM/DeepSeek-like MLA/MoE 模型为例；硬件假设包括 H200、NVLink/InfiniBand"
+    sources: [SRC-vllm-office-hours-53-llm-d]
+    chapters: ["11", "12"]
+    counterexample: "Dense 模型、小模型、单节点部署或 KV heads 可良好分片的模型，不一定需要 Wide EP。"
+    verification_gap: "核查 vLLM Wide EP/DP attention 实现、PR、测试，并复现实验对比 TP。"
+
+  - id: LD-C06
+    statement: "Wide EP、PD、prefix routing 和 KV tiering 需要组合评估；单独启用某一项不能保证 agentic workload 端到端收益。"
+    kind: engineering-judgment
+    grade: C
+    applies_to: "Office Hours #53 的 agentic long-context serving 叙述"
+    sources: [SRC-vllm-office-hours-53-llm-d]
+    chapters: ["11", "15"]
+    counterexample: "某些 workload 可能只靠 prefix routing 就获得主要收益，或只需要 PD 隔离 prefill/decode。"
+    verification_gap: "做分层 ablation：naive、prefix routing、KV tiering、PD、Wide EP、组合全量。"
+
+  - id: LD-C07
+    statement: "演讲中的 H200/GLM5.2/AgentX/OpenRouter 成本和性能数字属于公开分享线索，不能直接作为本书生产建议。"
+    kind: benchmark-boundary
+    grade: D
+    applies_to: "2026-07-09 Office Hours 自动字幕和幻灯片中的口头/图表数字"
+    sources: [SRC-vllm-office-hours-53-llm-d, SRC-vllm-office-hours-53-llm-d-transcript]
+    chapters: ["11"]
+    invalid_generalization: "不能写成 llm-d+vLLM 在所有 agentic workloads 上都比共享 endpoint 更便宜。"
+    verification_gap: "补齐 AgentX trace、模型版本、硬件、并发、定价、利用率和测量方法。"

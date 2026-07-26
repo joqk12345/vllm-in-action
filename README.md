@@ -37,6 +37,8 @@ vLLM 的参数很多，但生产问题通常不是“某个 flag 怎么写”，
 - 看 Rust Frontend 专题：[`research/topics/rust-frontend/`](research/topics/rust-frontend/)
 - 读 Rust Frontend 小册子：[`research/topics/rust-frontend/outputs/booklet/rust-frontend-topic-booklet.md`](research/topics/rust-frontend/outputs/booklet/rust-frontend-topic-booklet.md)
 - 看投机解码专题：[`research/topics/speculative-decoding/`](research/topics/speculative-decoding/)
+- 看 llm-d agentic serving 专题：[`research/topics/llm-d-agentic-serving/`](research/topics/llm-d-agentic-serving/)
+- 读 llm-d agentic serving 小册子：[`research/topics/llm-d-agentic-serving/outputs/booklet/llm-d-agentic-serving-topic-booklet.md`](research/topics/llm-d-agentic-serving/outputs/booklet/llm-d-agentic-serving-topic-booklet.md)
 - 读投机解码小册子：[`research/topics/speculative-decoding/outputs/booklet/speculative-decoding-topic-booklet.md`](research/topics/speculative-decoding/outputs/booklet/speculative-decoding-topic-booklet.md)
 - 跟踪 DSpark 分享 QA：[`research/topics/speculative-decoding/tracking/2026-07-22-dspark-talk-qa.yml`](research/topics/speculative-decoding/tracking/2026-07-22-dspark-talk-qa.yml)
 - 审阅投机解码正文落点建议：[`research/topics/speculative-decoding/outputs/chapter-handoff/chapter-placement-proposal.md`](research/topics/speculative-decoding/outputs/chapter-handoff/chapter-placement-proposal.md)
@@ -99,6 +101,12 @@ GitHub Actions 每周运行同一检查。检测到漂移只表示需要人工�
 - 第 9、10、11、12、15 章的正文落点建议。
 
 专题仍处于 `captured` 状态。DSpark 论文结果属于作者报告，Speculators/vLLM 工程事实尚需固定到 tag 或 commit，并在本仓库复现低并发 latency 与高并发 throughput/goodput 场景后，才可进入正文。
+
+## llm-d agentic serving 专题
+
+llm-d agentic serving 专题研究 Kubernetes 上的分布式 LLM serving：prefix-aware routing、KV cache tiering、prefill/decode disaggregation、Wide EP / DP attention、flow control 和 batch processing 如何共同支撑长上下文多轮 agentic workloads。
+
+当前已建立初始主题骨架、source 清单、LD-C01～LD-C07 claim spine、最小术语表、tracking 规则、Office Hours QA tracker 和主题小册子 bundle。该主题仍处于 `captured` 状态，Office Hours 幻灯片和自动字幕只能作为 C/D 级线索；进入正文前必须固定 llm-d/vLLM release 或 commit，并复现 AgentX-like workload 的关键指标。
 
 ## 建议的日常节奏
 

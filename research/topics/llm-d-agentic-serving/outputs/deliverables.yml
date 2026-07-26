@@ -1,0 +1,11 @@
+deliverables:
+  - id: llm-d-agentic-serving-topic-booklet
+    type: topic-booklet
+    status: complete
+    research_status: captured
+    files:
+      - booklet/README.md
+      - booklet/llm-d-agentic-serving-topic-booklet.md
+      - booklet/seminar-guide.md
+      - booklet/reading-list.md
+      - booklet/capability-matrix.yml

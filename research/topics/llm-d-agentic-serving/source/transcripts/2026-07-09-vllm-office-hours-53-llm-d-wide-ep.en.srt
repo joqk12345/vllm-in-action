@@ -1,0 +1,5271 @@
+1
+00:00:00,160 --> 00:00:03,439
+Michael here. Hopefully you know me from
+
+2
+00:00:01,839 --> 00:00:05,600
+other office hours. I'm a core
+
+3
+00:00:03,439 --> 00:00:07,200
+maintainer on the BLM project. I work on
+
+4
+00:00:05,600 --> 00:00:08,720
+a lot of things there and yeah, excited
+
+5
+00:00:07,200 --> 00:00:11,200
+to tell you what's new in VLM in the
+
+6
+00:00:08,720 --> 00:00:11,360
+past two weeks. Rob.
+
+7
+00:00:11,200 --> 00:00:12,960
+Hey
+
+8
+00:00:11,360 --> 00:00:16,400
+>> everyone, I'm Rob. I'm one of the
+
+9
+00:00:12,960 --> 00:00:19,560
+co-leads of VLM and of LMD. Nice nice to
+
+10
+00:00:16,400 --> 00:00:19,560
+be on.
+
+11
+00:00:19,760 --> 00:00:23,840
+>> I'm Charles. I'm one of the LM
+
+12
+00:00:21,520 --> 00:00:25,519
+compressor maintainers.
+
+13
+00:00:23,840 --> 00:00:26,960
+>> Hi everyone. I'm I'm Brian. I'm a
+
+14
+00:00:25,519 --> 00:00:30,279
+maintainer on LM compressor as well
+
+15
+00:00:26,960 --> 00:00:30,279
+along with Charles.
+
+16
+00:00:30,880 --> 00:00:34,960
+>> Great. Yeah. So, as as we mentioned,
+
+17
+00:00:33,120 --> 00:00:36,239
+we're going to cover what's new over the
+
+18
+00:00:34,960 --> 00:00:38,160
+past two weeks since the last office
+
+19
+00:00:36,239 --> 00:00:40,320
+hours. We have our special topics and
+
+20
+00:00:38,160 --> 00:00:42,000
+lightning talk for today. In terms of
+
+21
+00:00:40,320 --> 00:00:45,600
+VLM project updates, we have a good
+
+22
+00:00:42,000 --> 00:00:48,320
+number of model releases, blogs, and
+
+23
+00:00:45,600 --> 00:00:49,920
+some yeah, training and social media fun
+
+24
+00:00:48,320 --> 00:00:53,039
+that we'll go over in addition to the
+
+25
+00:00:49,920 --> 00:00:55,840
+latest VLM0.24 release. So without
+
+26
+00:00:53,039 --> 00:00:57,600
+further ado, let's get into it. One
+
+27
+00:00:55,840 --> 00:00:59,840
+quick note is we do have already a
+
+28
+00:00:57,600 --> 00:01:02,399
+pretty packed future list of office hour
+
+29
+00:00:59,840 --> 00:01:06,000
+sessions. So we have Matish from Prime
+
+30
+00:01:02,399 --> 00:01:07,840
+RL will be giving a a talk on his RL at
+
+31
+00:01:06,000 --> 00:01:11,280
+one trillion parameter scale using Prime
+
+32
+00:01:07,840 --> 00:01:14,880
+RL and VLM in two weeks. Then we have a
+
+33
+00:01:11,280 --> 00:01:17,600
+Moon Cake VLM LMD deep dive from Greg
+
+34
+00:01:14,880 --> 00:01:19,680
+and and K there. and then we'll do a
+
+35
+00:01:17,600 --> 00:01:22,320
+guide LLM deep dive and what's going on
+
+36
+00:01:19,680 --> 00:01:24,240
+in the latest release there. To get into
+
+37
+00:01:22,320 --> 00:01:26,880
+VLM, if you're not already familiar,
+
+38
+00:01:24,240 --> 00:01:28,799
+it's the open source standard for
+
+39
+00:01:26,880 --> 00:01:31,840
+inference serving of large language
+
+40
+00:01:28,799 --> 00:01:34,320
+models. It's become that because it's of
+
+41
+00:01:31,840 --> 00:01:37,439
+course a permissible open- source Apache
+
+42
+00:01:34,320 --> 00:01:39,600
+2.0 licensed project on GitHub. It's
+
+43
+00:01:37,439 --> 00:01:41,040
+part of the PyTorch Foundation which is
+
+44
+00:01:39,600 --> 00:01:42,960
+ultimately part of the Linux Foundation.
+
+45
+00:01:41,040 --> 00:01:45,680
+Governance is is is great. It has
+
+46
+00:01:42,960 --> 00:01:48,000
+support from dozens of major companies,
+
+47
+00:01:45,680 --> 00:01:49,840
+academic institutions. Of course, it was
+
+48
+00:01:48,000 --> 00:01:52,320
+originally started at UC Berkeley from
+
+49
+00:01:49,840 --> 00:01:54,720
+the page tension paper and over the past
+
+50
+00:01:52,320 --> 00:01:57,200
+three or so years has grown into a huge
+
+51
+00:01:54,720 --> 00:01:59,600
+project where we have over 85,000 GitHub
+
+52
+00:01:57,200 --> 00:02:01,520
+stars, thousands of PRs submitted every
+
+53
+00:01:59,600 --> 00:02:04,159
+month that we try to merge in as many as
+
+54
+00:02:01,520 --> 00:02:07,119
+possible. It's deployed on over 20
+
+55
+00:02:04,159 --> 00:02:09,280
+million GPU hours every day from the
+
+56
+00:02:07,119 --> 00:02:11,200
+metrics we at least have. So, it's much
+
+57
+00:02:09,280 --> 00:02:12,879
+more in aggregate. I checked that
+
+58
+00:02:11,200 --> 00:02:15,280
+recently. It's a pretty insane number to
+
+59
+00:02:12,879 --> 00:02:17,840
+think about. We have a developer Slack
+
+60
+00:02:15,280 --> 00:02:19,440
+with over 15,000 members. So, if you're
+
+61
+00:02:17,840 --> 00:02:20,800
+interested in active development or
+
+62
+00:02:19,440 --> 00:02:23,040
+understanding what's going on in the
+
+63
+00:02:20,800 --> 00:02:25,040
+various special interest groups we have,
+
+64
+00:02:23,040 --> 00:02:28,640
+it's a great place to be. We also
+
+65
+00:02:25,040 --> 00:02:30,480
+heavily prioritize usability. So, of of
+
+66
+00:02:28,640 --> 00:02:32,480
+course, when a new model comes out,
+
+67
+00:02:30,480 --> 00:02:34,480
+particularly a state-of-the-art model
+
+68
+00:02:32,480 --> 00:02:36,959
+day by day, week by week, we want to
+
+69
+00:02:34,480 --> 00:02:38,720
+make sure you can run that in VLM on the
+
+70
+00:02:36,959 --> 00:02:41,120
+various hardware that you want to run
+
+71
+00:02:38,720 --> 00:02:42,879
+on. more than just Nvidia, but getting
+
+72
+00:02:41,120 --> 00:02:47,120
+great performance there, but also on
+
+73
+00:02:42,879 --> 00:02:49,200
+AMD, Google TPUs, Huawei Ascend, all
+
+74
+00:02:47,120 --> 00:02:51,360
+sorts of hardware accelerators built al
+
+75
+00:02:49,200 --> 00:02:53,519
+into VLM ultimately as the software
+
+76
+00:02:51,360 --> 00:02:55,680
+abstraction between how to run the
+
+77
+00:02:53,519 --> 00:02:57,920
+hundreds of different models on the
+
+78
+00:02:55,680 --> 00:03:00,160
+dozens of different hardware platforms.
+
+79
+00:02:57,920 --> 00:03:02,959
+And we have recipes.vm.ai
+
+80
+00:03:00,160 --> 00:03:05,519
+for reference guides on how to deploy
+
+81
+00:03:02,959 --> 00:03:08,560
+those models on the various classes of
+
+82
+00:03:05,519 --> 00:03:09,920
+hardware that VLM can run on. VLM is
+
+83
+00:03:08,560 --> 00:03:13,280
+much more than the inference engine
+
+84
+00:03:09,920 --> 00:03:16,000
+itself. It's ultimately a VLM project on
+
+85
+00:03:13,280 --> 00:03:18,159
+on GitHub where we have many other
+
+86
+00:03:16,000 --> 00:03:21,840
+projects part of that overall ecosystem
+
+87
+00:03:18,159 --> 00:03:24,400
+of inference optimization to inference
+
+88
+00:03:21,840 --> 00:03:26,239
+scaling and scheduling routers and
+
+89
+00:03:24,400 --> 00:03:29,200
+various things on top of that. So we
+
+90
+00:03:26,239 --> 00:03:31,440
+have VLM omni on compressor speculators.
+
+91
+00:03:29,200 --> 00:03:33,840
+Obviously, we're gonna go over LMD and
+
+92
+00:03:31,440 --> 00:03:35,440
+compressor today, but uh we we we
+
+93
+00:03:33,840 --> 00:03:37,519
+certainly spend a lot of time building
+
+94
+00:03:35,440 --> 00:03:39,840
+the overall inference ecosystem in the
+
+95
+00:03:37,519 --> 00:03:42,720
+open source AI space, and we're thankful
+
+96
+00:03:39,840 --> 00:03:44,560
+you're here to be a part of it.
+
+97
+00:03:42,720 --> 00:03:46,640
+So, let's get into what's new. You've
+
+98
+00:03:44,560 --> 00:03:48,959
+hopefully heard the buzz since early
+
+99
+00:03:46,640 --> 00:03:52,319
+last week on DSpark, a new speculative
+
+100
+00:03:48,959 --> 00:03:55,360
+decoding method published by Deepseek.
+
+101
+00:03:52,319 --> 00:03:57,760
+They released a paper alongside a
+
+102
+00:03:55,360 --> 00:03:59,760
+training code repository called deepspec
+
+103
+00:03:57,760 --> 00:04:02,959
+and some models on the ablations they
+
+104
+00:03:59,760 --> 00:04:04,879
+did. Ultimately it does it sort of falls
+
+105
+00:04:02,959 --> 00:04:07,040
+in line with a lot of other research in
+
+106
+00:04:04,879 --> 00:04:08,480
+the space. But of course as deepseek
+
+107
+00:04:07,040 --> 00:04:11,200
+does does a lot of engineering
+
+108
+00:04:08,480 --> 00:04:13,599
+excellence in making that efficient and
+
+109
+00:04:11,200 --> 00:04:15,599
+kind of a clear win to adopt over
+
+110
+00:04:13,599 --> 00:04:18,079
+existing popular methods such as
+
+111
+00:04:15,599 --> 00:04:20,400
+deflash. Yeah, we're we're really proud
+
+112
+00:04:18,079 --> 00:04:23,040
+to say that within just a few days, we
+
+113
+00:04:20,400 --> 00:04:24,479
+integrated support in VLM upstream. So,
+
+114
+00:04:23,040 --> 00:04:26,479
+you can go ahead and pull the VLM
+
+115
+00:04:24,479 --> 00:04:28,320
+nightly or the soon to be released
+
+116
+00:04:26,479 --> 00:04:31,440
+VLM0.25
+
+117
+00:04:28,320 --> 00:04:33,759
+and run DSpark models natively in VLM.
+
+118
+00:04:31,440 --> 00:04:36,320
+We've also landed in the speculators
+
+119
+00:04:33,759 --> 00:04:37,840
+project which is under the VLM project
+
+120
+00:04:36,320 --> 00:04:39,680
+for training your own speculative
+
+121
+00:04:37,840 --> 00:04:42,560
+decoding models. support for training
+
+122
+00:04:39,680 --> 00:04:44,400
+your own DSpark models ultimately in a
+
+123
+00:04:42,560 --> 00:04:46,479
+more efficient way than the deepspec
+
+124
+00:04:44,400 --> 00:04:49,600
+repo itself implements as they sort of
+
+125
+00:04:46,479 --> 00:04:51,280
+implement offline training that requires
+
+126
+00:04:49,600 --> 00:04:54,320
+generating all of your hidden states
+
+127
+00:04:51,280 --> 00:04:57,360
+from VL from VLM to disk to then train
+
+128
+00:04:54,320 --> 00:04:59,360
+your speculator offline. This takes many
+
+129
+00:04:57,360 --> 00:05:01,360
+many tens of terabytes of storage to
+
+130
+00:04:59,360 --> 00:05:04,560
+hold all those hidden states across
+
+131
+00:05:01,360 --> 00:05:07,280
+millions of samples. And with we can run
+
+132
+00:05:04,560 --> 00:05:10,479
+DLM as a live server, run speculators as
+
+133
+00:05:07,280 --> 00:05:12,800
+a live trainer and directly produce and
+
+134
+00:05:10,479 --> 00:05:15,840
+consume those hidden states in an online
+
+135
+00:05:12,800 --> 00:05:17,840
+training cycle. And yeah, just a tweet
+
+136
+00:05:15,840 --> 00:05:20,000
+here on on our announcement for this and
+
+137
+00:05:17,840 --> 00:05:23,919
+and some preliminary benchmarks on how
+
+138
+00:05:20,000 --> 00:05:26,080
+we ran the the Deepc4 Pro reference
+
+139
+00:05:23,919 --> 00:05:28,080
+DSpark and how it compares against the
+
+140
+00:05:26,080 --> 00:05:30,560
+MTP modules that were previously
+
+141
+00:05:28,080 --> 00:05:32,639
+natively in the in the model. We still
+
+142
+00:05:30,560 --> 00:05:34,240
+have more work ongoing. We are still
+
+143
+00:05:32,639 --> 00:05:37,759
+working on sort of the confidencebased
+
+144
+00:05:34,240 --> 00:05:39,919
+pruning or truncation of tokens. So kind
+
+145
+00:05:37,759 --> 00:05:42,800
+of having dynamic numbers of speculative
+
+146
+00:05:39,919 --> 00:05:44,479
+tokens in the running batch in BLM. But
+
+147
+00:05:42,800 --> 00:05:46,720
+yeah, we're very excited to start
+
+148
+00:05:44,479 --> 00:05:48,720
+training more DSpark models ourselves
+
+149
+00:05:46,720 --> 00:05:52,080
+and tuning their performance in BLM even
+
+150
+00:05:48,720 --> 00:05:53,680
+further on on more hardware platforms. I
+
+151
+00:05:52,080 --> 00:05:55,520
+shamelessly kind of want to plug some of
+
+152
+00:05:53,680 --> 00:05:58,639
+the work I've been focused on the last
+
+153
+00:05:55,520 --> 00:06:01,120
+week in in scaling up DSpark. I've been
+
+154
+00:05:58,639 --> 00:06:02,800
+pretty interested in training DSpark on
+
+155
+00:06:01,120 --> 00:06:06,240
+some of the latest frontier models like
+
+156
+00:06:02,800 --> 00:06:07,680
+GLM 5.2 and we've been posting those
+
+157
+00:06:06,240 --> 00:06:11,120
+models on the community. You can go
+
+158
+00:06:07,680 --> 00:06:12,960
+ahead and find the latest GLM 5.2 DSpark
+
+159
+00:06:11,120 --> 00:06:15,759
+that we've trained on the Red Hat AI
+
+160
+00:06:12,960 --> 00:06:17,600
+hugging phase and yeah, I've personally
+
+161
+00:06:15,759 --> 00:06:19,600
+learned a lot through doing this. I I
+
+162
+00:06:17,600 --> 00:06:22,080
+recommend training your own speculator
+
+163
+00:06:19,600 --> 00:06:24,800
+for especially if you have a particular
+
+164
+00:06:22,080 --> 00:06:26,960
+use case like a coding agent or a
+
+165
+00:06:24,800 --> 00:06:29,120
+writing agent and and ultimately because
+
+166
+00:06:26,960 --> 00:06:31,840
+of the size of training a model like GLM
+
+167
+00:06:29,120 --> 00:06:33,680
+5.2 to at the frontier level and and
+
+168
+00:06:31,840 --> 00:06:36,160
+some thankfully some great compute
+
+169
+00:06:33,680 --> 00:06:39,440
+donations from Verta Cloud. I was able
+
+170
+00:06:36,160 --> 00:06:43,280
+to get access to a GB300 cluster and
+
+171
+00:06:39,440 --> 00:06:48,160
+scale up this online training at over 60
+
+172
+00:06:43,280 --> 00:06:49,919
+GB300 GPUs roughly twothirds running VLM
+
+173
+00:06:48,160 --> 00:06:52,319
+producing those hidden states and
+
+174
+00:06:49,919 --> 00:06:54,080
+one-third running or not not exactly
+
+175
+00:06:52,319 --> 00:06:56,560
+that let's say half and half running the
+
+176
+00:06:54,080 --> 00:06:58,800
+DSpark training drafter using
+
+177
+00:06:56,560 --> 00:07:00,880
+speculators and shared a lot of that
+
+178
+00:06:58,800 --> 00:07:03,360
+with the community and yeah it's been
+
+179
+00:07:00,880 --> 00:07:05,360
+really fun to to do that and
+
+180
+00:07:03,360 --> 00:07:07,680
+particularly developing the multi-node a
+
+181
+00:07:05,360 --> 00:07:09,520
+capability of speculators so we can
+
+182
+00:07:07,680 --> 00:07:12,560
+really get this training done very
+
+183
+00:07:09,520 --> 00:07:14,800
+quickly with VAM speculators and Moonake
+
+184
+00:07:12,560 --> 00:07:16,639
+working together. Moon Cake of course
+
+185
+00:07:14,800 --> 00:07:19,360
+letting us communicate the hidden states
+
+186
+00:07:16,639 --> 00:07:20,960
+over RDMA ultimately faster fabric than
+
+187
+00:07:19,360 --> 00:07:24,160
+through storage and and of course
+
+188
+00:07:20,960 --> 00:07:26,400
+scaling for multiode. So yeah look
+
+189
+00:07:24,160 --> 00:07:28,240
+forward to more PRs and tuning and
+
+190
+00:07:26,400 --> 00:07:30,400
+speculators on yeah training these
+
+191
+00:07:28,240 --> 00:07:32,479
+models. Yeah Chris, it was it was Verta
+
+192
+00:07:30,400 --> 00:07:35,280
+Cloud. they were very very kind to fund
+
+193
+00:07:32,479 --> 00:07:38,080
+this this research and to open new open
+
+194
+00:07:35,280 --> 00:07:39,759
+models for the community. So now going
+
+195
+00:07:38,080 --> 00:07:41,599
+to go through some other blogs and
+
+196
+00:07:39,759 --> 00:07:45,280
+announcements. Yeah, just to shout out
+
+197
+00:07:41,599 --> 00:07:48,240
+Cohhere. They shared a fun blog on how
+
+198
+00:07:45,280 --> 00:07:49,680
+they manage their internal fork of BLM
+
+199
+00:07:48,240 --> 00:07:53,039
+that they use for their production
+
+200
+00:07:49,680 --> 00:07:55,280
+service and ultimately shared a lot of
+
+201
+00:07:53,039 --> 00:07:57,759
+particularly the AI agent skills and
+
+202
+00:07:55,280 --> 00:08:00,319
+workflows that they use to try and
+
+203
+00:07:57,759 --> 00:08:02,800
+automate the upkeep of this fork while
+
+204
+00:08:00,319 --> 00:08:06,000
+still getting in the latest and greatest
+
+205
+00:08:02,800 --> 00:08:08,160
+updates from from VLM main on upstream.
+
+206
+00:08:06,000 --> 00:08:10,080
+And I I think many people running BLM in
+
+207
+00:08:08,160 --> 00:08:12,479
+production obviously need to just manage
+
+208
+00:08:10,080 --> 00:08:13,680
+their own patches for for some reason if
+
+209
+00:08:12,479 --> 00:08:16,240
+they're if they're going to go down that
+
+210
+00:08:13,680 --> 00:08:18,479
+route, especially with custom models.
+
+211
+00:08:16,240 --> 00:08:21,360
+And I thought this was just a good peak
+
+212
+00:08:18,479 --> 00:08:23,280
+into how this can be done and automated
+
+213
+00:08:21,360 --> 00:08:25,759
+and is ultimately interesting for us as
+
+214
+00:08:23,280 --> 00:08:27,599
+well as as maintainers on VLM of how we
+
+215
+00:08:25,759 --> 00:08:30,000
+can maybe better automate some of our
+
+216
+00:08:27,599 --> 00:08:32,159
+day-to-day things such as cherrypicks
+
+217
+00:08:30,000 --> 00:08:34,159
+for releases, testing or dealing with
+
+218
+00:08:32,159 --> 00:08:36,880
+merge conflicts on really large changes
+
+219
+00:08:34,159 --> 00:08:38,880
+and branches over time. Yeah. So, pretty
+
+220
+00:08:36,880 --> 00:08:42,080
+interesting in the age of agents and and
+
+221
+00:08:38,880 --> 00:08:44,640
+open source software. Next, we have some
+
+222
+00:08:42,080 --> 00:08:46,560
+blogs from the VLM Omni team. They've
+
+223
+00:08:44,640 --> 00:08:48,560
+been pushing performance very heavily
+
+224
+00:08:46,560 --> 00:08:50,640
+and large scale inference on the leading
+
+225
+00:08:48,560 --> 00:08:53,360
+models. So, some great updates on how
+
+226
+00:08:50,640 --> 00:08:55,120
+they've been pushing performance and
+
+227
+00:08:53,360 --> 00:08:57,760
+reworking the architecture to better
+
+228
+00:08:55,120 --> 00:08:59,519
+support texttospech inference.
+
+229
+00:08:57,760 --> 00:09:01,760
+ultimately showcasing really impressive
+
+230
+00:08:59,519 --> 00:09:03,600
+speed ups across a variety of Texas
+
+231
+00:09:01,760 --> 00:09:05,760
+speech models each with their own
+
+232
+00:09:03,600 --> 00:09:08,480
+particular multi multimodel
+
+233
+00:09:05,760 --> 00:09:10,399
+architectures and doing some I think
+
+234
+00:09:08,480 --> 00:09:12,959
+like and overall there's these really
+
+235
+00:09:10,399 --> 00:09:14,560
+interesting profile graphs sort of
+
+236
+00:09:12,959 --> 00:09:17,120
+walking through what becomes the
+
+237
+00:09:14,560 --> 00:09:18,640
+bottleneck at different workload
+
+238
+00:09:17,120 --> 00:09:21,279
+different workloads on these various
+
+239
+00:09:18,640 --> 00:09:24,640
+models and how do you think about
+
+240
+00:09:21,279 --> 00:09:26,959
+scaling up replicas better scheduling or
+
+241
+00:09:24,640 --> 00:09:29,600
+or sort of like pipeline parallelism
+
+242
+00:09:26,959 --> 00:09:31,200
+using torch compile using cuda graphs so
+
+243
+00:09:29,600 --> 00:09:33,200
+ultimately really interesting deep
+
+244
+00:09:31,200 --> 00:09:35,760
+engineering work that's been validated
+
+245
+00:09:33,200 --> 00:09:37,600
+in production yeah just great to to see
+
+246
+00:09:35,760 --> 00:09:39,360
+the development of that project and I
+
+247
+00:09:37,600 --> 00:09:41,920
+mentioned there was another one and here
+
+248
+00:09:39,360 --> 00:09:44,720
+it's focused on an omni modality model
+
+249
+00:09:41,920 --> 00:09:47,440
+working with a thinker a talker and a
+
+250
+00:09:44,720 --> 00:09:50,640
+codeto- wave section so ultimately
+
+251
+00:09:47,440 --> 00:09:53,760
+taking in any sort of modality in taking
+
+252
+00:09:50,640 --> 00:09:55,760
+in or producing audio out and so there's
+
+253
+00:09:53,760 --> 00:09:58,720
+sort of three clear stages in there
+
+254
+00:09:55,760 --> 00:10:00,480
+between those different pieces and yeah
+
+255
+00:09:58,720 --> 00:10:03,600
+devel showing how they implemented
+
+256
+00:10:00,480 --> 00:10:05,360
+cudggraphs async chunking async output
+
+257
+00:10:03,600 --> 00:10:07,279
+and replica scaling for the different
+
+258
+00:10:05,360 --> 00:10:09,760
+parts of the pipeline that get
+
+259
+00:10:07,279 --> 00:10:11,680
+bottlenecked for certain workloads and
+
+260
+00:10:09,760 --> 00:10:13,519
+again just really interesting
+
+261
+00:10:11,680 --> 00:10:15,839
+engineering work I think particularly
+
+262
+00:10:13,519 --> 00:10:17,600
+for the future the likely future of
+
+263
+00:10:15,839 --> 00:10:20,399
+state-of-the-art model architectures as
+
+264
+00:10:17,600 --> 00:10:22,560
+these models become more you know
+
+265
+00:10:20,399 --> 00:10:25,040
+multimodal friendly both on the inputs
+
+266
+00:10:22,560 --> 00:10:27,120
+and the outputs and it becomes more of a
+
+267
+00:10:25,040 --> 00:10:29,279
+an expectation for these models to not
+
+268
+00:10:27,120 --> 00:10:30,880
+just take in text but or produce text
+
+269
+00:10:29,279 --> 00:10:34,000
+but to work natively in whatever
+
+270
+00:10:30,880 --> 00:10:35,519
+modality we want and naturally the the
+
+271
+00:10:34,000 --> 00:10:36,959
+form that inference takes and the
+
+272
+00:10:35,519 --> 00:10:39,120
+bottlenecks we have to worry about
+
+273
+00:10:36,959 --> 00:10:41,040
+changes greatly. So yeah I really
+
+274
+00:10:39,120 --> 00:10:42,880
+enjoyed reading through these yeah
+
+275
+00:10:41,040 --> 00:10:44,959
+engineering insights and and recommend
+
+276
+00:10:42,880 --> 00:10:46,640
+you read too to prepare yourself for the
+
+277
+00:10:44,959 --> 00:10:48,399
+future.
+
+278
+00:10:46,640 --> 00:10:51,040
+Next, I wanted to give a little yeah
+
+279
+00:10:48,399 --> 00:10:52,959
+cheeky shout out to a tweet I made last
+
+280
+00:10:51,040 --> 00:10:55,600
+week that I wasn't expecting to get so
+
+281
+00:10:52,959 --> 00:10:58,000
+much press, but I also wanted to give
+
+282
+00:10:55,600 --> 00:11:01,600
+respect to removing the original page
+
+283
+00:10:58,000 --> 00:11:04,320
+detention kernels from BLM. So obviously
+
+284
+00:11:01,600 --> 00:11:06,399
+I have Wuk's reply in here as well where
+
+285
+00:11:04,320 --> 00:11:08,079
+we're just deleting the original kernels
+
+286
+00:11:06,399 --> 00:11:12,320
+that were developed as part of Wuk's
+
+287
+00:11:08,079 --> 00:11:14,079
+research in 2023 and uh we now have much
+
+288
+00:11:12,320 --> 00:11:17,760
+much better kernels like flash
+
+289
+00:11:14,079 --> 00:11:19,839
+attention, FA3, FA4, flash infer kernels
+
+290
+00:11:17,760 --> 00:11:22,320
+that give us new colorless kernels or
+
+291
+00:11:19,839 --> 00:11:24,800
+kernels from tensor TLM generated
+
+292
+00:11:22,320 --> 00:11:26,560
+kernels, Triton attention, all all sorts
+
+293
+00:11:24,800 --> 00:11:28,640
+of different backends all that
+
+294
+00:11:26,560 --> 00:11:30,720
+ultimately implement the ideas of page
+
+295
+00:11:28,640 --> 00:11:33,279
+attention with these the flexible block
+
+296
+00:11:30,720 --> 00:11:35,839
+sizes and and and various other things,
+
+297
+00:11:33,279 --> 00:11:37,839
+prefix caching and such. Yeah, I I very
+
+298
+00:11:35,839 --> 00:11:40,240
+much think Wick's perspective is is is
+
+299
+00:11:37,839 --> 00:11:42,399
+is the right one. It's really cool to
+
+300
+00:11:40,240 --> 00:11:44,640
+see that we can retire this and that its
+
+301
+00:11:42,399 --> 00:11:49,279
+legacy will still live on regardless.
+
+302
+00:11:44,640 --> 00:11:51,279
+And yeah, look how far VLM has come. So
+
+303
+00:11:49,279 --> 00:11:52,720
+yeah, with those updates, we'll get into
+
+304
+00:11:51,279 --> 00:11:54,079
+the actual release and I'll kind of
+
+305
+00:11:52,720 --> 00:11:57,440
+hurry through because I'm taking a lot
+
+306
+00:11:54,079 --> 00:11:59,120
+of time. In 0.24, 24, we had a pretty
+
+307
+00:11:57,440 --> 00:12:03,279
+large release, more commits than usual,
+
+308
+00:11:59,120 --> 00:12:05,120
+571 commits from 256 contributors, 77
+
+309
+00:12:03,279 --> 00:12:08,399
+new ones, quite a lot for just two
+
+310
+00:12:05,120 --> 00:12:11,200
+weeks. Um, and uh there we landed the
+
+311
+00:12:08,399 --> 00:12:13,839
+Miniax M3 uh support with several
+
+312
+00:12:11,200 --> 00:12:16,240
+optimizations since the the the day zero
+
+313
+00:12:13,839 --> 00:12:18,320
+uh image we made. We've also continued
+
+314
+00:12:16,240 --> 00:12:21,519
+pushing performance on Deep Seek V4 and
+
+315
+00:12:18,320 --> 00:12:23,760
+GLM 5.2. um particularly you know any
+
+316
+00:12:21,519 --> 00:12:26,079
+sparse MLA we've been tuning the top K
+
+317
+00:12:23,760 --> 00:12:29,200
+kernel very heavily particularly for
+
+318
+00:12:26,079 --> 00:12:32,240
+very uh large uh context or input
+
+319
+00:12:29,200 --> 00:12:34,560
+sequences um and uh particularly ragged
+
+320
+00:12:32,240 --> 00:12:37,360
+batches uh so really key optimization
+
+321
+00:12:34,560 --> 00:12:40,399
+for uh agentic workloads using lots of
+
+322
+00:12:37,360 --> 00:12:42,320
+context um you know we've integrated new
+
+323
+00:12:40,399 --> 00:12:44,959
+uh you know flash infer sparse index
+
+324
+00:12:42,320 --> 00:12:48,079
+caching kernels um and we finally landed
+
+325
+00:12:44,959 --> 00:12:51,360
+support for SM120 uh for sparse MLA so
+
+326
+00:12:48,079 --> 00:12:54,160
+you can run deep CP4 for or GLM 5.2 on
+
+327
+00:12:51,360 --> 00:12:56,240
+your uh you know Blackwell RTX uh cards
+
+328
+00:12:54,160 --> 00:12:58,560
+and people are doing on DGX Spark uh
+
+329
+00:12:56,240 --> 00:13:01,519
+even if they can fit it. Um we've been
+
+330
+00:12:58,560 --> 00:13:04,560
+working a lot on model runner v2 um
+
+331
+00:13:01,519 --> 00:13:05,760
+enabling more models uh by default. So
+
+332
+00:13:04,560 --> 00:13:08,320
+supporting a lot of types of
+
+333
+00:13:05,760 --> 00:13:10,720
+quantization uh supporting common quen
+
+334
+00:13:08,320 --> 00:13:13,120
+and deepseek uh models running in
+
+335
+00:13:10,720 --> 00:13:15,839
+default there and we've ported uh
+
+336
+00:13:13,120 --> 00:13:17,760
+deflash spec decoding to model runner v2
+
+337
+00:13:15,839 --> 00:13:20,160
+with full cudigraph support on the
+
+338
+00:13:17,760 --> 00:13:22,240
+deflash drafter uh giving much better
+
+339
+00:13:20,160 --> 00:13:25,760
+performance as uh we lower the CPU
+
+340
+00:13:22,240 --> 00:13:27,839
+overhead uh um which is great to see. We
+
+341
+00:13:25,760 --> 00:13:29,360
+also landed our initial uh
+
+342
+00:13:27,839 --> 00:13:32,000
+implementation of dynamic speculate
+
+343
+00:13:29,360 --> 00:13:34,240
+decoding which is uh perfect timing uh
+
+344
+00:13:32,000 --> 00:13:37,360
+before uh dspark came and relies on that
+
+345
+00:13:34,240 --> 00:13:39,760
+infrastructure. Um this initial
+
+346
+00:13:37,360 --> 00:13:42,720
+implementation is relatively simple uh
+
+347
+00:13:39,760 --> 00:13:44,160
+but uh really important for ultimately
+
+348
+00:13:42,720 --> 00:13:47,279
+serving a model with speculative
+
+349
+00:13:44,160 --> 00:13:49,920
+decoding and now being able to scale the
+
+350
+00:13:47,279 --> 00:13:52,079
+the draft length of the speculator uh
+
+351
+00:13:49,920 --> 00:13:54,800
+all the way down to zero as you go into
+
+352
+00:13:52,079 --> 00:13:56,880
+higher and higher batch sizes. Um so
+
+353
+00:13:54,800 --> 00:13:59,519
+ultimately you're not compromising your
+
+354
+00:13:56,880 --> 00:14:01,920
+high throughput um uh you know portion
+
+355
+00:13:59,519 --> 00:14:03,920
+of your prao frontier even while you're
+
+356
+00:14:01,920 --> 00:14:05,920
+optimizing and maybe want to you know
+
+357
+00:14:03,920 --> 00:14:07,600
+speculate eight tokens or 16 tokens at
+
+358
+00:14:05,920 --> 00:14:10,000
+batch size one you can scale all the way
+
+359
+00:14:07,600 --> 00:14:13,360
+down as you go to larger more compute
+
+360
+00:14:10,000 --> 00:14:15,199
+heavy batch sizes. Um we landed the
+
+361
+00:14:13,360 --> 00:14:17,680
+streaming parser engine which is a
+
+362
+00:14:15,199 --> 00:14:20,000
+complete rework to how reasoning and
+
+363
+00:14:17,680 --> 00:14:21,600
+tool calling parsers work. Um making it
+
+364
+00:14:20,000 --> 00:14:24,959
+a declarative state machine instead of
+
+365
+00:14:21,600 --> 00:14:28,560
+just uh kind of simple uh pythonic uh
+
+366
+00:14:24,959 --> 00:14:29,839
+loops and and reax before. Um this is
+
+367
+00:14:28,560 --> 00:14:33,360
+ultimately you know we think really
+
+368
+00:14:29,839 --> 00:14:35,760
+critical for fixing issues with uh token
+
+369
+00:14:33,360 --> 00:14:37,839
+streaming that's more than one token. Uh
+
+370
+00:14:35,760 --> 00:14:40,560
+so obviously for spec decoding or or
+
+371
+00:14:37,839 --> 00:14:42,399
+diffusion models um as well as adding
+
+372
+00:14:40,560 --> 00:14:44,639
+parsers uh for many more models and
+
+373
+00:14:42,399 --> 00:14:46,720
+various bug fixes there. Uh this is the
+
+374
+00:14:44,639 --> 00:14:49,279
+first model with with uh with support
+
+375
+00:14:46,720 --> 00:14:52,160
+for diffusion Gemma the first release
+
+376
+00:14:49,279 --> 00:14:54,480
+with support for diffusion Gemma. Um uh
+
+377
+00:14:52,160 --> 00:14:57,600
+you know beyond the day zero uh uh image
+
+378
+00:14:54,480 --> 00:14:59,040
+we made um and uh yeah very much looking
+
+379
+00:14:57,600 --> 00:15:00,720
+forward to implementing more uh
+
+380
+00:14:59,040 --> 00:15:02,560
+diffusion large language models since
+
+381
+00:15:00,720 --> 00:15:05,120
+then. We added support for KV cache
+
+382
+00:15:02,560 --> 00:15:07,440
+watermark. So there's now a d-watermark
+
+383
+00:15:05,120 --> 00:15:09,760
+argument you can set to reserve some
+
+384
+00:15:07,440 --> 00:15:12,639
+overhead space in your free KB cache
+
+385
+00:15:09,760 --> 00:15:14,000
+blocks to fight against preemptions. So
+
+386
+00:15:12,639 --> 00:15:16,720
+if you've been seeing a lot of
+
+387
+00:15:14,000 --> 00:15:19,040
+preemptions in production from very long
+
+388
+00:15:16,720 --> 00:15:21,279
+output token decodes, take a look at the
+
+389
+00:15:19,040 --> 00:15:24,000
+new watermark argument. We fully
+
+390
+00:15:21,279 --> 00:15:26,079
+migrated to liptor torch stable AI. So
+
+391
+00:15:24,000 --> 00:15:27,680
+this means in future releases we will
+
+392
+00:15:26,079 --> 00:15:29,600
+look towards supporting multiple
+
+393
+00:15:27,680 --> 00:15:31,760
+versions of PyTorch on a given version
+
+394
+00:15:29,600 --> 00:15:33,760
+of VLM. you won't need to necessarily
+
+395
+00:15:31,760 --> 00:15:37,040
+pin to a single version of PyTorch which
+
+396
+00:15:33,760 --> 00:15:40,000
+would be huge and yeah we've changed how
+
+397
+00:15:37,040 --> 00:15:42,560
+we use cudable visible devices using a
+
+398
+00:15:40,000 --> 00:15:44,240
+much more structured device ids argument
+
+399
+00:15:42,560 --> 00:15:47,600
+and ultimately this is needed to make
+
+400
+00:15:44,240 --> 00:15:49,920
+VLM work more natively with MIG and of
+
+401
+00:15:47,600 --> 00:15:53,120
+course external DP load balancing at
+
+402
+00:15:49,920 --> 00:15:54,560
+scale yeah very quickly want to talk
+
+403
+00:15:53,120 --> 00:15:58,800
+really just highlight improvements on
+
+404
+00:15:54,560 --> 00:16:00,639
+YDP we've integrated DPP v2 on main and
+
+405
+00:15:58,800 --> 00:16:03,040
+DBO with Nixl
+
+406
+00:16:00,639 --> 00:16:05,920
+We've also a key optimization for PD is
+
+407
+00:16:03,040 --> 00:16:08,399
+implementing the Nixel KV push mode. So
+
+408
+00:16:05,920 --> 00:16:10,800
+pushing from pre-flow decode rather than
+
+409
+00:16:08,399 --> 00:16:13,759
+pulling improving time to first token
+
+410
+00:16:10,800 --> 00:16:15,199
+and in very high throughput scenarios
+
+411
+00:16:13,759 --> 00:16:17,120
+and we're doing a lot of work on the
+
+412
+00:16:15,199 --> 00:16:20,079
+Rust front end still pushing through on
+
+413
+00:16:17,120 --> 00:16:21,839
+par with the Python front end. On the
+
+414
+00:16:20,079 --> 00:16:24,480
+quantization side, we finally completed
+
+415
+00:16:21,839 --> 00:16:26,880
+the migration of GGUF model support to a
+
+416
+00:16:24,480 --> 00:16:29,360
+plug-in so we can better separate the
+
+417
+00:16:26,880 --> 00:16:32,639
+concerns of that support from mainline
+
+418
+00:16:29,360 --> 00:16:35,279
+VLM concerns. And we've dealt with many
+
+419
+00:16:32,639 --> 00:16:37,199
+or a few number of CVEs and security
+
+420
+00:16:35,279 --> 00:16:39,199
+hardening. If you're a provider looking
+
+421
+00:16:37,199 --> 00:16:41,199
+to upgrade, make sure you check out the
+
+422
+00:16:39,199 --> 00:16:43,199
+CVE that we've addressed if it might
+
+423
+00:16:41,199 --> 00:16:45,199
+affect your deployment and it'll be a
+
+424
+00:16:43,199 --> 00:16:46,399
+good reason to upgrade beyond just the
+
+425
+00:16:45,199 --> 00:16:48,800
+general improvements we have from
+
+426
+00:16:46,399 --> 00:16:50,639
+release to release. I'll stop it there
+
+427
+00:16:48,800 --> 00:16:53,839
+and now I'll hand it off to Charles and
+
+428
+00:16:50,639 --> 00:16:55,759
+and Brian for Elm Compressor.
+
+429
+00:16:53,839 --> 00:16:57,360
+>> Thanks, Michael. Yeah, so as we as we
+
+430
+00:16:55,759 --> 00:16:59,519
+mentioned, Charles and I are on the on
+
+431
+00:16:57,360 --> 00:17:01,199
+the model op team at Red Hat. So we're
+
+432
+00:16:59,519 --> 00:17:03,839
+part of the team that maintains
+
+433
+00:17:01,199 --> 00:17:05,600
+speculators as well as LM compressor and
+
+434
+00:17:03,839 --> 00:17:07,439
+compressed tensors, which is kind of a
+
+435
+00:17:05,600 --> 00:17:10,160
+backend for for saving these compressed
+
+436
+00:17:07,439 --> 00:17:12,559
+models. So today we just want to run you
+
+437
+00:17:10,160 --> 00:17:14,319
+through very quickly some of the updates
+
+438
+00:17:12,559 --> 00:17:16,240
+we've made in the latest versions of LM
+
+439
+00:17:14,319 --> 00:17:19,520
+Compressor. I follow the same format
+
+440
+00:17:16,240 --> 00:17:22,000
+that Michael had. So 200 commits, 66
+
+441
+00:17:19,520 --> 00:17:23,919
+contributors, 32 new contributors. So I
+
+442
+00:17:22,000 --> 00:17:26,160
+think we're I think we not certainly not
+
+443
+00:17:23,919 --> 00:17:27,360
+the scale of VLM, but we're getting good
+
+444
+00:17:26,160 --> 00:17:29,679
+contraction and good community
+
+445
+00:17:27,360 --> 00:17:32,240
+involvement, which we love to see as
+
+446
+00:17:29,679 --> 00:17:34,480
+well. We're starting starting with more
+
+447
+00:17:32,240 --> 00:17:36,080
+on the new model support. So we're doing
+
+448
+00:17:34,480 --> 00:17:37,919
+more than just publishing models. We're
+
+449
+00:17:36,080 --> 00:17:40,799
+building software here, but a lot of the
+
+450
+00:17:37,919 --> 00:17:43,600
+stuff we've done in Q2 and really in the
+
+451
+00:17:40,799 --> 00:17:46,240
+whole quarter or the whole year is to
+
+452
+00:17:43,600 --> 00:17:49,760
+improve our support of large models of
+
+453
+00:17:46,240 --> 00:17:51,679
+new models and and reducing the time
+
+454
+00:17:49,760 --> 00:17:54,160
+delay between like zero day release to
+
+455
+00:17:51,679 --> 00:17:57,919
+when we publish on the Redhead AI or
+
+456
+00:17:54,160 --> 00:18:01,280
+space. So as you can see Quen, Gemma 4,
+
+457
+00:17:57,919 --> 00:18:03,520
+Kim K26, Steepseek, GLM, lots of really
+
+458
+00:18:01,280 --> 00:18:05,200
+big models, lots of models that are
+
+459
+00:18:03,520 --> 00:18:07,039
+released in their own quantization
+
+460
+00:18:05,200 --> 00:18:09,440
+format. So a lot of things that we've
+
+461
+00:18:07,039 --> 00:18:11,520
+had to do in terms of the new features
+
+462
+00:18:09,440 --> 00:18:15,360
+to kind of enable that and and speed up
+
+463
+00:18:11,520 --> 00:18:18,559
+the the time between that turnover. So
+
+464
+00:18:15,360 --> 00:18:20,160
+what that's yielded in terms of V.11 and
+
+465
+00:18:18,559 --> 00:18:21,919
+V.0.12
+
+466
+00:18:20,160 --> 00:18:24,559
+are the new features to the right. So
+
+467
+00:18:21,919 --> 00:18:26,880
+I'll let Charles kind of go through some
+
+468
+00:18:24,559 --> 00:18:29,600
+of some of the new features and then
+
+469
+00:18:26,880 --> 00:18:31,200
+circle back on some of the like road
+
+470
+00:18:29,600 --> 00:18:33,280
+road mapap ahead. So let me pass to
+
+471
+00:18:31,200 --> 00:18:36,559
+Charles.
+
+472
+00:18:33,280 --> 00:18:38,480
+>> Yeah, thanks. The DDP and multiGPU
+
+473
+00:18:36,559 --> 00:18:40,000
+support as well converter entry point
+
+474
+00:18:38,480 --> 00:18:41,760
+we're going to talk about in dedicated
+
+475
+00:18:40,000 --> 00:18:44,000
+slides. So I'll go ahead and talk about
+
+476
+00:18:41,760 --> 00:18:46,240
+the the ones at the end first. So
+
+477
+00:18:44,000 --> 00:18:48,960
+version 12 was pretty much just a
+
+478
+00:18:46,240 --> 00:18:50,400
+transformers v5 release. There was a lot
+
+479
+00:18:48,960 --> 00:18:52,160
+of stuff that had to go on under the
+
+480
+00:18:50,400 --> 00:18:55,120
+hood to continue to support
+
+481
+00:18:52,160 --> 00:18:57,840
+transformers. The way they handle is
+
+482
+00:18:55,120 --> 00:18:59,760
+very different in practice for users.
+
+483
+00:18:57,840 --> 00:19:04,080
+Not a not a lot of changes. There's a
+
+484
+00:18:59,760 --> 00:19:08,559
+new API to enable loading thee modules
+
+485
+00:19:04,080 --> 00:19:10,240
+faster and thee models. But yeah, these
+
+486
+00:19:08,559 --> 00:19:12,320
+two are pretty much all under the hood.
+
+487
+00:19:10,240 --> 00:19:14,240
+There's a massive set of refactors that
+
+488
+00:19:12,320 --> 00:19:16,480
+are enabling a lot of these model
+
+489
+00:19:14,240 --> 00:19:18,080
+support and and things. to the left did
+
+490
+00:19:16,480 --> 00:19:20,720
+refactors for the observers, the life
+
+491
+00:19:18,080 --> 00:19:22,880
+cycle, micros scale formats, and then as
+
+492
+00:19:20,720 --> 00:19:24,720
+far as usability, AWQ is now
+
+493
+00:19:22,880 --> 00:19:27,120
+transformed, so you can compose it with
+
+494
+00:19:24,720 --> 00:19:30,720
+GBDQ, which is allows us to unlock some
+
+495
+00:19:27,120 --> 00:19:33,600
+new better accuracy values. As far as
+
+496
+00:19:30,720 --> 00:19:36,559
+the DDP multiGPU support though, version
+
+497
+00:19:33,600 --> 00:19:38,240
+11 had a we enabled this for a ton of
+
+498
+00:19:36,559 --> 00:19:41,679
+different flows, long running things
+
+499
+00:19:38,240 --> 00:19:44,799
+like AWQ that can take 8 to 10 hours for
+
+500
+00:19:41,679 --> 00:19:46,160
+large models. you can linearly pretty
+
+501
+00:19:44,799 --> 00:19:48,240
+much speed it up based on the number of
+
+502
+00:19:46,160 --> 00:19:50,320
+GPUs you have available with the TDP
+
+503
+00:19:48,240 --> 00:19:53,280
+support and in version 12 we released
+
+504
+00:19:50,320 --> 00:19:56,320
+model free PTQ multiGPU support. So
+
+505
+00:19:53,280 --> 00:19:58,640
+that's also available to to use. So as
+
+506
+00:19:56,320 --> 00:20:02,400
+you can see here the memory usage goes
+
+507
+00:19:58,640 --> 00:20:04,720
+way down the speed goes way up and this
+
+508
+00:20:02,400 --> 00:20:06,320
+continues to beyond just the four we
+
+509
+00:20:04,720 --> 00:20:08,240
+tested with eight or however many you
+
+510
+00:20:06,320 --> 00:20:10,799
+have access to.
+
+511
+00:20:08,240 --> 00:20:12,720
+Yeah. So back to Brian.
+
+512
+00:20:10,799 --> 00:20:14,240
+>> Thanks Rose. Yeah. So, and just wanted
+
+513
+00:20:12,720 --> 00:20:16,000
+to end on the other bullet point we had
+
+514
+00:20:14,240 --> 00:20:17,840
+in the new features. Basically, what
+
+515
+00:20:16,000 --> 00:20:20,000
+we're calling a converter entry point,
+
+516
+00:20:17,840 --> 00:20:22,240
+converter abstraction. So, this has kind
+
+517
+00:20:20,000 --> 00:20:23,760
+of evolved over the course of really I
+
+518
+00:20:22,240 --> 00:20:26,080
+think about a year when we were first
+
+519
+00:20:23,760 --> 00:20:28,480
+looking at model free PTQ. The idea here
+
+520
+00:20:26,080 --> 00:20:29,919
+is to to operate on a model checkpoint
+
+521
+00:20:28,480 --> 00:20:31,840
+and create something new without
+
+522
+00:20:29,919 --> 00:20:34,640
+necessarily having to load it up as a
+
+523
+00:20:31,840 --> 00:20:37,600
+hugging face model or in VLM so that it
+
+524
+00:20:34,640 --> 00:20:40,559
+can be a little bit quicker for for for
+
+525
+00:20:37,600 --> 00:20:43,120
+more naive compression algorithms or as
+
+526
+00:20:40,559 --> 00:20:44,960
+as I'll show like some some new things
+
+527
+00:20:43,120 --> 00:20:46,880
+that came up along the way as we as we
+
+528
+00:20:44,960 --> 00:20:49,120
+tried to improve our support for these
+
+529
+00:20:46,880 --> 00:20:52,320
+new models. So what started as model
+
+530
+00:20:49,120 --> 00:20:54,240
+free PTQ is is really just operating at
+
+531
+00:20:52,320 --> 00:20:56,159
+the safe tensor level to apply some
+
+532
+00:20:54,240 --> 00:20:58,559
+quantization scheme in a round to
+
+533
+00:20:56,159 --> 00:21:01,120
+nearest kind of data free scheme. So
+
+534
+00:20:58,559 --> 00:21:03,440
+like not using GPTQ or AWQ but still
+
+535
+00:21:01,120 --> 00:21:05,520
+being able to kind of rapid prototype on
+
+536
+00:21:03,440 --> 00:21:06,960
+these things. We had set up some code
+
+537
+00:21:05,520 --> 00:21:08,559
+for that. We found that there's a lot of
+
+538
+00:21:06,960 --> 00:21:10,320
+overlap with some of the things we
+
+539
+00:21:08,559 --> 00:21:12,720
+wanted to do in terms of like converting
+
+540
+00:21:10,320 --> 00:21:15,679
+a checkpoint. So if a checkpoint is in
+
+541
+00:21:12,720 --> 00:21:18,159
+some old format like auto AWQ or FP
+
+542
+00:21:15,679 --> 00:21:19,760
+quant or in a newer format that we want
+
+543
+00:21:18,159 --> 00:21:22,240
+to convert to compressed tensors so that
+
+544
+00:21:19,760 --> 00:21:24,799
+we can own the loadup cycle or do
+
+545
+00:21:22,240 --> 00:21:27,120
+anything else to it further downstream
+
+546
+00:21:24,799 --> 00:21:29,280
+that we have this abstraction that kind
+
+547
+00:21:27,120 --> 00:21:31,520
+of allows us to create new instances for
+
+548
+00:21:29,280 --> 00:21:33,520
+each of these cases. So each of these
+
+549
+00:21:31,520 --> 00:21:35,600
+links in the slides will point to an
+
+550
+00:21:33,520 --> 00:21:38,000
+example or to a PR that's that's doing
+
+551
+00:21:35,600 --> 00:21:40,880
+these and in addition to that from
+
+552
+00:21:38,000 --> 00:21:42,960
+conversion also to dequantization as I
+
+553
+00:21:40,880 --> 00:21:45,280
+mentioned before a lot of the models are
+
+554
+00:21:42,960 --> 00:21:47,360
+published in quantized formats I've
+
+555
+00:21:45,280 --> 00:21:48,880
+linked those down below in order for us
+
+556
+00:21:47,360 --> 00:21:51,120
+to do anything downstream of that in
+
+557
+00:21:48,880 --> 00:21:53,360
+order to change the quantization format
+
+558
+00:21:51,120 --> 00:21:55,039
+we kind of have a separation of concerns
+
+559
+00:21:53,360 --> 00:21:56,960
+through LM compressor through the
+
+560
+00:21:55,039 --> 00:21:59,520
+oneshot pathway that everything that
+
+561
+00:21:56,960 --> 00:22:01,280
+goes in there is already dequantized or
+
+562
+00:21:59,520 --> 00:22:03,520
+full precision So we don't have to worry
+
+563
+00:22:01,280 --> 00:22:05,600
+about that. So this dequantization piece
+
+564
+00:22:03,520 --> 00:22:07,840
+is what allows us to kind of do that as
+
+565
+00:22:05,600 --> 00:22:10,320
+a pre-processing beforehand before
+
+566
+00:22:07,840 --> 00:22:12,559
+hitting the um compressor flow. I think
+
+567
+00:22:10,320 --> 00:22:15,200
+we're pretty happy with the robustness
+
+568
+00:22:12,559 --> 00:22:17,600
+of this. We're able to whip up new new
+
+569
+00:22:15,200 --> 00:22:20,240
+converters pretty quickly. A lot of
+
+570
+00:22:17,600 --> 00:22:22,400
+these like we had struggled with autowq
+
+571
+00:22:20,240 --> 00:22:24,640
+conversion scripts with community users,
+
+572
+00:22:22,400 --> 00:22:27,039
+but having them code to a given contract
+
+573
+00:22:24,640 --> 00:22:29,039
+had made that a lot simpler. It's not
+
+574
+00:22:27,039 --> 00:22:31,679
+rocket science, but I think it's a nice
+
+575
+00:22:29,039 --> 00:22:33,679
+abstraction and and I think we're at a
+
+576
+00:22:31,679 --> 00:22:35,360
+point where we're willing to kind of
+
+577
+00:22:33,679 --> 00:22:37,120
+broadcast this to the community. If
+
+578
+00:22:35,360 --> 00:22:39,520
+people are doing a lot of checkpoint
+
+579
+00:22:37,120 --> 00:22:41,440
+level modification, a lot of things
+
+580
+00:22:39,520 --> 00:22:43,440
+could fit in this pattern. So, please
+
+581
+00:22:41,440 --> 00:22:46,159
+let us know if that's the case. Coming
+
+582
+00:22:43,440 --> 00:22:48,159
+soon into in the next version, we want
+
+583
+00:22:46,159 --> 00:22:50,159
+to kind of extend this what we have with
+
+584
+00:22:48,159 --> 00:22:52,960
+model free PTQ with what we're calling
+
+585
+00:22:50,159 --> 00:22:55,120
+model free Higs. The idea there is an
+
+586
+00:22:52,960 --> 00:22:57,919
+automated selection of the mixed
+
+587
+00:22:55,120 --> 00:23:00,559
+precision quantization config that that
+
+588
+00:22:57,919 --> 00:23:03,440
+you want according to a given budget for
+
+589
+00:23:00,559 --> 00:23:05,280
+for weights and the accuracy goals that
+
+590
+00:23:03,440 --> 00:23:07,600
+you have. So this came out of our
+
+591
+00:23:05,280 --> 00:23:09,440
+collaborator research group like the
+
+592
+00:23:07,600 --> 00:23:11,120
+white paper there as well. But that's
+
+593
+00:23:09,440 --> 00:23:13,919
+kind of one of the directions we want to
+
+594
+00:23:11,120 --> 00:23:16,960
+extend this in the near future. Yeah.
+
+595
+00:23:13,919 --> 00:23:19,360
+And and if you have yeah for this or any
+
+596
+00:23:16,960 --> 00:23:21,520
+other features or or questions you might
+
+597
+00:23:19,360 --> 00:23:23,919
+have feel free to reach out raising an
+
+598
+00:23:21,520 --> 00:23:26,400
+issue on our on our repos or there's
+
+599
+00:23:23,919 --> 00:23:28,080
+also a dedicated LM compressor Slack
+
+600
+00:23:26,400 --> 00:23:31,400
+channel that I've linked below. Thanks
+
+601
+00:23:28,080 --> 00:23:31,400
+for the time.
+
+602
+00:23:31,600 --> 00:23:35,840
+>> Awesome. Thanks a bunch guys. That's a
+
+603
+00:23:33,679 --> 00:23:38,480
+great update. So yeah, let's go ahead
+
+604
+00:23:35,840 --> 00:23:40,320
+and hand it off to Rob for the the big
+
+605
+00:23:38,480 --> 00:23:43,120
+update on LMD.
+
+606
+00:23:40,320 --> 00:23:46,240
+>> Yep. Thanks guys. So first I just wanted
+
+607
+00:23:43,120 --> 00:23:50,000
+to talk a little bit about what LMD is
+
+608
+00:23:46,240 --> 00:23:52,320
+and and why it's needed. So while VM
+
+609
+00:23:50,000 --> 00:23:55,440
+does a really great job of optimizing
+
+610
+00:23:52,320 --> 00:23:59,120
+performance on a single node, LMD
+
+611
+00:23:55,440 --> 00:24:01,360
+focuses on optimizations that could
+
+612
+00:23:59,120 --> 00:24:03,600
+exist as you start to scale out a
+
+613
+00:24:01,360 --> 00:24:05,760
+deployment. So there's multiple
+
+614
+00:24:03,600 --> 00:24:08,080
+different ways people can deploy BLM but
+
+615
+00:24:05,760 --> 00:24:11,840
+one of the most common ways is on
+
+616
+00:24:08,080 --> 00:24:15,120
+Kubernetes which is a way to scale many
+
+617
+00:24:11,840 --> 00:24:17,279
+many different applications and for most
+
+618
+00:24:15,120 --> 00:24:20,480
+applications and what a lot of people
+
+619
+00:24:17,279 --> 00:24:22,480
+get started with for for inference is
+
+620
+00:24:20,480 --> 00:24:24,720
+the following pattern. You'll create a
+
+621
+00:24:22,480 --> 00:24:29,039
+deployment resource which will create
+
+622
+00:24:24,720 --> 00:24:31,360
+multiple replica pods of VLM and then a
+
+623
+00:24:29,039 --> 00:24:34,400
+service will sit in front of that
+
+624
+00:24:31,360 --> 00:24:37,039
+deployment and requests are roundroined
+
+625
+00:24:34,400 --> 00:24:40,080
+between the different VLM pods. This is
+
+626
+00:24:37,039 --> 00:24:42,400
+a pretty simple deployment pattern and
+
+627
+00:24:40,080 --> 00:24:45,520
+one that we usually see folks getting
+
+628
+00:24:42,400 --> 00:24:49,360
+started with. But the problem with this
+
+629
+00:24:45,520 --> 00:24:52,559
+is that LLM requests don't look very
+
+630
+00:24:49,360 --> 00:24:54,640
+similar to traditional HTTP requests. If
+
+631
+00:24:52,559 --> 00:24:56,799
+you think about an agentic application,
+
+632
+00:24:54,640 --> 00:24:59,039
+you can have requests with hundreds of
+
+633
+00:24:56,799 --> 00:25:01,520
+thousands of input tokens that take tens
+
+634
+00:24:59,039 --> 00:25:04,320
+of seconds to process. They're heavily
+
+635
+00:25:01,520 --> 00:25:06,880
+heavily multi-turn where if you're an
+
+636
+00:25:04,320 --> 00:25:09,039
+agent and you're working in a harness,
+
+637
+00:25:06,880 --> 00:25:11,440
+you're going to generate some text to
+
+638
+00:25:09,039 --> 00:25:13,600
+reason, call a tool, send the result
+
+639
+00:25:11,440 --> 00:25:15,440
+back to the model, so on and so forth
+
+640
+00:25:13,600 --> 00:25:17,039
+over and over and over again. And we
+
+641
+00:25:15,440 --> 00:25:19,840
+have these two distinct phases of
+
+642
+00:25:17,039 --> 00:25:22,640
+inference, the prefill and the decode
+
+643
+00:25:19,840 --> 00:25:26,799
+phase, which could potentially run on on
+
+644
+00:25:22,640 --> 00:25:29,200
+different GPUs. And so LMD's job is to
+
+645
+00:25:26,799 --> 00:25:32,400
+really be aware of the fact that it's
+
+646
+00:25:29,200 --> 00:25:35,520
+running an inference request as opposed
+
+647
+00:25:32,400 --> 00:25:37,360
+to a generic HTTP request and attempt to
+
+648
+00:25:35,520 --> 00:25:40,240
+implement different distributed
+
+649
+00:25:37,360 --> 00:25:43,840
+optimizations that can outperform the
+
+650
+00:25:40,240 --> 00:25:45,919
+kind of naive deployment service pattern
+
+651
+00:25:43,840 --> 00:25:48,000
+that you see most people getting started
+
+652
+00:25:45,919 --> 00:25:50,559
+with. So, LMD is a distributed
+
+653
+00:25:48,000 --> 00:25:54,640
+inferencing framework that seeks to
+
+654
+00:25:50,559 --> 00:25:57,360
+optimize a whole cluster of VLM pods
+
+655
+00:25:54,640 --> 00:26:00,080
+and LMD does this on top of Kubernetes.
+
+656
+00:25:57,360 --> 00:26:04,080
+We have lots of great users between
+
+657
+00:26:00,080 --> 00:26:07,679
+enterprises to clouds to model companies
+
+658
+00:26:04,080 --> 00:26:09,360
+to frontier to to folks running model as
+
+659
+00:26:07,679 --> 00:26:10,559
+a service. And you can take a look at
+
+660
+00:26:09,360 --> 00:26:13,520
+some of the adopters and some of the
+
+661
+00:26:10,559 --> 00:26:15,840
+blogs we have on on different features.
+
+662
+00:26:13,520 --> 00:26:17,600
+But stepping way back, I wanted to talk
+
+663
+00:26:15,840 --> 00:26:21,760
+through a couple of the different
+
+664
+00:26:17,600 --> 00:26:24,799
+examples of features that LMD has which
+
+665
+00:26:21,760 --> 00:26:26,400
+can help to optimize performance. And
+
+666
+00:26:24,799 --> 00:26:28,480
+I'm going to go through five different
+
+667
+00:26:26,400 --> 00:26:30,320
+ones here.
+
+668
+00:26:28,480 --> 00:26:33,760
+The first and most important
+
+669
+00:26:30,320 --> 00:26:37,440
+optimization that LMD can do is to have
+
+670
+00:26:33,760 --> 00:26:39,520
+prefix smart routing during the an
+
+671
+00:26:37,440 --> 00:26:42,000
+inference request. And so I have a basic
+
+672
+00:26:39,520 --> 00:26:44,880
+architecture design here which explains
+
+673
+00:26:42,000 --> 00:26:47,200
+how it how it works. But basically a pod
+
+674
+00:26:44,880 --> 00:26:49,440
+gets deployed onto the cluster that has
+
+675
+00:26:47,200 --> 00:26:51,520
+a proxy and something called the
+
+676
+00:26:49,440 --> 00:26:53,760
+endpoint picker. And these all make up
+
+677
+00:26:51,520 --> 00:26:56,320
+what we collectively call the LMD
+
+678
+00:26:53,760 --> 00:27:00,880
+router. And so when a client request
+
+679
+00:26:56,320 --> 00:27:05,039
+comes in to this router, the EP contains
+
+680
+00:27:00,880 --> 00:27:08,080
+all of the special LLM serving logic.
+
+681
+00:27:05,039 --> 00:27:10,400
+And most importantly, one optimization
+
+682
+00:27:08,080 --> 00:27:14,240
+is And most importantly, one
+
+683
+00:27:10,400 --> 00:27:16,320
+optimization is prefix cache awareness.
+
+684
+00:27:14,240 --> 00:27:19,279
+This can give by far the most bang for
+
+685
+00:27:16,320 --> 00:27:22,240
+the buck of any optimization we have in
+
+686
+00:27:19,279 --> 00:27:25,039
+LLMD. And in particular, the main thing
+
+687
+00:27:22,240 --> 00:27:28,400
+that it does is allows requests to be
+
+688
+00:27:25,039 --> 00:27:30,559
+routed to the VLM pod that has the
+
+689
+00:27:28,400 --> 00:27:32,240
+prefix already cached. And this is
+
+690
+00:27:30,559 --> 00:27:34,400
+extremely important for agentic
+
+691
+00:27:32,240 --> 00:27:37,760
+workloads which have this heavily
+
+692
+00:27:34,400 --> 00:27:39,840
+heavily heavily multi-turn pattern where
+
+693
+00:27:37,760 --> 00:27:42,559
+potentially one single inference session
+
+694
+00:27:39,840 --> 00:27:44,799
+can send the same context back to the
+
+695
+00:27:42,559 --> 00:27:47,039
+model over and over and over again. And
+
+696
+00:27:44,799 --> 00:27:50,240
+VLM obviously at this point has really
+
+697
+00:27:47,039 --> 00:27:53,760
+robust support for prefix caching. And
+
+698
+00:27:50,240 --> 00:27:57,039
+so the EP keeps track of the state of
+
+699
+00:27:53,760 --> 00:27:59,840
+the various BLM pods and routes requests
+
+700
+00:27:57,039 --> 00:28:02,799
+to the pod that's going to get a prefix
+
+701
+00:27:59,840 --> 00:28:05,279
+cache hit. And this can have orders of
+
+702
+00:28:02,799 --> 00:28:07,600
+magnitude better performance than naive
+
+703
+00:28:05,279 --> 00:28:10,399
+load balancing where if you have a
+
+704
+00:28:07,600 --> 00:28:12,480
+scaleout deployment of 20 pods, you're
+
+705
+00:28:10,399 --> 00:28:14,720
+only going to have a one over 20 chance
+
+706
+00:28:12,480 --> 00:28:17,360
+of getting a prefix cache hit if you're
+
+707
+00:28:14,720 --> 00:28:19,760
+randomly or roundroin selecting pods.
+
+708
+00:28:17,360 --> 00:28:22,640
+And so this is really the first key
+
+709
+00:28:19,760 --> 00:28:26,240
+optimization that we have in LMD is this
+
+710
+00:28:22,640 --> 00:28:28,960
+prefix cache aware routing. Importantly
+
+711
+00:28:26,240 --> 00:28:31,919
+however prefix affinity is not the only
+
+712
+00:28:28,960 --> 00:28:34,399
+metric to look at. We also want to deal
+
+713
+00:28:31,919 --> 00:28:36,240
+with back pressure where if certain pods
+
+714
+00:28:34,399 --> 00:28:38,399
+are overloaded because they're dealing
+
+715
+00:28:36,240 --> 00:28:40,799
+with really really long requests, we
+
+716
+00:28:38,399 --> 00:28:44,880
+want to instead route the request to
+
+717
+00:28:40,799 --> 00:28:47,440
+other pods. And so LMD has a library of
+
+718
+00:28:44,880 --> 00:28:50,159
+scrapers, scorers, filters. It's very
+
+719
+00:28:47,440 --> 00:28:52,559
+configurable and can add some pretty
+
+720
+00:28:50,159 --> 00:28:54,720
+sophisticated scoring logic on top of
+
+721
+00:28:52,559 --> 00:28:57,919
+the pods. And we also have a more
+
+722
+00:28:54,720 --> 00:29:01,039
+advanced mode where actually an an XG
+
+723
+00:28:57,919 --> 00:29:03,440
+boost model is trained online and this
+
+724
+00:29:01,039 --> 00:29:05,360
+model makes predictions about which pod
+
+725
+00:29:03,440 --> 00:29:07,440
+is going to get the best latency. And
+
+726
+00:29:05,360 --> 00:29:09,760
+this is a really good feature that is
+
+727
+00:29:07,440 --> 00:29:12,000
+used by some advanced deployments of of
+
+728
+00:29:09,760 --> 00:29:14,640
+LMD. This is really the first key
+
+729
+00:29:12,000 --> 00:29:16,960
+feature is the prefix cache and
+
+730
+00:29:14,640 --> 00:29:18,720
+intelligent load balancing in the
+
+731
+00:29:16,960 --> 00:29:23,600
+design.
+
+732
+00:29:18,720 --> 00:29:26,399
+Beyond this, the EP and LMD and VLM have
+
+733
+00:29:23,600 --> 00:29:30,720
+worked very very closely together to
+
+734
+00:29:26,399 --> 00:29:33,919
+offer a KV cache management.
+
+735
+00:29:30,720 --> 00:29:36,480
+So, as I kind of mentioned before, the
+
+736
+00:29:33,919 --> 00:29:38,960
+KV cache and prefix cache hit rates are
+
+737
+00:29:36,480 --> 00:29:42,080
+an extremely important optimization to
+
+738
+00:29:38,960 --> 00:29:46,559
+maintain. And inside of VLM, KV caches
+
+739
+00:29:42,080 --> 00:29:49,679
+are held in in CP GPU RAM in a least
+
+740
+00:29:46,559 --> 00:29:52,240
+recently used structure. And so after a
+
+741
+00:29:49,679 --> 00:29:54,320
+period of time, if requests have not
+
+742
+00:29:52,240 --> 00:29:56,799
+come back to the to the server, we'll
+
+743
+00:29:54,320 --> 00:29:59,039
+end up with we'll end up with prefix
+
+744
+00:29:56,799 --> 00:30:01,840
+cache misses. And you might be familiar
+
+745
+00:29:59,039 --> 00:30:05,760
+on various instances, various service
+
+746
+00:30:01,840 --> 00:30:08,320
+providers that they offer a cache TTL
+
+747
+00:30:05,760 --> 00:30:10,159
+where they maintain your tokens for some
+
+748
+00:30:08,320 --> 00:30:14,640
+period of time, maybe five minutes, an
+
+749
+00:30:10,159 --> 00:30:17,200
+hour, etc. And so VLM offers an
+
+750
+00:30:14,640 --> 00:30:19,360
+offloading connector or and some others
+
+751
+00:30:17,200 --> 00:30:23,360
+from IBM research have contributed this
+
+752
+00:30:19,360 --> 00:30:25,440
+to VLM which offloads KV caches to CPU
+
+753
+00:30:23,360 --> 00:30:28,640
+memory. And recently we've added in a
+
+754
+00:30:25,440 --> 00:30:32,000
+tiering structure where this the KVS can
+
+755
+00:30:28,640 --> 00:30:35,200
+be pushed from CPU memory into various
+
+756
+00:30:32,000 --> 00:30:37,360
+storage systems both local NVMe or
+
+757
+00:30:35,200 --> 00:30:39,919
+remote network file systems like Seph or
+
+758
+00:30:37,360 --> 00:30:42,720
+Luster and so on and so forth. And then
+
+759
+00:30:39,919 --> 00:30:45,520
+the EP needs to be aware of this. So we
+
+760
+00:30:42,720 --> 00:30:48,480
+support tiered prefix cache affinity in
+
+761
+00:30:45,520 --> 00:30:51,520
+the EP which allows us to route requests
+
+762
+00:30:48,480 --> 00:30:55,039
+to pods and try to land them on the ones
+
+763
+00:30:51,520 --> 00:30:57,200
+that have the KVS in the GPU memory and
+
+764
+00:30:55,039 --> 00:30:59,440
+then if not in the CPU memory and so on
+
+765
+00:30:57,200 --> 00:31:01,600
+and so forth. So this kind of KV cache
+
+766
+00:30:59,440 --> 00:31:04,080
+management is a really critical
+
+767
+00:31:01,600 --> 00:31:07,520
+deployment pattern that's useful for
+
+768
+00:31:04,080 --> 00:31:10,480
+expanding the pool of KV cache size and
+
+769
+00:31:07,520 --> 00:31:12,480
+increasing the time that KV caches
+
+770
+00:31:10,480 --> 00:31:15,760
+remain in the memory such that we can
+
+771
+00:31:12,480 --> 00:31:17,679
+avoid recomputing.
+
+772
+00:31:15,760 --> 00:31:20,240
+Another example feature that we offer in
+
+773
+00:31:17,679 --> 00:31:23,120
+LLMD is something called pre-filled
+
+774
+00:31:20,240 --> 00:31:26,159
+decode disagregation. This has been a
+
+775
+00:31:23,120 --> 00:31:28,720
+very hot topic in the open source
+
+776
+00:31:26,159 --> 00:31:30,720
+ecosystem for a while. But what pre-fill
+
+777
+00:31:28,720 --> 00:31:33,200
+decode disagregation does is it
+
+778
+00:31:30,720 --> 00:31:36,799
+separates the prefill and decode phases
+
+779
+00:31:33,200 --> 00:31:39,039
+of inference into two separate replicas.
+
+780
+00:31:36,799 --> 00:31:42,720
+So we'll have a prefill worker and a
+
+781
+00:31:39,039 --> 00:31:45,679
+decode worker. The EP is aware of
+
+782
+00:31:42,720 --> 00:31:48,159
+whether BLM is configured in PD
+
+783
+00:31:45,679 --> 00:31:50,799
+disagregation mode. But what's very very
+
+784
+00:31:48,159 --> 00:31:53,440
+nice is we have a very composable
+
+785
+00:31:50,799 --> 00:31:55,919
+situation. So when selecting which
+
+786
+00:31:53,440 --> 00:31:59,279
+prefill worker, we can use all the same
+
+787
+00:31:55,919 --> 00:32:01,679
+logic of prefix cache affinity to select
+
+788
+00:31:59,279 --> 00:32:03,840
+the proper prefill worker and the proper
+
+789
+00:32:01,679 --> 00:32:06,880
+decode worker.
+
+790
+00:32:03,840 --> 00:32:09,279
+And very importantly, the KV transfer
+
+791
+00:32:06,880 --> 00:32:11,840
+where we move the KV cache from the
+
+792
+00:32:09,279 --> 00:32:14,000
+prefill pod to the decode pod after we
+
+793
+00:32:11,840 --> 00:32:16,159
+process the prefill happens over
+
+794
+00:32:14,000 --> 00:32:19,679
+accelerated networking. So we've been
+
+795
+00:32:16,159 --> 00:32:21,120
+using we we've been in BLM supporting a
+
+796
+00:32:19,679 --> 00:32:23,519
+couple of different transfer engines.
+
+797
+00:32:21,120 --> 00:32:27,279
+The one that we focus on the most in LMD
+
+798
+00:32:23,519 --> 00:32:29,440
+comes from NVIDIA Dynamo with Nixl which
+
+799
+00:32:27,279 --> 00:32:32,399
+supports multiple different transport
+
+800
+00:32:29,440 --> 00:32:34,799
+options but in particular UCX which
+
+801
+00:32:32,399 --> 00:32:36,880
+pulls the KV caches over the Infiniband
+
+802
+00:32:34,799 --> 00:32:38,720
+networking. It's definitely a bit
+
+803
+00:32:36,880 --> 00:32:41,279
+challenging to get these accelerated
+
+804
+00:32:38,720 --> 00:32:44,799
+networks um uh working uh on some
+
+805
+00:32:41,279 --> 00:32:47,279
+clouds. uh but uh at this point uh PD
+
+806
+00:32:44,799 --> 00:32:49,679
+has been deployed in many of uh VLM and
+
+807
+00:32:47,279 --> 00:32:51,679
+LMD's largest users uh which you know
+
+808
+00:32:49,679 --> 00:32:54,880
+really really helps uh to improve
+
+809
+00:32:51,679 --> 00:32:57,440
+quality of service by um allowing the
+
+810
+00:32:54,880 --> 00:32:59,679
+prefill work to not interrupt the decode
+
+811
+00:32:57,440 --> 00:33:01,600
+work
+
+812
+00:32:59,679 --> 00:33:05,120
+and then beyond this as we think about
+
+813
+00:33:01,600 --> 00:33:07,200
+large models like GLM um you know where
+
+814
+00:33:05,120 --> 00:33:10,080
+they might not even fit within a single
+
+815
+00:33:07,200 --> 00:33:12,080
+node or where we want to increase the KV
+
+816
+00:33:10,080 --> 00:33:15,200
+cache size as much as possible
+
+817
+00:33:12,080 --> 00:33:18,799
+Um, LMD supports wide expert parallelism
+
+818
+00:33:15,200 --> 00:33:21,600
+where each replica where a single
+
+819
+00:33:18,799 --> 00:33:26,399
+logical instance of VLM is spread over
+
+820
+00:33:21,600 --> 00:33:28,960
+multiple pods. Um, we use an API um in
+
+821
+00:33:26,399 --> 00:33:31,440
+uh Kubernetes called leader worker set
+
+822
+00:33:28,960 --> 00:33:34,960
+uh which allows us to co-chedu multiple
+
+823
+00:33:31,440 --> 00:33:37,600
+pods together. Um and these pods are uh
+
+824
+00:33:34,960 --> 00:33:40,960
+part of the same um PyTorch process
+
+825
+00:33:37,600 --> 00:33:43,600
+group uh which allows um you know uh
+
+826
+00:33:40,960 --> 00:33:47,200
+attention to run independently um and
+
+827
+00:33:43,600 --> 00:33:49,440
+then the expert layer to run um um as
+
+828
+00:33:47,200 --> 00:33:51,840
+part of a single forward pass. This
+
+829
+00:33:49,440 --> 00:33:53,679
+composes naturally with uh the
+
+830
+00:33:51,840 --> 00:33:55,039
+pre-filled decode disagregation that we
+
+831
+00:33:53,679 --> 00:33:56,799
+have and I'm going to cover this in a
+
+832
+00:33:55,039 --> 00:33:59,840
+bit more detail in a second when I talk
+
+833
+00:33:56,799 --> 00:34:01,840
+about uh you know serving serving GLM.
+
+834
+00:33:59,840 --> 00:34:04,640
+Um this is another really important
+
+835
+00:34:01,840 --> 00:34:07,039
+feature uh that allows us to uh serve
+
+836
+00:34:04,640 --> 00:34:08,800
+the largest models uh over multiple
+
+837
+00:34:07,039 --> 00:34:11,839
+nodes.
+
+838
+00:34:08,800 --> 00:34:14,960
+Beyond this, LMD also includes features
+
+839
+00:34:11,839 --> 00:34:18,000
+for uh uh dealing with fairness and
+
+840
+00:34:14,960 --> 00:34:20,960
+priority. Um I've noticed recently uh
+
+841
+00:34:18,000 --> 00:34:23,359
+some cloud service providers um offer
+
+842
+00:34:20,960 --> 00:34:25,440
+things like provision throughput or
+
+843
+00:34:23,359 --> 00:34:28,000
+different quality of service tiers like
+
+844
+00:34:25,440 --> 00:34:31,040
+premium, standard, and fast. Um and the
+
+845
+00:34:28,000 --> 00:34:34,399
+EP includes capabilities that enable you
+
+846
+00:34:31,040 --> 00:34:36,159
+to um build something like this. Um in
+
+847
+00:34:34,399 --> 00:34:38,639
+particular, there's a saturation
+
+848
+00:34:36,159 --> 00:34:41,200
+detector uh which can be configured to
+
+849
+00:34:38,639 --> 00:34:43,839
+determine uh you know when the VLM pods
+
+850
+00:34:41,200 --> 00:34:46,000
+are oversaturated and then requests will
+
+851
+00:34:43,839 --> 00:34:48,480
+start to cue in the EP. We call this
+
+852
+00:34:46,000 --> 00:34:50,800
+feature flow control. And what this
+
+853
+00:34:48,480 --> 00:34:53,359
+enables is for you to offer different
+
+854
+00:34:50,800 --> 00:34:55,440
+quality of service to different users.
+
+855
+00:34:53,359 --> 00:34:59,200
+So maybe you have a customerf facing
+
+856
+00:34:55,440 --> 00:35:00,880
+application tenant B and a developer you
+
+857
+00:34:59,200 --> 00:35:03,280
+know internal developer application
+
+858
+00:35:00,880 --> 00:35:06,000
+called tenant A in a period of time
+
+859
+00:35:03,280 --> 00:35:08,079
+where or paid and unpaid users for
+
+860
+00:35:06,000 --> 00:35:12,160
+instance and in a period of time where
+
+861
+00:35:08,079 --> 00:35:13,920
+there's a lot of load we can choose to
+
+862
+00:35:12,160 --> 00:35:16,320
+process the high priority requests
+
+863
+00:35:13,920 --> 00:35:19,200
+before the low priority requests and so
+
+864
+00:35:16,320 --> 00:35:20,960
+the EP's flow control feature implements
+
+865
+00:35:19,200 --> 00:35:23,680
+this saturation detector where we'll
+
+866
+00:35:20,960 --> 00:35:25,760
+start to cue requests as the traffic
+
+867
+00:35:23,680 --> 00:35:28,320
+increases and then we'll dispatch
+
+868
+00:35:25,760 --> 00:35:30,320
+requests in order of priority. So this
+
+869
+00:35:28,320 --> 00:35:32,320
+is a really really cool feature that can
+
+870
+00:35:30,320 --> 00:35:34,800
+be used to enable these quality of
+
+871
+00:35:32,320 --> 00:35:37,119
+service and or things like provisioned
+
+872
+00:35:34,800 --> 00:35:38,720
+throughput that a lot of service
+
+873
+00:35:37,119 --> 00:35:41,920
+providers want to offer to their
+
+874
+00:35:38,720 --> 00:35:45,200
+customers. And beyond this there's also
+
+875
+00:35:41,920 --> 00:35:47,280
+batch capabilities in LMD which composes
+
+876
+00:35:45,200 --> 00:35:49,359
+very nicely with the intelligent request
+
+877
+00:35:47,280 --> 00:35:51,839
+queuing. So a very common pattern that
+
+878
+00:35:49,359 --> 00:35:54,640
+we'll see is that users will have online
+
+879
+00:35:51,839 --> 00:35:57,280
+use cases and offline use cases such as
+
+880
+00:35:54,640 --> 00:36:00,160
+batch jobs which are often either
+
+881
+00:35:57,280 --> 00:36:02,320
+background agents or things like
+
+882
+00:36:00,160 --> 00:36:05,520
+evaluation jobs or reinforcement
+
+883
+00:36:02,320 --> 00:36:08,240
+learning jobs. And in LMD we have a
+
+884
+00:36:05,520 --> 00:36:10,880
+component called the LMD async processor
+
+885
+00:36:08,240 --> 00:36:13,359
+which basically is a stateful component
+
+886
+00:36:10,880 --> 00:36:17,280
+that will dispatch requests. It will
+
+887
+00:36:13,359 --> 00:36:20,400
+talk to the EP and probe the EP for
+
+888
+00:36:17,280 --> 00:36:23,200
+saturation detection and then dispatch
+
+889
+00:36:20,400 --> 00:36:25,680
+requests. The EP treats these as low
+
+890
+00:36:23,200 --> 00:36:28,000
+priority requests such that if there's
+
+891
+00:36:25,680 --> 00:36:30,240
+online traffic, they will be prioritized
+
+892
+00:36:28,000 --> 00:36:31,920
+over the offline traffic. But this
+
+893
+00:36:30,240 --> 00:36:34,240
+allows you to make progress on the
+
+894
+00:36:31,920 --> 00:36:36,720
+offline batch workload without starving
+
+895
+00:36:34,240 --> 00:36:39,280
+the online requests. So we have some
+
+896
+00:36:36,720 --> 00:36:40,960
+users who run shared endpoints that
+
+897
+00:36:39,280 --> 00:36:43,599
+serve production traffic and then
+
+898
+00:36:40,960 --> 00:36:45,599
+they're able to put batch workloads onto
+
+899
+00:36:43,599 --> 00:36:47,280
+that same running instance without
+
+900
+00:36:45,599 --> 00:36:50,079
+having the batch workload completely
+
+901
+00:36:47,280 --> 00:36:52,320
+draining the completely oversaturating
+
+902
+00:36:50,079 --> 00:36:55,280
+the online workloads. So this is a
+
+903
+00:36:52,320 --> 00:36:58,960
+really nice feature a nice application
+
+904
+00:36:55,280 --> 00:37:01,119
+of flow control into the system. That's
+
+905
+00:36:58,960 --> 00:37:03,280
+the overall these are some examples of
+
+906
+00:37:01,119 --> 00:37:05,040
+features we have in LMD. There's some
+
+907
+00:37:03,280 --> 00:37:07,280
+other interesting stuff related to
+
+908
+00:37:05,040 --> 00:37:10,160
+autoscaling. We have some collaborations
+
+909
+00:37:07,280 --> 00:37:12,320
+and are adopting things like Dynamo's
+
+910
+00:37:10,160 --> 00:37:14,560
+model express for start for fast
+
+911
+00:37:12,320 --> 00:37:17,280
+startup. But these hit on some of the
+
+912
+00:37:14,560 --> 00:37:19,760
+key optimizations that we have in the
+
+913
+00:37:17,280 --> 00:37:21,599
+project which are all focused on how to
+
+914
+00:37:19,760 --> 00:37:25,359
+serve inference as efficiently as
+
+915
+00:37:21,599 --> 00:37:28,480
+possible. So a great application of this
+
+916
+00:37:25,359 --> 00:37:30,400
+is for serving agentic workloads. And so
+
+917
+00:37:28,480 --> 00:37:32,480
+I think Cam's on the call, but Semi
+
+918
+00:37:30,400 --> 00:37:35,359
+analysis has done a nice job of creating
+
+919
+00:37:32,480 --> 00:37:38,800
+an agentic benchmark called agent X,
+
+920
+00:37:35,359 --> 00:37:40,880
+which is a cloud code traces. So it
+
+921
+00:37:38,800 --> 00:37:44,160
+simulates what it's like to run a
+
+922
+00:37:40,880 --> 00:37:46,960
+service that's backing cloud code. These
+
+923
+00:37:44,160 --> 00:37:49,599
+workloads are agentic. And so what this
+
+924
+00:37:46,960 --> 00:37:53,680
+is characterized by is having very very
+
+925
+00:37:49,599 --> 00:37:56,320
+very high multi-turn. So you'll see the
+
+926
+00:37:53,680 --> 00:37:58,480
+same context being sent to the model
+
+927
+00:37:56,320 --> 00:38:00,960
+over and over and over again. And also
+
+928
+00:37:58,480 --> 00:38:02,640
+these requests are very long. So a lot
+
+929
+00:38:00,960 --> 00:38:04,240
+of times you'll see benchmarks with a
+
+930
+00:38:02,640 --> 00:38:08,240
+thousand input sequence, a thousand
+
+931
+00:38:04,240 --> 00:38:10,400
+output tokens or even or or even 8,000.
+
+932
+00:38:08,240 --> 00:38:12,880
+In comparison to long context serving
+
+933
+00:38:10,400 --> 00:38:14,960
+and 8,000 input sequence requests is
+
+934
+00:38:12,880 --> 00:38:17,200
+just actually not that long. The
+
+935
+00:38:14,960 --> 00:38:20,079
+requests in a cloud code trace can
+
+936
+00:38:17,200 --> 00:38:21,839
+easily average a 100,000 input tokens.
+
+937
+00:38:20,079 --> 00:38:26,480
+And so a lot of the features that we
+
+938
+00:38:21,839 --> 00:38:29,599
+have in LMD such as prefix affinity such
+
+939
+00:38:26,480 --> 00:38:32,800
+as YDP are really really useful for
+
+940
+00:38:29,599 --> 00:38:35,119
+serving this type of agentic workload.
+
+941
+00:38:32,800 --> 00:38:38,640
+And the first and so I'm going to talk
+
+942
+00:38:35,119 --> 00:38:40,400
+about how to serve GLM 5.2 which is
+
+943
+00:38:38,640 --> 00:38:43,359
+obviously one of the one of the coolest
+
+944
+00:38:40,400 --> 00:38:46,480
+models today on H200's
+
+945
+00:38:43,359 --> 00:38:50,720
+using LMD an example. And just for some
+
+946
+00:38:46,480 --> 00:38:54,079
+context, why do we need YDP for serving
+
+947
+00:38:50,720 --> 00:38:56,240
+these large models? The first is that
+
+948
+00:38:54,079 --> 00:38:58,000
+reason is that tensor parallelism, which
+
+949
+00:38:56,240 --> 00:39:01,119
+is the way that we typically deploy the
+
+950
+00:38:58,000 --> 00:39:03,200
+llama style dense models, works great
+
+951
+00:39:01,119 --> 00:39:05,839
+for single node, but doesn't scale to
+
+952
+00:39:03,200 --> 00:39:08,079
+multi-node. And so every layer when you
+
+953
+00:39:05,839 --> 00:39:10,079
+deploy with tensor parallelism uses a
+
+954
+00:39:08,079 --> 00:39:12,320
+column parallel matrix, a row parallel
+
+955
+00:39:10,079 --> 00:39:14,320
+matrix, and an all reduce. And we do
+
+956
+00:39:12,320 --> 00:39:16,880
+this in the MLP, and we do this in self
+
+957
+00:39:14,320 --> 00:39:19,119
+attention. And so twice per layer we
+
+958
+00:39:16,880 --> 00:39:21,680
+have an all reduce. And this all reduce
+
+959
+00:39:19,119 --> 00:39:23,440
+is very very bandwidth intensive because
+
+960
+00:39:21,680 --> 00:39:25,040
+every rank is talking to every other
+
+961
+00:39:23,440 --> 00:39:26,880
+rank. They're all exchanging all the
+
+962
+00:39:25,040 --> 00:39:29,359
+same information
+
+963
+00:39:26,880 --> 00:39:32,800
+with each other. And so this is not
+
+964
+00:39:29,359 --> 00:39:35,760
+going to scale to multi-node where we we
+
+965
+00:39:32,800 --> 00:39:38,160
+we are going to be sending the data over
+
+966
+00:39:35,760 --> 00:39:41,680
+the network as opposed to over the NV
+
+967
+00:39:38,160 --> 00:39:44,160
+links in the GPUs. Additionally, when we
+
+968
+00:39:41,680 --> 00:39:47,200
+deploy with tensor parallelism, the MLA
+
+969
+00:39:44,160 --> 00:39:49,680
+style models have a huge issue. When we
+
+970
+00:39:47,200 --> 00:39:53,040
+look at llama style models, the GQA
+
+971
+00:39:49,680 --> 00:39:55,119
+attention, they have KV heads and
+
+972
+00:39:53,040 --> 00:39:57,440
+there's actually eight KV heads. And the
+
+973
+00:39:55,119 --> 00:39:59,280
+reason for this is that the KV heads are
+
+974
+00:39:57,440 --> 00:40:02,240
+the dimension that you can shard the KV
+
+975
+00:39:59,280 --> 00:40:04,640
+cache on. When we compare this to and so
+
+976
+00:40:02,240 --> 00:40:06,320
+the KV head zero goes on rank zero, KV
+
+977
+00:40:04,640 --> 00:40:09,200
+head one goes on rank one, so on and so
+
+978
+00:40:06,320 --> 00:40:11,440
+forth. When we look at MLA models,
+
+979
+00:40:09,200 --> 00:40:14,240
+there's a single latent compressed KV
+
+980
+00:40:11,440 --> 00:40:17,839
+vector. And so there's actually no
+
+981
+00:40:14,240 --> 00:40:20,400
+dimension to shard this on. And so when
+
+982
+00:40:17,839 --> 00:40:22,480
+you deploy a model like GLM or a model
+
+983
+00:40:20,400 --> 00:40:24,320
+like DeepSeek with tensor parallelism,
+
+984
+00:40:22,480 --> 00:40:27,040
+we actually will have eight copies of
+
+985
+00:40:24,320 --> 00:40:29,359
+the same vector. Obviously dramatically
+
+986
+00:40:27,040 --> 00:40:32,400
+reducing the number of KV blocks that we
+
+987
+00:40:29,359 --> 00:40:34,800
+can fit these massive requests into. And
+
+988
+00:40:32,400 --> 00:40:36,880
+so the way to deploy and get around
+
+989
+00:40:34,800 --> 00:40:39,440
+these problems and if you remember the
+
+990
+00:40:36,880 --> 00:40:42,880
+original deepseek design is using
+
+991
+00:40:39,440 --> 00:40:44,560
+something called DP attention EPOE data
+
+992
+00:40:42,880 --> 00:40:47,440
+parallel attention runs basically a
+
+993
+00:40:44,560 --> 00:40:50,320
+single logical instance of VLM on every
+
+994
+00:40:47,440 --> 00:40:53,839
+rank. It manages the KV memory and then
+
+995
+00:40:50,320 --> 00:40:57,359
+we do a dispatch operation after thee
+
+996
+00:40:53,839 --> 00:41:00,480
+router which which let's say rank zero
+
+997
+00:40:57,359 --> 00:41:02,880
+got routed to expert 2 and expert 4. we
+
+998
+00:41:00,480 --> 00:41:05,839
+do this sparse alt all which sends the
+
+999
+00:41:02,880 --> 00:41:08,160
+request to rank one and rank three and
+
+1000
+00:41:05,839 --> 00:41:09,760
+so this is a sparse operation meaning
+
+1001
+00:41:08,160 --> 00:41:12,240
+we're only sending a small amount of
+
+1002
+00:41:09,760 --> 00:41:15,359
+data and so these dispatch combine
+
+1003
+00:41:12,240 --> 00:41:18,480
+operations can scale well to multi-node
+
+1004
+00:41:15,359 --> 00:41:21,200
+whereas the all reduces cannot and so
+
+1005
+00:41:18,480 --> 00:41:24,079
+this design where we have DP attention
+
+1006
+00:41:21,200 --> 00:41:26,880
+allows us to only have one copy of the
+
+1007
+00:41:24,079 --> 00:41:31,359
+KV vector for every token so we get much
+
+1008
+00:41:26,880 --> 00:41:33,119
+much more effective KV usage per token.
+
+1009
+00:41:31,359 --> 00:41:36,880
+And because we're able to scale this
+
+1010
+00:41:33,119 --> 00:41:40,319
+over multi-node, we have only one copy
+
+1011
+00:41:36,880 --> 00:41:42,800
+of the experts over the whole logical
+
+1012
+00:41:40,319 --> 00:41:46,240
+replica, meaning all the rest of the RAM
+
+1013
+00:41:42,800 --> 00:41:48,880
+can be allocated to KB caches. And so
+
+1014
+00:41:46,240 --> 00:41:51,440
+this is a really useful setup for
+
+1015
+00:41:48,880 --> 00:41:53,839
+dealing with agentic use cases because
+
+1016
+00:41:51,440 --> 00:41:56,319
+when we have a model like GLM the where
+
+1017
+00:41:53,839 --> 00:41:58,960
+it's 700 billion parameters or so we're
+
+1018
+00:41:56,319 --> 00:42:01,680
+going to consume 700
+
+1019
+00:41:58,960 --> 00:42:04,000
+gigabytes of RAM that leaves only very
+
+1020
+00:42:01,680 --> 00:42:07,440
+very small space for KB caches even on
+
+1021
+00:42:04,000 --> 00:42:09,920
+an H200. And so to fit this model and to
+
+1022
+00:42:07,440 --> 00:42:12,000
+effectively utilize it we need to make
+
+1023
+00:42:09,920 --> 00:42:15,200
+sure we have enough KB cache space to
+
+1024
+00:42:12,000 --> 00:42:18,960
+hold all that GPU RAM. And by deploying
+
+1025
+00:42:15,200 --> 00:42:20,560
+with YDP, we get both of these things.
+
+1026
+00:42:18,960 --> 00:42:23,359
+And so in this setup that I'm going to
+
+1027
+00:42:20,560 --> 00:42:26,400
+show, we have the following situation.
+
+1028
+00:42:23,359 --> 00:42:29,280
+We have one decode replica which is
+
+1029
+00:42:26,400 --> 00:42:31,599
+spread across two pods. So if we see I I
+
+1030
+00:42:29,280 --> 00:42:34,240
+just catted out the the current state of
+
+1031
+00:42:31,599 --> 00:42:37,280
+the cluster. So we have one decode
+
+1032
+00:42:34,240 --> 00:42:39,599
+replica which is expert parallel 16. So
+
+1033
+00:42:37,280 --> 00:42:43,040
+it's a single instance of BLM deployed
+
+1034
+00:42:39,599 --> 00:42:46,560
+over multiple nodes. So there's one pod
+
+1035
+00:42:43,040 --> 00:42:49,200
+on node one on node two and then there's
+
+1036
+00:42:46,560 --> 00:42:51,680
+a leader worker set which co-chedules
+
+1037
+00:42:49,200 --> 00:42:55,760
+these together and then we have two
+
+1038
+00:42:51,680 --> 00:42:57,920
+replicas of EP16 prefill.
+
+1039
+00:42:55,760 --> 00:43:00,160
+The astute reader or the astute listener
+
+1040
+00:42:57,920 --> 00:43:02,319
+will notice that it's very very
+
+1041
+00:43:00,160 --> 00:43:05,839
+important because we're running with DP
+
+1042
+00:43:02,319 --> 00:43:10,000
+attention that we route requests to the
+
+1043
+00:43:05,839 --> 00:43:11,280
+proper DP rank for KV cache affinity.
+
+1044
+00:43:10,000 --> 00:43:15,119
+And so this is actually something that
+
+1045
+00:43:11,280 --> 00:43:17,440
+we support in the EP where the EP can
+
+1046
+00:43:15,119 --> 00:43:19,839
+target a specific DP rank. This is
+
+1047
+00:43:17,440 --> 00:43:22,079
+called DPaware scheduling. And so we
+
+1048
+00:43:19,839 --> 00:43:25,200
+deploy the VLM pods. It creates eight
+
+1049
+00:43:22,079 --> 00:43:28,880
+API servers per pod. Each API server
+
+1050
+00:43:25,200 --> 00:43:31,119
+targets hits a specific GPU. And the EP
+
+1051
+00:43:28,880 --> 00:43:34,560
+can then route requests specifically to
+
+1052
+00:43:31,119 --> 00:43:36,560
+a rank that has the KB cache. And so
+
+1053
+00:43:34,560 --> 00:43:38,640
+then what we see is we look at some of
+
+1054
+00:43:36,560 --> 00:43:40,319
+the data. What we can see is that this
+
+1055
+00:43:38,640 --> 00:43:43,200
+is really really important. The top
+
+1056
+00:43:40,319 --> 00:43:44,880
+chart you can see the the KV cache hit
+
+1057
+00:43:43,200 --> 00:43:47,920
+rate and we can see that for these
+
+1058
+00:43:44,880 --> 00:43:52,319
+multi-turn workloads we're able to hit
+
+1059
+00:43:47,920 --> 00:43:54,160
+90 plus% prefix cache reuse. So in this
+
+1060
+00:43:52,319 --> 00:43:57,520
+agentic workload there's really really
+
+1061
+00:43:54,160 --> 00:44:00,640
+really really high reuse. So in in this
+
+1062
+00:43:57,520 --> 00:44:03,440
+this middle row here is the throughput
+
+1063
+00:44:00,640 --> 00:44:06,880
+per this is on H200's on this is on
+
+1064
+00:44:03,440 --> 00:44:09,040
+H200's. This is on H200's with NVL link
+
+1065
+00:44:06,880 --> 00:44:12,960
+in between the nodes within a node and
+
+1066
+00:44:09,040 --> 00:44:16,000
+infinibands between and this was on core
+
+1067
+00:44:12,960 --> 00:44:17,920
+kubernetes and so what we see is that
+
+1068
+00:44:16,000 --> 00:44:20,640
+the vast majority of the tokens are
+
+1069
+00:44:17,920 --> 00:44:22,480
+cached and so this kind of prefix
+
+1070
+00:44:20,640 --> 00:44:24,480
+awareness is really really really
+
+1071
+00:44:22,480 --> 00:44:28,000
+important and we're able to kind of keep
+
+1072
+00:44:24,480 --> 00:44:31,119
+the TTF pretty low under under 3 second
+
+1073
+00:44:28,000 --> 00:44:33,280
+median. Then the other point to make is
+
+1074
+00:44:31,119 --> 00:44:35,760
+and I I think the Sammy analysis guys
+
+1075
+00:44:33,280 --> 00:44:37,680
+have done a great job of showing off the
+
+1076
+00:44:35,760 --> 00:44:40,240
+trade-off between interactivity and
+
+1077
+00:44:37,680 --> 00:44:42,560
+throughput. But one very important thing
+
+1078
+00:44:40,240 --> 00:44:44,640
+to be aware of is that as you increase
+
+1079
+00:44:42,560 --> 00:44:46,079
+concurrency, so as you increase the
+
+1080
+00:44:44,640 --> 00:44:50,720
+number of concurrent requests on the
+
+1081
+00:44:46,079 --> 00:44:52,720
+GPU, you will see an more throughput.
+
+1082
+00:44:50,720 --> 00:44:56,160
+So you can get more tokens out of your
+
+1083
+00:44:52,720 --> 00:44:58,800
+GPU, but the latency per user will go
+
+1084
+00:44:56,160 --> 00:45:01,760
+down. So like in this case we can see
+
+1085
+00:44:58,800 --> 00:45:04,000
+that for DeepSeek V4 Pro, I think this
+
+1086
+00:45:01,760 --> 00:45:07,200
+is on a B300,
+
+1087
+00:45:04,000 --> 00:45:10,000
+if you're targeting a latency of 50
+
+1088
+00:45:07,200 --> 00:45:12,480
+tokens per second per user, you'll be
+
+1089
+00:45:10,000 --> 00:45:15,520
+able to get around 2,000 tokens per
+
+1090
+00:45:12,480 --> 00:45:18,720
+second per GPU. So you'll need versus if
+
+1091
+00:45:15,520 --> 00:45:20,720
+you target latency of 25 tokens per
+
+1092
+00:45:18,720 --> 00:45:23,440
+second per user, you'll maybe will get
+
+1093
+00:45:20,720 --> 00:45:25,680
+something like 4,000 tokens per second
+
+1094
+00:45:23,440 --> 00:45:28,240
+per I should be you'll maybe get
+
+1095
+00:45:25,680 --> 00:45:31,440
+something like 4,000 tokens per second
+
+1096
+00:45:28,240 --> 00:45:34,400
+per GPU. And so you can see this very
+
+1097
+00:45:31,440 --> 00:45:36,319
+clearly in the agent X traces. So I ran
+
+1098
+00:45:34,400 --> 00:45:37,920
+these bumps are basically different runs
+
+1099
+00:45:36,319 --> 00:45:40,960
+with different amounts of concurrency.
+
+1100
+00:45:37,920 --> 00:45:43,680
+So we have 25 50 concurrent 100
+
+1101
+00:45:40,960 --> 00:45:46,319
+concurrent 150 concurrent 200 concurrent
+
+1102
+00:45:43,680 --> 00:45:48,560
+and what we can see is that the output
+
+1103
+00:45:46,319 --> 00:45:51,280
+tokens per second per GPU. So this is
+
+1104
+00:45:48,560 --> 00:45:53,680
+the this is the the y-axis the
+
+1105
+00:45:51,280 --> 00:45:56,480
+throughput as we increase concurrency we
+
+1106
+00:45:53,680 --> 00:45:59,520
+get more tokens per second and for lat
+
+1107
+00:45:56,480 --> 00:46:02,079
+as we increase concurrency we latency
+
+1108
+00:45:59,520 --> 00:46:04,079
+drops. So we go from 75 tokens per
+
+1109
+00:46:02,079 --> 00:46:06,560
+second per user down to like down to
+
+1110
+00:46:04,079 --> 00:46:09,040
+like 50 tokens per second per user as
+
+1111
+00:46:06,560 --> 00:46:12,240
+the concurrency increases.
+
+1112
+00:46:09,040 --> 00:46:14,400
+And so I just for comparison I I went on
+
+1113
+00:46:12,240 --> 00:46:17,760
+to open router and they have some really
+
+1114
+00:46:14,400 --> 00:46:20,160
+great stats about what latency various
+
+1115
+00:46:17,760 --> 00:46:23,680
+providers have. And so for instance for
+
+1116
+00:46:20,160 --> 00:46:26,079
+Z.AI running this same GLM 5.2 model
+
+1117
+00:46:23,680 --> 00:46:29,119
+they're getting about 50 output tokens
+
+1118
+00:46:26,079 --> 00:46:31,839
+per second per user on open router. and
+
+1119
+00:46:29,119 --> 00:46:35,760
+it costs $4.40
+
+1120
+00:46:31,839 --> 00:46:37,839
+per million tokens on this setup. We at
+
+1121
+00:46:35,760 --> 00:46:40,160
+50 tokens per second per user. So let's
+
+1122
+00:46:37,839 --> 00:46:44,000
+say this is like 55, we're getting
+
+1123
+00:46:40,160 --> 00:46:46,160
+around 400 tokens per second per GPU.
+
+1124
+00:46:44,000 --> 00:46:48,640
+And so what we can basically see is that
+
+1125
+00:46:46,160 --> 00:46:51,920
+if we get 400 output tokens per second
+
+1126
+00:46:48,640 --> 00:46:55,040
+per GPU at 50 output tokens per second
+
+1127
+00:46:51,920 --> 00:46:58,160
+per user. And if we assume that the GPU
+
+1128
+00:46:55,040 --> 00:47:00,400
+costs $3 per hour or so on reserve
+
+1129
+00:46:58,160 --> 00:47:03,920
+pricing, this effectively translates to
+
+1130
+00:47:00,400 --> 00:47:07,599
+around $2 per million output tokens. So
+
+1131
+00:47:03,920 --> 00:47:09,920
+this overall LMD VLM stack is cheaper to
+
+1132
+00:47:07,599 --> 00:47:11,920
+run than consuming a shared endpoint.
+
+1133
+00:47:09,920 --> 00:47:14,400
+Obviously, it's not quite a fair
+
+1134
+00:47:11,920 --> 00:47:16,720
+comparison because this is at 100%
+
+1135
+00:47:14,400 --> 00:47:18,480
+utilization and so on and so forth. But
+
+1136
+00:47:16,720 --> 00:47:20,560
+I wanted to make the point that just
+
+1137
+00:47:18,480 --> 00:47:23,440
+with this open source stack of the LLM,
+
+1138
+00:47:20,560 --> 00:47:25,520
+LLMD running this agentic workload, you
+
+1139
+00:47:23,440 --> 00:47:27,359
+can be pretty competitive and with
+
+1140
+00:47:25,520 --> 00:47:30,000
+reasonable assumptions for the GPU
+
+1141
+00:47:27,359 --> 00:47:32,400
+pricing, this is what a kind of one year
+
+1142
+00:47:30,000 --> 00:47:33,760
+to threeyear reservation costs. You you
+
+1143
+00:47:32,400 --> 00:47:36,240
+can build a system that's pretty
+
+1144
+00:47:33,760 --> 00:47:37,920
+competitive with where the market is
+
+1145
+00:47:36,240 --> 00:47:40,000
+kind of serving these these models
+
+1146
+00:47:37,920 --> 00:47:41,680
+today. Yeah, that's kind of what I had
+
+1147
+00:47:40,000 --> 00:47:43,440
+to say. And and all of these
+
+1148
+00:47:41,680 --> 00:47:44,720
+optimizations are critical, right? Like
+
+1149
+00:47:43,440 --> 00:47:46,800
+if you don't have prefix cache
+
+1150
+00:47:44,720 --> 00:47:48,400
+awareness, it doesn't work. Like you're
+
+1151
+00:47:46,800 --> 00:47:50,720
+going to spend all your time recmputing
+
+1152
+00:47:48,400 --> 00:47:53,359
+the prompts. If you don't have PD, you
+
+1153
+00:47:50,720 --> 00:47:55,359
+can't deploy with YDP. If you don't have
+
+1154
+00:47:53,359 --> 00:47:57,599
+YDP, you don't have enough KD cache
+
+1155
+00:47:55,359 --> 00:47:59,680
+space to fit all these requests. And so
+
+1156
+00:47:57,599 --> 00:48:01,839
+all of these optimizations stack up to
+
+1157
+00:47:59,680 --> 00:48:04,560
+make it possible to serve the hardest
+
+1158
+00:48:01,839 --> 00:48:07,760
+possible workload which is these really
+
+1159
+00:48:04,560 --> 00:48:11,040
+really long context agentic traces for a
+
+1160
+00:48:07,760 --> 00:48:13,599
+big model on H200s. So this is kind of
+
+1161
+00:48:11,040 --> 00:48:15,839
+what I wanted to show is how all these
+
+1162
+00:48:13,599 --> 00:48:18,800
+different optimizations layer on to
+
+1163
+00:48:15,839 --> 00:48:21,520
+enable a system that's competitive with
+
+1164
+00:48:18,800 --> 00:48:24,240
+where Frontier model servers are are at
+
+1165
+00:48:21,520 --> 00:48:25,839
+today. So thank you all very much. I
+
+1166
+00:48:24,240 --> 00:48:27,920
+know I probably went a little bit long,
+
+1167
+00:48:25,839 --> 00:48:29,920
+but I I appreciate everyone listening.
+
+1168
+00:48:27,920 --> 00:48:32,079
+>> No. Yeah, we're at perfect uh perfect
+
+1169
+00:48:29,920 --> 00:48:34,160
+time basically. Rob, I was wondering if
+
+1170
+00:48:32,079 --> 00:48:36,400
+you would cover one more slide right
+
+1171
+00:48:34,160 --> 00:48:39,119
+after this.
+
+1172
+00:48:36,400 --> 00:48:41,599
+>> Yeah, we also have added LMD to to
+
+1173
+00:48:39,119 --> 00:48:44,000
+Inference X. So Ezra has done a great
+
+1174
+00:48:41,599 --> 00:48:46,160
+job of delivering our first submission
+
+1175
+00:48:44,000 --> 00:48:48,480
+and then we're very excited about agent
+
+1176
+00:48:46,160 --> 00:48:50,319
+X and how it can show off all these
+
+1177
+00:48:48,480 --> 00:48:53,760
+different features from prefix awareness
+
+1178
+00:48:50,319 --> 00:48:55,599
+to YDP to things like KD offloading
+
+1179
+00:48:53,760 --> 00:48:57,920
+which isn't really too much explored in
+
+1180
+00:48:55,599 --> 00:49:00,400
+in the current setup that I showed. So
+
+1181
+00:48:57,920 --> 00:49:02,480
+yeah, we love semi analysis and take
+
+1182
+00:49:00,400 --> 00:49:05,200
+take yeah take a take a look at our
+
+1183
+00:49:02,480 --> 00:49:08,000
+submissions.
+
+1184
+00:49:05,200 --> 00:49:09,599
+>> Yeah, thanks a lot. There there were
+
+1185
+00:49:08,000 --> 00:49:12,400
+some interesting questions in the chat
+
+1186
+00:49:09,599 --> 00:49:14,160
+we can maybe go through first. Yeah.
+
+1187
+00:49:12,400 --> 00:49:17,440
+Bala do you want to say like which
+
+1188
+00:49:14,160 --> 00:49:20,240
+hardware you were asking about like yeah
+
+1189
+00:49:17,440 --> 00:49:22,400
+I I mean like the GPUs were involved on
+
+1190
+00:49:20,240 --> 00:49:24,720
+had had Envy link between them if on
+
+1191
+00:49:22,400 --> 00:49:29,319
+single node but for multi-node like PD
+
+1192
+00:49:24,720 --> 00:49:29,319
+they had infinitive not like Nvink.
+
+1193
+00:49:32,800 --> 00:49:35,119
+>> Okay.
+
+1194
+00:49:33,520 --> 00:49:37,520
+>> No no makes sense. Yeah, I got I think
+
+1195
+00:49:35,119 --> 00:49:39,680
+Sha Robert answered it during while his
+
+1196
+00:49:37,520 --> 00:49:42,680
+presentation too. So all good. Yeah.
+
+1197
+00:49:39,680 --> 00:49:42,680
+Thanks.
+
+1198
+00:49:43,599 --> 00:49:48,319
+>> Okay. Yeah. Any other questions people
+
+1199
+00:49:46,160 --> 00:49:50,079
+want to ask you or I
+
+1200
+00:49:48,319 --> 00:49:51,920
+>> I had one more question. I think it's
+
+1201
+00:49:50,079 --> 00:49:54,160
+it's from an outsider point of view,
+
+1202
+00:49:51,920 --> 00:49:56,400
+right? Like wheelm production stack and
+
+1203
+00:49:54,160 --> 00:49:58,480
+LLMD like how we should see it because
+
+1204
+00:49:56,400 --> 00:50:00,559
+there is some overlapping functionality.
+
+1205
+00:49:58,480 --> 00:50:04,000
+Yeah. So I'm trying to understand how we
+
+1206
+00:50:00,559 --> 00:50:06,319
+combine them or how do we consume it?
+
+1207
+00:50:04,000 --> 00:50:09,359
+I think that so I I I personally don't
+
+1208
+00:50:06,319 --> 00:50:12,079
+know too much about production stack. I
+
+1209
+00:50:09,359 --> 00:50:15,359
+so I I don't really know how to I think
+
+1210
+00:50:12,079 --> 00:50:17,760
+of them like they're solving a similar a
+
+1211
+00:50:15,359 --> 00:50:20,720
+similar problem. So I I think it's
+
+1212
+00:50:17,760 --> 00:50:23,680
+probably more of an eitheror versus uh
+
+1213
+00:50:20,720 --> 00:50:25,599
+use them together. So So yeah, I don't I
+
+1214
+00:50:23,680 --> 00:50:28,960
+don't but I do think that production
+
+1215
+00:50:25,599 --> 00:50:30,720
+stack supports like the gateway API
+
+1216
+00:50:28,960 --> 00:50:34,319
+inference extension. So, like the one
+
+1217
+00:50:30,720 --> 00:50:36,960
+thing I wanted to mention is so this
+
+1218
+00:50:34,319 --> 00:50:39,440
+like this this like the way that this
+
+1219
+00:50:36,960 --> 00:50:41,119
+all worked is I I I kind of glossed over
+
+1220
+00:50:39,440 --> 00:50:42,720
+this, but like technically the way that
+
+1221
+00:50:41,119 --> 00:50:45,040
+this works is there's an API called an
+
+1222
+00:50:42,720 --> 00:50:47,280
+inference pool which is kind of like
+
+1223
+00:50:45,040 --> 00:50:50,000
+similar to a Kubernetes service in the
+
+1224
+00:50:47,280 --> 00:50:52,559
+sense of like you discover pods through
+
+1225
+00:50:50,000 --> 00:50:54,079
+Kubernetes labels and then there's
+
+1226
+00:50:52,559 --> 00:50:56,559
+something called the gateway API
+
+1227
+00:50:54,079 --> 00:50:58,240
+inference extension which is which is
+
+1228
+00:50:56,559 --> 00:51:01,440
+basically how the inference pool gets
+
+1229
+00:50:58,240 --> 00:51:05,200
+connected to the EP. P and so and then
+
+1230
+00:51:01,440 --> 00:51:09,119
+that allows you to hook the EP up to
+
+1231
+00:51:05,200 --> 00:51:11,359
+various Kubernetes gateways and so if if
+
+1232
+00:51:09,119 --> 00:51:14,880
+production stack supports the concept of
+
+1233
+00:51:11,359 --> 00:51:16,880
+inference extension then it's possible
+
+1234
+00:51:14,880 --> 00:51:17,760
+that some of the functionality in LMD
+
+1235
+00:51:16,880 --> 00:51:19,680
+could be could be used
+
+1236
+00:51:17,760 --> 00:51:20,960
+>> intersect it yeah and one more I think
+
+1237
+00:51:19,680 --> 00:51:23,520
+we're running out of time one last
+
+1238
+00:51:20,960 --> 00:51:25,440
+question I think LMD I heard you say it
+
+1239
+00:51:23,520 --> 00:51:27,200
+supports gang scheduling such a way that
+
+1240
+00:51:25,440 --> 00:51:30,480
+if there is no like if you have to
+
+1241
+00:51:27,200 --> 00:51:32,559
+deploy this and X number of prefill that
+
+1242
+00:51:30,480 --> 00:51:34,000
+can decode if all of that is not
+
+1243
+00:51:32,559 --> 00:51:36,079
+available it's not going to launch it
+
+1244
+00:51:34,000 --> 00:51:38,720
+right is that implemented yeah
+
+1245
+00:51:36,079 --> 00:51:42,400
+>> so the so
+
+1246
+00:51:38,720 --> 00:51:45,599
+LMD project doesn't doesn't include it
+
+1247
+00:51:42,400 --> 00:51:47,920
+doesn't include deployment APIs so like
+
+1248
+00:51:45,599 --> 00:51:51,599
+in the examples like you can you can
+
+1249
+00:51:47,920 --> 00:51:53,760
+deploy with a it's agnostic to like how
+
+1250
+00:51:51,599 --> 00:51:57,119
+the servers are deployed in a lot of our
+
+1251
+00:51:53,760 --> 00:52:00,079
+examples we have just using deployments
+
+1252
+00:51:57,119 --> 00:52:02,240
+to to do that for instance, but you
+
+1253
+00:52:00,079 --> 00:52:03,040
+could deploy with something like Nvidia
+
+1254
+00:52:02,240 --> 00:52:05,200
+Grove.
+
+1255
+00:52:03,040 --> 00:52:06,800
+>> Yes, that's what Okay. So, I would it's
+
+1256
+00:52:05,200 --> 00:52:07,119
+not implemented in this. Okay, perfect.
+
+1257
+00:52:06,800 --> 00:52:09,040
+All right.
+
+1258
+00:52:07,119 --> 00:52:12,400
+>> Yeah, it's it's it's not like we don't
+
+1259
+00:52:09,040 --> 00:52:15,280
+have a like LMD as a project is
+
+1260
+00:52:12,400 --> 00:52:18,160
+unopinionated about how you deploy the
+
+1261
+00:52:15,280 --> 00:52:20,079
+servers. It's kind of like and and so
+
+1262
+00:52:18,160 --> 00:52:22,160
+what this means is we can compose the
+
+1263
+00:52:20,079 --> 00:52:24,880
+project with all sorts of other ways to
+
+1264
+00:52:22,160 --> 00:52:26,800
+deploy. I like leader worker set which
+
+1265
+00:52:24,880 --> 00:52:28,800
+is useful for like very homogeneous
+
+1266
+00:52:26,800 --> 00:52:31,119
+clusters. Grove is really going to be
+
+1267
+00:52:28,800 --> 00:52:32,640
+useful for like clusters especially
+
+1268
+00:52:31,119 --> 00:52:35,040
+GB200
+
+1269
+00:52:32,640 --> 00:52:37,119
+uh GB200 GB300 where maybe you have some
+
+1270
+00:52:35,040 --> 00:52:38,559
+topology awareness. There's other sorts
+
+1271
+00:52:37,119 --> 00:52:42,319
+of schedulers out there. All of those
+
+1272
+00:52:38,559 --> 00:52:44,400
+can work with work with BLM. But one one
+
+1273
+00:52:42,319 --> 00:52:46,400
+thing I would mention is like for some
+
+1274
+00:52:44,400 --> 00:52:49,040
+like more complicated flows. So for
+
+1275
+00:52:46,400 --> 00:52:52,480
+instance for like PD disagregation you
+
+1276
+00:52:49,040 --> 00:52:54,079
+want to be careful about how this like
+
+1277
+00:52:52,480 --> 00:52:56,640
+some of the operational flows about like
+
+1278
+00:52:54,079 --> 00:52:59,599
+how to roll out a new version where you
+
+1279
+00:52:56,640 --> 00:53:01,839
+don't want to select pod A and pod B
+
+1280
+00:52:59,599 --> 00:53:03,520
+with different versions of BLM. We've
+
+1281
+00:53:01,839 --> 00:53:04,720
+worked with some folks in the community
+
+1282
+00:53:03,520 --> 00:53:06,880
+to develop this thing called the
+
+1283
+00:53:04,720 --> 00:53:08,720
+disagregated set operator which is
+
+1284
+00:53:06,880 --> 00:53:10,720
+intended to kind of solve this problem.
+
+1285
+00:53:08,720 --> 00:53:12,880
+So this is built into leader worker set
+
+1286
+00:53:10,720 --> 00:53:15,520
+for instance. So I wouldn't say that
+
+1287
+00:53:12,880 --> 00:53:17,200
+like we have a a hard deployment API but
+
+1288
+00:53:15,520 --> 00:53:20,079
+like we do work with other communities
+
+1289
+00:53:17,200 --> 00:53:22,000
+to try to like develop develop give
+
+1290
+00:53:20,079 --> 00:53:23,440
+requirements that can can help to
+
+1291
+00:53:22,000 --> 00:53:24,079
+achieve things like what you're talking
+
+1292
+00:53:23,440 --> 00:53:25,680
+about.
+
+1293
+00:53:24,079 --> 00:53:29,599
+>> Okay. Super awesome. This is very
+
+1294
+00:53:25,680 --> 00:53:31,920
+useful. Thank you so much. Thank you.
+
+1295
+00:53:29,599 --> 00:53:33,920
+>> Awesome. Great questions. Well, yeah, we
+
+1296
+00:53:31,920 --> 00:53:36,720
+are unfortunately over time. Thanks a
+
+1297
+00:53:33,920 --> 00:53:38,319
+lot to to Rob, Ryan, and Charles for
+
+1298
+00:53:36,720 --> 00:53:40,240
+yeah, stepping in and giving us a great
+
+1299
+00:53:38,319 --> 00:53:42,800
+update on the various related projects
+
+1300
+00:53:40,240 --> 00:53:44,480
+to VLM. As always, thanks for being a
+
+1301
+00:53:42,800 --> 00:53:46,000
+part of the community. We'd love for you
+
+1302
+00:53:44,480 --> 00:53:48,559
+to continue being part of the community
+
+1303
+00:53:46,000 --> 00:53:50,960
+in a in a even greater capacity if you
+
+1304
+00:53:48,559 --> 00:53:53,359
+can. Contributions are always welcome.
+
+1305
+00:53:50,960 --> 00:53:54,720
+Join the VLM Slack if you have any
+
+1306
+00:53:53,359 --> 00:53:56,480
+questions or want to get involved in
+
+1307
+00:53:54,720 --> 00:53:58,640
+stuff. Yeah, there's lots of learning
+
+1308
+00:53:56,480 --> 00:54:00,319
+resources and yeah, the power of the
+
+1309
+00:53:58,640 --> 00:54:03,040
+community is is what makes open source
+
+1310
+00:54:00,319 --> 00:54:05,760
+software good, successful, and
+
+1311
+00:54:03,040 --> 00:54:08,800
+ultimately rises all all rising tide
+
+1312
+00:54:05,760 --> 00:54:11,119
+raises all boats. And yeah, that's all
+
+1313
+00:54:08,800 --> 00:54:13,680
+we have for you this week. We'll get to
+
+1314
+00:54:11,119 --> 00:54:16,480
+you in the in two weeks with a deep dive
+
+1315
+00:54:13,680 --> 00:54:19,200
+in Prime RL. And yeah, hope to see you
+
+1316
+00:54:16,480 --> 00:54:22,599
+then. Hope you have a good two weeks.
+
+1317
+00:54:19,200 --> 00:54:22,599
+Take care, everyone.
+
+1318
+00:54:22,720 --> 00:54:24,880
+Bye-bye.

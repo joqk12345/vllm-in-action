@@ -1,0 +1,247 @@
+schema_version: 1
+topic: llm-d-agentic-serving
+scope: "llm-d + vLLM serving for agentic long-context workloads；核对至 2026-07-26，未固定 release/commit"
+as_of: "2026-07-26"
+target_release: "unfixed"
+policy:
+  evidence_rule: "Office Hours 与自动字幕只作发现线索；roadmap_status 不证明 release_status；release_status 不证明 local_test_status。"
+  stable_body_grades: [A, B]
+  talk_grade: C
+  transcript_grade: D
+statuses:
+  roadmap_status:
+    checked: "已在演讲、README、roadmap 或讨论中观察到，但不代表 release。"
+    unchecked: "未观察到或未检查。"
+    discussion-required: "需要上游解释或进一步设计澄清。"
+  release_status:
+    unverified: "尚未绑定固定 release/tag/commit 或未检查目标版本。"
+    verified: "已确认 merge commit 与目标 release/tag 中的源码/测试/文档。"
+    not-in-target: "已确认不在目标版本。"
+  local_test_status:
+    not-run: "本仓未运行复现实验或 smoke test。"
+    passed: "本仓有可复现实验通过。"
+    failed: "本仓实验失败。"
+    partial: "只完成部分场景。"
+capabilities:
+  - id: cap-agentic-workload-characterization
+    layer: workload
+    capability: "Agentic long-context multi-turn traces 的复用率、长度分布和长尾请求刻画"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "benchmark 设计"
+      - "routing 收益解释"
+    chapters: ["11", "15"]
+    source_ids:
+      - SRC-vllm-office-hours-53-llm-d
+      - SRC-inferencex-agentx
+    related_claims: ["LD-C01", "LD-C07"]
+    related_qa: ["QA-llmd-oh53-004"]
+    next_check: "固定 InferenceX/AgentX commit 或建立本仓替代 trace。"
+
+  - id: cap-intelligent-routing-prefix-affinity
+    layer: routing
+    capability: "Prefix-cache aware routing / prefix affinity"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "多轮复用 TTFT 优化"
+    chapters: ["12", "15"]
+    source_ids:
+      - SRC-vllm-office-hours-53-llm-d
+      - SRC-llm-d-repository
+    related_claims: ["LD-C02"]
+    related_qa: []
+    next_check: "核查 llm-d endpoint picker 如何发现 prefix/KV 状态并路由。"
+
+  - id: cap-load-aware-balancing
+    layer: routing
+    capability: "Load/backpressure aware balancing 与 scorer/filter 组合"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "避免 prefix affinity 热点"
+    chapters: ["12", "15"]
+    source_ids:
+      - SRC-vllm-office-hours-53-llm-d
+      - SRC-llm-d-repository
+    related_claims: ["LD-C02"]
+    related_qa: []
+    next_check: "核查默认 load 指标、scraper、filter、scorer 和冲突处理。"
+
+  - id: cap-predicted-latency-scheduling
+    layer: routing
+    capability: "Experimental predicted latency-based scheduling"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "高级路由策略"
+    chapters: ["12"]
+    source_ids:
+      - SRC-vllm-office-hours-53-llm-d
+    related_claims: ["LD-C02"]
+    related_qa: []
+    next_check: "确认 online XGBoost/latency model 是否在上游实现、如何训练、是否默认启用。"
+
+  - id: cap-kv-cache-tiering
+    layer: kv-cache-management
+    capability: "KV cache GPU/CPU/NVMe/remote tiering 与有效 working set 扩展"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "多轮长上下文复用"
+    chapters: ["11", "12"]
+    source_ids:
+      - SRC-vllm-office-hours-53-llm-d
+      - SRC-vllm-repository
+    related_claims: ["LD-C03"]
+    related_qa: []
+    next_check: "核查 vLLM KV offload/tiering connector、metrics 和读取/重算边界。"
+
+  - id: cap-global-kv-state-index
+    layer: kv-cache-management
+    capability: "Router 可查询的全局 KV cache 状态索引"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "tiered prefix cache affinity"
+    chapters: ["12", "15"]
+    source_ids:
+      - SRC-vllm-office-hours-53-llm-d
+      - SRC-llm-d-repository
+    related_claims: ["LD-C03"]
+    related_qa: []
+    next_check: "核查 llm-d 如何表示 pod/rank/tier 的 KV 状态和 stale state 处理。"
+
+  - id: cap-pd-disaggregation
+    layer: serving-large-models
+    capability: "Prefill/decode disaggregation"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "长 prefill 与 decode QoS 隔离"
+    chapters: ["12", "15"]
+    source_ids:
+      - SRC-vllm-office-hours-53-llm-d
+      - SRC-vllm-repository
+    related_claims: ["LD-C04"]
+    related_qa: ["QA-llmd-oh53-001", "QA-llmd-oh53-003"]
+    next_check: "固定 vLLM/llm-d PD 支持版本，核查 prefill/decode worker 选择和版本滚动约束。"
+
+  - id: cap-kv-transfer-nixl-ucx
+    layer: serving-large-models
+    capability: "NIXL/UCX/InfiniBand KV transfer between prefill and decode workers"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "PD disaggregation benchmark"
+    chapters: ["12", "15"]
+    source_ids:
+      - SRC-vllm-office-hours-53-llm-d
+      - SRC-vllm-repository
+    related_claims: ["LD-C04"]
+    related_qa: ["QA-llmd-oh53-001"]
+    next_check: "核查 NIXL/UCX transport 选项、失败恢复和云上网络要求。"
+
+  - id: cap-wide-ep-dp-attention
+    layer: serving-large-models
+    capability: "Wide expert parallelism / DP attention for MoE/MLA models"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "GLM/DeepSeek-like 超大模型服务"
+    chapters: ["11", "12"]
+    source_ids:
+      - SRC-vllm-office-hours-53-llm-d
+      - SRC-vllm-repository
+    related_claims: ["LD-C05", "LD-C06"]
+    related_qa: ["QA-llmd-oh53-001"]
+    next_check: "核查 vLLM Wide EP、DP attention、DP-aware scheduling 的 PR、测试和目标模型。"
+
+  - id: cap-deployment-operator-boundary
+    layer: deployment
+    capability: "llm-d router 与 LeaderWorkerSet/Grove/disaggregated set operator 的职责边界"
+    roadmap_status: discussion-required
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "生产部署边界"
+    chapters: ["12", "15"]
+    source_ids:
+      - SRC-vllm-office-hours-53-llm-d-transcript
+      - SRC-llm-d-repository
+    related_claims: ["LD-C04", "LD-C06"]
+    related_qa: ["QA-llmd-oh53-003"]
+    next_check: "确认 gang scheduling/co-scheduling 是否由 operator 而非 llm-d 提供。"
+
+  - id: cap-flow-control-priority
+    layer: operational-excellence
+    capability: "Saturation detection、flow control、priority queueing 和 multi-tenant QoS"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "在线 SLO 保护"
+    chapters: ["12", "15"]
+    source_ids:
+      - SRC-vllm-office-hours-53-llm-d
+      - SRC-llm-d-repository
+    related_claims: ["LD-C06"]
+    related_qa: []
+    next_check: "核查 flow control 配置、队列语义、优先级和 starvation 避免。"
+
+  - id: cap-slo-aware-autoscaling
+    layer: operational-excellence
+    capability: "基于实时 inference signals 的 proactive / SLO-aware autoscaling"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "生产容量规划"
+    chapters: ["15"]
+    source_ids:
+      - SRC-vllm-office-hours-53-llm-d
+    related_claims: ["LD-C06"]
+    related_qa: []
+    next_check: "核查 autoscaling 使用的 metrics：TTFT、ITL、queue、GPU、KV hit 等。"
+
+  - id: cap-batch-async-processing
+    layer: batch-processing
+    capability: "OpenAI-compatible Batch API 与 async processor 共享在线 serving 集群"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "离线任务利用空闲 GPU"
+    chapters: ["15"]
+    source_ids:
+      - SRC-vllm-office-hours-53-llm-d
+      - SRC-llm-d-repository
+    related_claims: ["LD-C06"]
+    related_qa: []
+    next_check: "核查 batch API、async processor、低优先级调度和失败重试。"
+
+  - id: cap-cost-model-agentic-serving
+    layer: benchmark
+    capability: "Agentic serving 的 TPS/user、TPS/GPU 与 $/M tokens 成本模型"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for:
+      - "生产成本判断"
+    chapters: ["11"]
+    source_ids:
+      - SRC-vllm-office-hours-53-llm-d
+      - SRC-inferencex-agentx
+    related_claims: ["LD-C07"]
+    related_qa: ["QA-llmd-oh53-005"]
+    next_check: "固定 OpenRouter 对比、GPU 单价、利用率、模型和 trace 后再形成结论。"
