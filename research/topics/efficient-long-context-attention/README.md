@@ -33,6 +33,7 @@ research/topics/efficient-long-context-attention/
 ## 当前来源
 
 - [`source/papers/2026-02-24-glm-5-paper-v2.pdf`](source/papers/2026-02-24-glm-5-paper-v2.pdf) — GLM-5 arXiv v2，本地 PDF。
+- [`source/papers/2026-07-28-kimi-k3-tech-report.pdf`](source/papers/2026-07-28-kimi-k3-tech-report.pdf) — Kimi K3 技术报告，本地 PDF；用于 KDA serving 系统案例，B 级作者报告。
 - [`source/notes/seed-papers.txt`](source/notes/seed-papers.txt) — 待补充来源列表，包括 NSA、MoBA、MiniMax Lightning Attention。
 - [`source/README.md`](source/README.md) — 来源等级、文件校验和引用边界。
 - [`claims.yml`](claims.yml) — 本专题 claim spine。

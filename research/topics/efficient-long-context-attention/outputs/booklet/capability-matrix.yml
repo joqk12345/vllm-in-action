@@ -1,0 +1,176 @@
+schema_version: 1
+topic: efficient-long-context-attention
+as_of: 2026-07-26
+target_release: vLLM v0.26.0
+roadmap_status: researching
+release_status: captured
+local_test_status: not_run
+source_ids:
+  - SRC-glm5-paper-v2
+  - SRC-kimi-linear-paper-v2
+  - SRC-kimi-k3-tech-report-2026-07-28
+  - SRC-gated-deltanet-paper-v3
+  - SRC-qwen3-next-hf-config-2026-07-26
+  - SRC-vllm-qwen3-next-gdn-support-v0-26-0
+  - SRC-minimax-m1-paper-v1
+  - SRC-minimax-m2-series-paper-v1
+  - SRC-vllm-kimi-linear-support-v0-26-0
+status: draft
+policy:
+  body_ready_grades: [A, B]
+  production_claim_requires:
+    - fixed_vllm_release_or_commit
+    - fixed_model_config_or_hf_revision
+    - commands_and_raw_logs
+    - hardware_and_workload_manifest
+  notes: "Paper results are author-reported unless reproduced in this repository. C/D sources are discovery only."
+
+methods:
+  - id: glm5-dsa
+    family: dynamic_sparse_attention
+    primary_sources: [SRC-glm5-paper-v2]
+    evidence_grade: B
+    model_or_project: GLM-5
+    architecture_claim: "DSA dynamic sparse selection, indexer/top-k components, plus KV reuse/routing discussion."
+    vllm_status: unknown
+    current_state: captured
+    chapters: ["04", "09", "11", "12", "15"]
+    risks:
+      - indexer_topk_overhead
+      - deterministic_selection
+      - kernel_availability
+      - quality_regression_on_non_ruler_tasks
+    next_steps:
+      - "Capture DeepSeek NSA/DSA primary paper and implementation."
+      - "Check vLLM support for GLM-5/DSA or related sparse kernels."
+
+  - id: gated-deltanet
+    family: linear_recurrent_gated_delta
+    primary_sources: [SRC-gated-deltanet-paper-v3, SRC-deltanet-explained-part-ii]
+    evidence_grade: B
+    model_or_project: Gated DeltaNet / GDN
+    architecture_claim: "Combines gating-based forgetting with delta-rule targeted updates; supports chunkwise parallel training."
+    vllm_status: background_for_qwen_gdn
+    current_state: tables_extracted_needs_pdf_review
+    chapters: ["09", "11", "12"]
+    risks:
+      - finite_state_memory
+      - table_ocr_needs_review
+      - training_results_not_serving_results
+    next_steps:
+      - "Review PDF tables manually."
+      - "Capture NVlabs/GatedDeltaNet repo commit."
+
+  - id: kimi-linear-kda
+    family: hybrid_linear_kda
+    primary_sources:
+      - SRC-kimi-linear-paper-v2
+      - SRC-kimi-linear-hf-config-2026-07-26
+      - SRC-vllm-kimi-linear-support-v0-26-0
+    evidence_grade: A/B
+    model_or_project: moonshotai/Kimi-Linear-48B-A3B-Instruct
+    architecture_claim: "KDA extends GDN with finer-grained gating; captured config has 20 KDA layers and 7 full MLA layers."
+    vllm_status:
+      first_stable_boundary: v0.11.1
+      current_baseline: v0.26.0
+      smoke_test: not_run
+    context_length_claim: "1M in Kimi repository/model card context; needs fixed HF revision and local run."
+    chapters: ["09", "11", "12", "15"]
+    risks:
+      - hf_revision_not_fixed
+      - no_local_serving_run
+      - paper_speed_not_reproduced
+      - backend_path_changes_across_vllm_versions
+    next_steps:
+      - "Run vLLM v0.26.0 smoke test."
+      - "Fix HF revision and tokenizer/chat template."
+
+  - id: kimi-k3-hybrid-kda-mla
+    family: hybrid_linear_kda
+    primary_sources:
+      - SRC-kimi-k3-tech-report-2026-07-28
+      - SRC-kimi-linear-paper-v2
+    evidence_grade: B
+    model_or_project: moonshotai/Kimi-K3
+    architecture_claim: "Technical report claims 2.8T total parameters, 104B activated parameters, 1M context, and 69 KDA + 24 Gated MLA layers in a repeated 3:1 KDA:MLA block pattern."
+    vllm_status: unknown
+    serving_claim: "Author describes KDA-aware prefix cache, KDA state checkpoints, FlashKDA/KDA Context Parallelism, and speculative decoding state replay; none verified in vLLM."
+    current_state: captured_needs_public_url_hf_revision_and_vllm_support_check
+    chapters: ["08", "09", "11", "12", "15"]
+    risks:
+      - author_report_not_reproduced
+      - vllm_support_not_fixed
+      - hf_revision_not_fixed
+      - kda_state_cache_not_standard_kv_cache
+      - speculative_decode_state_rollback
+    next_steps:
+      - "Capture public report URL and Kimi-K3 HF config revision."
+      - "Check vLLM support for Kimi K3 and KDA-aware cache/state handling."
+      - "Separate model-quality benchmark claims from serving-system design claims."
+
+  - id: qwen3-next-gdn
+    family: hybrid_gdn_full_attention
+    primary_sources:
+      - SRC-qwen3-next-hf-config-2026-07-26
+      - SRC-vllm-qwen3-next-gdn-support-v0-26-0
+      - SRC-gated-deltanet-paper-v3
+    evidence_grade: A/B
+    model_or_project: Qwen/Qwen3-Next-80B-A3B-Instruct
+    architecture_claim: "48 layers default to 36 linear/GDN layers and 12 full attention layers via full_attention_interval=4."
+    vllm_status:
+      current_baseline: v0.26.0
+      model_class: Qwen3NextForCausalLM
+      attention_layer: QwenGatedDeltaNetAttention
+      smoke_test: not_run
+    context_length_claim: "max_position_embeddings=262144 in captured config."
+    chapters: ["09", "11", "12", "15"]
+    risks:
+      - qwen35_config_not_fixed
+      - backend_selection_not_recorded
+      - no_local_serving_run
+      - cannot_generalize_qwen3next_to_all_qwen35
+    next_steps:
+      - "Fix Qwen3.5-specific HF config if discussing Qwen3.5."
+      - "Run vLLM v0.26.0 registry/layer/backend smoke test."
+
+  - id: minimax-m1-lightning
+    family: hybrid_lightning_attention
+    primary_sources: [SRC-minimax-m1-paper-v1]
+    evidence_grade: B
+    model_or_project: MiniMax-M1
+    architecture_claim: "Hybrid MoE + Lightning Attention; author reports 1M context and 40K/80K thinking budget."
+    vllm_status: claimed_by_paper_needs_verification
+    current_state: captured
+    chapters: ["09", "11", "12"]
+    risks:
+      - author_report_not_reproduced
+      - vllm_support_not_fixed
+      - flops_not_equal_serving_cost
+    next_steps:
+      - "Capture MiniMax-M1 repo/HF config."
+      - "Check vLLM v0.26.0 support."
+
+  - id: minimax-m2-full-attention
+    family: full_attention_counterexample
+    primary_sources: [SRC-minimax-m2-series-paper-v1]
+    evidence_grade: B
+    model_or_project: MiniMax-M2
+    architecture_claim: "Uses full multi-head attention with GQA; author reports moving away from hybrid Lightning/full attention for M2 production setting."
+    vllm_status: unknown
+    current_state: tables_extracted_needs_pdf_review
+    chapters: ["09", "11", "12", "15"]
+    risks:
+      - cannot_generalize_to_all_efficient_attention
+      - author_setting_specific
+      - table_ocr_needs_review
+    next_steps:
+      - "Review Table 2/3 manually."
+      - "Capture M2 repo/HF config and vLLM support if available."
+
+open_slots:
+  - id: deepseek-nsa
+    reason: "Seed list only; primary paper/source card pending."
+  - id: kimi-moba
+    reason: "Seed list only; primary paper/source card pending."
+  - id: minimax-01-lightning
+    reason: "Seed list only; MiniMax-M1 captured but MiniMax-01 paper still pending."

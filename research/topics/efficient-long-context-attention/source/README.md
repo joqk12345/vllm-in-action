@@ -7,6 +7,7 @@ Verified date: 2026-07-26
 | `SRC-glm5-paper-v2` | [`papers/2026-02-24-glm-5-paper-v2.pdf`](papers/2026-02-24-glm-5-paper-v2.pdf) | 作者论文，arXiv v2 | B | GLM-5 的 DSA、MLA、长上下文训练、efficient attention 消融、DP-aware routing 线索 |
 | `SRC-efficient-attention-seed-list` | [`notes/seed-papers.txt`](notes/seed-papers.txt) | 人工种子列表 | D | 发现 NSA、MoBA、Lightning Attention 等后续来源；不能支撑正文 |
 | `SRC-kimi-linear-paper-v2` | [`papers/2025-11-01-kimi-linear-paper-v2.pdf`](papers/2025-11-01-kimi-linear-paper-v2.pdf) | 作者论文，arXiv v2 | B | Kimi Linear/KDA 架构、3:1 hybrid ratio、KDA kernel/vLLM integration 声明、作者报告 benchmark |
+| `SRC-kimi-k3-tech-report-2026-07-28` | [`papers/2026-07-28-kimi-k3-tech-report.pdf`](papers/2026-07-28-kimi-k3-tech-report.pdf) | 作者技术报告，本地 PDF | B | Kimi K3 的 3:1 KDA–MLA、1M context、FlashKDA/KDA Context Parallelism、KDA-aware prefix cache、spec decode state replay 线索 |
 | `SRC-minimax-m1-paper-v1` | [`papers/2025-06-16-minimax-m1-paper-v1.pdf`](papers/2025-06-16-minimax-m1-paper-v1.pdf) | 作者论文，arXiv v1 | B | MiniMax-M1 Lightning Attention、1M context、40K/80K thinking budget、作者报告 benchmark |
 | `SRC-minimax-m2-series-paper-v1` | [`papers/2026-05-26-minimax-m2-series-paper-v1.pdf`](papers/2026-05-26-minimax-m2-series-paper-v1.pdf) | 作者论文，arXiv v1 | B | MiniMax-M2 full attention 选择、hybrid/SWA 反例、agentic serving/RL 系统线索 |
 | `SRC-gated-deltanet-paper-v3` | [`papers/2024-12-09-gated-delta-networks-paper-v1.pdf`](papers/2024-12-09-gated-delta-networks-paper-v1.pdf) | 作者论文，arXiv v3 / ICLR 2025 | B | Gated DeltaNet/GDN 机制、gated delta rule、chunkwise parallel algorithm、hybrid GDN 架构 |
@@ -16,9 +17,11 @@ Verified date: 2026-07-26
 | `SRC-qwen3-next-hf-config-2026-07-26` | [`configs/2026-07-26-qwen3-next-80b-a3b-instruct-config.json`](configs/2026-07-26-qwen3-next-80b-a3b-instruct-config.json) | HF model config | A | Qwen3-Next 的 full-attention interval、linear/GDN 参数和 3:1 层分布推导 |
 | `SRC-flash-linear-attention-kda` | <https://github.com/fla-org/flash-linear-attention/tree/0a9b9f222e86b9a895c2447767e9b4cce6c8d530/fla/ops/kda> | 固定 commit 源码 | A | KDA chunk/recurrent/gate operator 实现线索 |
 | `SRC-vllm-kimi-linear-support-v0-11-1` | <https://github.com/vllm-project/vllm/tree/v0.11.1> | vLLM release tag 源码/文档 | A | 首个已观察到 KimiLinearForCausalLM 支持入口的稳定 tag；Kimi Linear/KDA release 边界 |
-| `SRC-vllm-kimi-linear-support-v0-25-1` | <https://github.com/vllm-project/vllm/tree/v0.25.1> | vLLM release tag 源码/文档 | A | 当前应优先验证的 vLLM release 基线；KimiLinearForCausalLM 与 KDA path |
-| `SRC-vllm-qwen3-next-gdn-support-v0-25-1` | <https://github.com/vllm-project/vllm/tree/v0.25.1> | vLLM release tag 源码/文档 | A | Qwen3-Next/Qwen3.5 GDN path、QwenGatedDeltaNetAttention、GDN backend 线索 |
-| `SRC-vllm-kimi-linear-support-2026-07-26` | <https://github.com/vllm-project/vllm/tree/1240c74c0a47473449cf0c3a9c2d87a1e159f73b> | 固定 commit 源码/文档 | A | 研究阶段核查 vLLM KimiLinearForCausalLM、KDA ops 和 kernel tests；路径已较 v0.25.1 继续重构 |
+| `SRC-vllm-kimi-linear-support-v0-26-0` | <https://github.com/vllm-project/vllm/releases/tag/v0.26.0> | vLLM release tag 源码/文档 | A | 当前应优先验证的 vLLM release 基线；KimiLinearForCausalLM 与 KDA path |
+| `SRC-vllm-qwen3-next-gdn-support-v0-26-0` | <https://github.com/vllm-project/vllm/releases/tag/v0.26.0> | vLLM release tag 源码/文档 | A | 当前应优先验证的 Qwen3-Next/Qwen3.5 GDN path、QwenGatedDeltaNetAttention、GDN backend 线索 |
+| `SRC-vllm-kimi-linear-support-v0-25-1` | <https://github.com/vllm-project/vllm/tree/v0.25.1> | vLLM release tag 源码/文档 | A | 历史验证基线；已被 v0.26.0 取代 |
+| `SRC-vllm-qwen3-next-gdn-support-v0-25-1` | <https://github.com/vllm-project/vllm/tree/v0.25.1> | vLLM release tag 源码/文档 | A | 历史验证基线；已被 v0.26.0 取代 |
+| `SRC-vllm-kimi-linear-support-2026-07-26` | <https://github.com/vllm-project/vllm/tree/1240c74c0a47473449cf0c3a9c2d87a1e159f73b> | 固定 commit 源码/文档 | A | 研究阶段核查 vLLM KimiLinearForCausalLM、KDA ops 和 kernel tests；路径已较 v0.26.0 继续重构 |
 | `SRC-kimi-linear-yang-songlin-interview` | [`transcripts/2026-kimi-linear-yang-songlin-interview.zh.txt`](transcripts/2026-kimi-linear-yang-songlin-interview.zh.txt) | 中文访谈转写，来源待核对 | D | 发现 Kimi Linear/KDA、hybrid linear attention、sparse vs linear、benchmark 反例和硬件亲和线索 |
 | `SRC-qwen-gdn-zhihu-2026` | <https://zhuanlan.zhihu.com/p/2007937984738129405> | 知乎链接，正文未捕获 | D | 用户补充的 Qwen/GDN 线索；当前抓取被 anti-bot shell 阻断，不能支撑 claim |
 | `SRC-deepseek-native-sparse-attention` | <https://arxiv.org/pdf/2502.11089> | 待抓取论文 | B? | Native Sparse Attention 算法与训练/硬件边界，待核查 |
@@ -30,6 +33,7 @@ Verified date: 2026-07-26
 ```text
 e20742ff36e08dc361de6973f7f72ad38e107edf8fd92d2a777a8428fc9b8f0e  papers/2026-02-24-glm-5-paper-v2.pdf
 e2e23a449fc9bb27e34e783d20b2e6cd0f1ac67d58efdc0479c03c54db956a17  papers/2025-11-01-kimi-linear-paper-v2.pdf
+1f2978d89a9d7f138f6d6ae5f17fd6890dc673abeaea7fca96c1eca432c75ce8  papers/2026-07-28-kimi-k3-tech-report.pdf
 d355a6a41a26b85ca145aec5154650f4d39733c92f54775ae7f5851ecbedf600  papers/2025-06-16-minimax-m1-paper-v1.pdf
 4c090a07b73dade56ed3e90f7fdf56a183601c12d2f2d1f81eb46f24cff311fd  papers/2026-05-26-minimax-m2-series-paper-v1.pdf
 55f84f2ae9c4e52ff494bfa699499867f5e9e17514994ac71de43888363a5fb9  papers/2024-12-09-gated-delta-networks-paper-v1.pdf
@@ -43,6 +47,7 @@ a6ac3c2c4b5aa72370f9727f49ffa4432715d20061889acdb37c688be853096e  configs/2026-0
 ## 权利与引用边界
 
 - GLM-5、Kimi Linear、MiniMax-M1/M2、Gated DeltaNet PDF 来自 arXiv，本仓当前只作为内部研究素材；引用正文前需保留标题、作者、arXiv version 和 URL。
+- Kimi K3 技术报告来自本地 PDF 捕获；正文引用前需核对公开发布 URL、模型仓库 revision、权重/配置和报告发布日期。报告中的性能、部署和 scaling efficiency 数字均属作者报告，未在本仓复现。
 - `seed-papers.txt` 只是待办线索，不是来源证据。
 - `2026-kimi-linear-yang-songlin-interview.zh.txt` 是访谈转写/口述材料，原始 URL、发布日期和授权尚未核对，只能作为 D 级线索。
 - 知乎链接当前未抓取到正文，只能作为 D 级发现线索。
@@ -54,12 +59,14 @@ a6ac3c2c4b5aa72370f9727f49ffa4432715d20061889acdb37c688be853096e  configs/2026-0
 
 - GLM-5：`arXiv:2602.15763v2`，PDF metadata 日期 2026-02-24。
 - Kimi Linear：`arXiv:2510.26692v2`，PDF metadata 日期 2025-11-01。
+- Kimi K3：Technical Report，本地 PDF metadata 创建/修改日期 2026-07-28；报告称模型权重发布于 `https://huggingface.co/moonshotai/Kimi-K3`，HF revision 与 vLLM 支持状态尚未固定。
 - MiniMax-M1：`arXiv:2506.13585v1`，PDF metadata 日期 2025-06-16。
 - MiniMax-M2：`arXiv:2605.26494v1`，PDF metadata 日期 2026-05-26。
 - Gated DeltaNet：`arXiv:2412.06464v3` / ICLR 2025，PDF metadata 日期 2025-03-07；本地文件名保留首次捕获日期。
 - Kimi Linear repo：`MoonshotAI/Kimi-Linear@8c1d85eb6b5f8fcefb15758691b0ce50b0827ce3`。
 - Flash Linear Attention KDA：`fla-org/flash-linear-attention@0a9b9f222e86b9a895c2447767e9b4cce6c8d530`。
 - vLLM Kimi Linear stable release boundary：`v0.11.1` (`439368496db48d8f992ba8c606a0c0b1eebbfa69`) 是当前已观察到的首个包含 `KimiLinearForCausalLM` 支持入口的稳定 tag；`v0.11.1rc5` 是当前已观察到的首个 RC，`v0.11.0` 未观察到该入口。
-- vLLM current verification baseline：`v0.25.1` (`752a3a504485790a2e8491cacbb35c137339ad34`) 已观察到 `KimiLinearForCausalLM`、`kimi_gdn_linear_attn.py`、vendored `fla/ops/kda.py` 和 `tests/kernels/test_kda.py`；后续 smoke test/benchmark 应优先基于该 tag。
-- vLLM Kimi Linear support snapshot：`vllm-project/vllm@1240c74c0a47473449cf0c3a9c2d87a1e159f73b`，研究阶段使用；路径已较 `v0.25.1` 继续重构。
+- vLLM current verification baseline：`v0.26.0` (`f2654939e69b4069b13977e9aef3e31d4dcaf051`) 已观察到 `KimiLinearForCausalLM`、`Qwen3NextForCausalLM`、`kimi_gdn_linear_attn.py`、`qwen_gdn_linear_attn.py` 和 `tests/kernels/test_kda.py`；后续 smoke test/benchmark 应优先基于该 tag。
+- vLLM previous verification baseline：`v0.25.1` (`752a3a504485790a2e8491cacbb35c137339ad34`) 保留为历史基线。
+- vLLM Kimi Linear support snapshot：`vllm-project/vllm@1240c74c0a47473449cf0c3a9c2d87a1e159f73b`，研究阶段使用；路径已较 `v0.26.0` 继续重构。
 - NSA/MoBA/MiniMax-01：仅记录 URL，尚未下载、校验或建 source card。

@@ -9,8 +9,9 @@
 - [`2026-05-26-minimax-m2-series-paper-v1-analysis.md`](2026-05-26-minimax-m2-series-paper-v1-analysis.md) — MiniMax-M2 full attention 选择与 hybrid/SWA 反例分析，B 级作者报告。
 - [`2026-05-26-minimax-m2-full-vs-hybrid-swa-tables.md`](2026-05-26-minimax-m2-full-vs-hybrid-swa-tables.md) — MiniMax-M2 Table 2/3 full attention vs hybrid SWA 数值抽取。
 - [`2026-07-26-kimi-linear-implementation-snapshot.md`](2026-07-26-kimi-linear-implementation-snapshot.md) — Kimi Linear/KDA 源码与 vLLM 支持快照，固定 commit。
-- [`2026-07-26-vllm-v0-25-1-kimi-linear-smoke-test-plan.md`](2026-07-26-vllm-v0-25-1-kimi-linear-smoke-test-plan.md) — vLLM v0.25.1 Kimi Linear 分层 smoke test 计划。
+- [`2026-07-26-vllm-v0-26-0-kimi-linear-smoke-test-plan.md`](2026-07-26-vllm-v0-26-0-kimi-linear-smoke-test-plan.md) — vLLM v0.26.0 Kimi Linear 分层 smoke test 计划。
 - [`2026-07-26-qwen3-next-gdn-explainer.md`](2026-07-26-qwen3-next-gdn-explainer.md) — Qwen3-Next/Qwen3.5 GDN 机制、config 和 vLLM support path 解释分析。
+- [`2026-07-28-kimi-k3-tech-report-analysis.md`](2026-07-28-kimi-k3-tech-report-analysis.md) — Kimi K3 技术报告中 KDA serving、prefix cache、spec decode 与 KDA Context Parallelism 的合并建议，B 级作者报告。
 - [`2025-03-06-gated-deltanet-paper-v3-tables.md`](2025-03-06-gated-deltanet-paper-v3-tables.md) — Gated DeltaNet 论文 Table 2/3/4/5 快速抽取。
 - [`2026-kimi-linear-yang-songlin-interview-analysis.md`](2026-kimi-linear-yang-songlin-interview-analysis.md) — Kimi Linear / 线性注意力访谈材料使用建议，D 级线索。
 

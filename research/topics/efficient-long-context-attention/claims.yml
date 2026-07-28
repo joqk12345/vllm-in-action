@@ -116,14 +116,14 @@ claims:
     verification_gap: "MoonshotAI/Kimi-Linear、flash-linear-attention KDA kernel 和 vLLM research commit 已固定；仍需定位 release tag 并运行本仓 serving benchmark。"
 
   - id: EA-C12
-    statement: "vLLM `v0.11.1` 是当前已观察到的首个包含 KimiLinearForCausalLM 支持入口的稳定 tag；`v0.25.1` 作为当前应优先验证的 release 基线仍包含 Kimi Linear/KDA 支持路径。"
+    statement: "vLLM `v0.11.1` 是当前已观察到的首个包含 KimiLinearForCausalLM 支持入口的稳定 tag；`v0.26.0` 作为当前应优先验证的 release 基线仍包含 Kimi Linear/KDA 支持路径。"
     kind: implementation-support
     grade: A
-    applies_to: "vLLM v0.11.1 tag commit 439368496db48d8f992ba8c606a0c0b1eebbfa69；v0.25.1 tag commit 752a3a504485790a2e8491cacbb35c137339ad34；以及 research snapshot 1240c74c0a47473449cf0c3a9c2d87a1e159f73b"
-    sources: [SRC-vllm-kimi-linear-support-v0-11-1, SRC-vllm-kimi-linear-support-v0-25-1, SRC-vllm-kimi-linear-support-2026-07-26]
+    applies_to: "vLLM v0.11.1 tag commit 439368496db48d8f992ba8c606a0c0b1eebbfa69；v0.26.0 tag commit f2654939e69b4069b13977e9aef3e31d4dcaf051；以及 research snapshot 1240c74c0a47473449cf0c3a9c2d87a1e159f73b"
+    sources: [SRC-vllm-kimi-linear-support-v0-11-1, SRC-vllm-kimi-linear-support-v0-26-0, SRC-vllm-kimi-linear-support-2026-07-26]
     chapters: ["11", "12", "15"]
     invalid_generalization: "不能写成所有 vLLM release、所有硬件、所有量化或并行配置都生产支持 Kimi Linear。"
-    verification_gap: "基于 v0.25.1 运行最小 smoke test 与 serving benchmark，并核查 v0.11.1→v0.25.1→后续 snapshot 的路径重构对配置和性能的影响。"
+    verification_gap: "基于 v0.26.0 运行最小 smoke test 与 serving benchmark，并核查 v0.11.1→v0.26.0→后续 snapshot 的路径重构对配置和性能的影响。"
 
   - id: EA-C13
     statement: "Kimi-Linear-48B-A3B-Instruct 的 HF config 显示 27 层中有 20 个 KDA 层和 7 个 full-attention/MLA 层，serving 验证应以 checkpoint config 而不是论文中的概括比例作为直接事实。"
@@ -133,7 +133,7 @@ claims:
     sources: [SRC-kimi-linear-hf-config-2026-07-26]
     chapters: ["09", "11", "12", "15"]
     counterexample: "Kimi Linear 论文中的 3:1 表述不能替代具体 checkpoint config；其他 Kimi Linear checkpoint 或后续 revision 可能不同。"
-    verification_gap: "固定 HF revision，核查 tokenizer/chat template 和 vLLM v0.25.1 实际加载行为。"
+    verification_gap: "固定 HF revision，核查 tokenizer/chat template 和 vLLM v0.26.0 实际加载行为。"
 
   - id: EA-C14
     statement: "MiniMax-M1 论文将 Lightning Attention 作为 long-context/long-output/test-time compute 效率路线的核心组件，并报告 1M context 与 40K/80K thinking budget；但这些效率数字仍属于作者报告。"
@@ -166,11 +166,51 @@ claims:
     verification_gap: "GDN 论文 Table 2/3/4/5 已快速抽取；进入正文前需回看 PDF 复核 OCR/表格排版，核查 NVlabs/GatedDeltaNet repo，并与 Kimi Linear/KDA 和 Qwen3-Next config 对齐。"
 
   - id: EA-C17
-    statement: "Qwen3-Next-80B-A3B-Instruct 的 HF config 与 vLLM v0.25.1 Qwen3NextConfig 显示：默认每 4 层一个 full_attention，其余为 linear_attention/GDN path；48 层对应 36 个 linear/GDN 层和 12 个 full attention 层。"
+    statement: "Qwen3-Next-80B-A3B-Instruct 的 HF config 与 vLLM v0.26.0 Qwen3NextConfig 显示：默认每 4 层一个 full_attention，其余为 linear_attention/GDN path；48 层对应 36 个 linear/GDN 层和 12 个 full attention 层。"
     kind: model-config
     grade: A
-    applies_to: "Qwen/Qwen3-Next-80B-A3B-Instruct config.json downloaded 2026-07-26；vLLM v0.25.1；HF revision 尚未固定"
-    sources: [SRC-qwen3-next-hf-config-2026-07-26, SRC-vllm-qwen3-next-gdn-support-v0-25-1]
+    applies_to: "Qwen/Qwen3-Next-80B-A3B-Instruct config.json downloaded 2026-07-26；vLLM v0.26.0；HF revision 尚未固定"
+    sources: [SRC-qwen3-next-hf-config-2026-07-26, SRC-vllm-qwen3-next-gdn-support-v0-26-0]
     chapters: ["09", "11", "12", "15"]
     invalid_generalization: "不能把 Qwen3-Next 的 3:1 层分布写成所有 Qwen3.5 或所有 GDN 模型的通用配置。"
-    verification_gap: "固定 Qwen3.5 具体 HF config，运行 vLLM v0.25.1 Qwen3-Next/GDN smoke test，并记录 GDN backend。"
+    verification_gap: "固定 Qwen3.5 具体 HF config，运行 vLLM v0.26.0 Qwen3-Next/GDN smoke test，并记录 GDN backend。"
+
+  - id: EA-C18
+    statement: "Kimi K3 技术报告将 KDA 路线扩展到 2.8T MoE、104B activated、1M context 的混合 KDA–MLA 架构，并报告每个 block 采用 3 KDA + 1 Gated MLA、全模型 69 KDA + 24 MLA 的层分布。"
+    kind: paper-design
+    grade: B
+    applies_to: "Kimi K3 Technical Report，本地 PDF metadata 日期 2026-07-28；作者报告，未本地复现"
+    sources: [SRC-kimi-k3-tech-report-2026-07-28]
+    chapters: ["09", "11", "12", "15"]
+    invalid_generalization: "不能把 Kimi K3 的 3:1 层分布、1M context 或 scaling efficiency 写成所有 KDA/hybrid attention 模型的通用最优或通用能力。"
+    verification_gap: "核对公开报告 URL、固定 HF revision/模型 config，并核查目标 vLLM release 是否支持 Kimi K3。"
+
+  - id: EA-C19
+    statement: "Kimi K3 技术报告指出，混合 KDA–MLA serving 的 prefix cache 不能只复用 MLA KV；KDA recurrent state 必须与 MLA KV 在同一命中边界共同恢复，因此需要 KDA-aware prefix cache、细粒度 hash endpoint 和稀疏 state checkpoint。"
+    kind: system-design
+    grade: B
+    applies_to: "Kimi K3 Technical Report §5.4；作者设计，未在 vLLM 中验证"
+    sources: [SRC-kimi-k3-tech-report-2026-07-28]
+    chapters: ["08", "11", "12", "15"]
+    counterexample: "纯 full-attention 模型没有 KDA recurrent state；普通 block-hash KV prefix cache 不能直接覆盖该约束。"
+    verification_gap: "核查 Kimi K3 是否有公开 serving 实现；检查 vLLM 是否支持 KDA-aware prefix cache、KDA state checkpoint 和 prefill/decode disaggregation 传输。"
+
+  - id: EA-C20
+    statement: "Kimi K3 技术报告指出，KDA decoding 的原地 recurrent-state update 与 MTP/speculative decoding 的 rejection rollback 存在冲突；其方案是缓存较小的 projected inputs，并在 fused kernel 中 replay accepted draft tokens 重建状态。"
+    kind: implementation-risk
+    grade: B
+    applies_to: "Kimi K3 Technical Report §5.4.2；作者设计，未在 vLLM 中验证"
+    sources: [SRC-kimi-k3-tech-report-2026-07-28]
+    chapters: ["11", "12", "15"]
+    invalid_generalization: "不能假设现有 vLLM speculative decoding 对 KDA/linear recurrent attention 自动正确或高效。"
+    verification_gap: "核查 vLLM Kimi Linear/KDA speculative decoding 路径、state rollback 行为和 kernel tests。"
+
+  - id: EA-C21
+    statement: "Kimi K3 技术报告将 KDA 的长上下文 prefill 瓶颈归因于 recurrent state 的跨 chunk/segment 串行传播，并提出 FlashKDA 与 KDA Context Parallelism 来分别处理单设备 kernel 利用率和跨设备 context parallelism。"
+    kind: system-design
+    grade: B
+    applies_to: "Kimi K3 Technical Report §5.1；作者设计，未本地复现"
+    sources: [SRC-kimi-k3-tech-report-2026-07-28]
+    chapters: ["08", "11", "12"]
+    counterexample: "标准 softmax attention 的 context parallelism 主要交换随上下文增长的 KV blocks；不能直接等同于 KDA 的 fixed-state synchronization。"
+    verification_gap: "核查 FlashKDA/FLA PR、公开实现 commit，以及 vLLM 是否调用相关 backend。"
