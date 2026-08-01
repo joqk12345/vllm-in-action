@@ -41,6 +41,7 @@ research/topics/efficient-long-context-attention/
 - [`vocabulary.md`](vocabulary.md) — 最小概念系统。
 - [`tracking/README.md`](tracking/README.md) — 上游论文、实现和 vLLM 支持状态跟踪规则。
 - [`outputs/2026-08-01-kimi-k3-vllm-tech-share-analysis.md`](outputs/2026-08-01-kimi-k3-vllm-tech-share-analysis.md) — 新材料拆解、topic 融合决策、上游版本校正与验证计划。
+- [`outputs/chapter-handoff/chapter-placement-proposal.md`](outputs/chapter-handoff/chapter-placement-proposal.md) — 正文呈现与章节落点提案，等待决定是否更新 chapter briefs/正式正文。
 - [`outputs/booklet/`](outputs/booklet/) — 当前 topic booklet bundle。
 
 ## 共同研究问题

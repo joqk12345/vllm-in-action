@@ -13,6 +13,7 @@
 - [`2026-07-26-qwen3-next-gdn-explainer.md`](2026-07-26-qwen3-next-gdn-explainer.md) — Qwen3-Next/Qwen3.5 GDN 机制、config 和 vLLM support path 解释分析。
 - [`2026-07-28-kimi-k3-tech-report-analysis.md`](2026-07-28-kimi-k3-tech-report-analysis.md) — Kimi K3 技术报告中 KDA serving、prefix cache、spec decode 与 KDA Context Parallelism 的合并建议，B 级作者报告。
 - [`2026-08-01-kimi-k3-vllm-tech-share-analysis.md`](2026-08-01-kimi-k3-vllm-tech-share-analysis.md) — 新增 slides/SRT/链接的逐层拆解、topic 融合决策、上游版本校正和分阶段验证计划。
+- [`chapter-handoff/chapter-placement-proposal.md`](chapter-handoff/chapter-placement-proposal.md) — Kimi K3/KDA serving 内容进入第 04、10、11、15 章及辅助章节的正文落点提案；等待编辑决策，尚未修改 briefs/正文。
 - [`2025-03-06-gated-deltanet-paper-v3-tables.md`](2025-03-06-gated-deltanet-paper-v3-tables.md) — Gated DeltaNet 论文 Table 2/3/4/5 快速抽取。
 - [`2026-kimi-linear-yang-songlin-interview-analysis.md`](2026-kimi-linear-yang-songlin-interview-analysis.md) — Kimi Linear / 线性注意力访谈材料使用建议，D 级线索。
 
@@ -20,7 +21,7 @@
 
 - [`booklet/`](booklet/)：主题研究小册子、研讨指南、阅读路径和 capability matrix。
 - `brief/`：面向工程决策的短报告，例如“高效 attention 是否能降低 vLLM 长上下文 serving 成本”。
-- `chapter-handoff/`：进入第 04、08、09、11、12、15 章的候选段落和证据映射。
+- [`chapter-handoff/`](chapter-handoff/)：进入第 04、08、09、10、11、12、13、15、16 章的候选段落、证据门禁和编辑决策。
 - `figures/`：dense/sparse/linear/window/block attention 对比图，prefill/decode 成本图。
 - `slides/`：研讨演示文稿。
 
