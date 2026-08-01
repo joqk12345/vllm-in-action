@@ -1,6 +1,6 @@
 # 专题输出
 
-当前专题处于 `captured` 状态，尚未生成小册子、brief 或章节 handoff。
+当前专题处于 `captured` 状态，已生成 topic booklet bundle；brief 与章节 handoff 尚未生成。
 
 当前已保存：
 
@@ -12,12 +12,13 @@
 - [`2026-07-26-vllm-v0-26-0-kimi-linear-smoke-test-plan.md`](2026-07-26-vllm-v0-26-0-kimi-linear-smoke-test-plan.md) — vLLM v0.26.0 Kimi Linear 分层 smoke test 计划。
 - [`2026-07-26-qwen3-next-gdn-explainer.md`](2026-07-26-qwen3-next-gdn-explainer.md) — Qwen3-Next/Qwen3.5 GDN 机制、config 和 vLLM support path 解释分析。
 - [`2026-07-28-kimi-k3-tech-report-analysis.md`](2026-07-28-kimi-k3-tech-report-analysis.md) — Kimi K3 技术报告中 KDA serving、prefix cache、spec decode 与 KDA Context Parallelism 的合并建议，B 级作者报告。
+- [`2026-08-01-kimi-k3-vllm-tech-share-analysis.md`](2026-08-01-kimi-k3-vllm-tech-share-analysis.md) — 新增 slides/SRT/链接的逐层拆解、topic 融合决策、上游版本校正和分阶段验证计划。
 - [`2025-03-06-gated-deltanet-paper-v3-tables.md`](2025-03-06-gated-deltanet-paper-v3-tables.md) — Gated DeltaNet 论文 Table 2/3/4/5 快速抽取。
 - [`2026-kimi-linear-yang-songlin-interview-analysis.md`](2026-kimi-linear-yang-songlin-interview-analysis.md) — Kimi Linear / 线性注意力访谈材料使用建议，D 级线索。
 
 ## 后续输出计划
 
-- `booklet/`：主题研究小册子、研讨指南、阅读路径和 capability matrix。
+- [`booklet/`](booklet/)：主题研究小册子、研讨指南、阅读路径和 capability matrix。
 - `brief/`：面向工程决策的短报告，例如“高效 attention 是否能降低 vLLM 长上下文 serving 成本”。
 - `chapter-handoff/`：进入第 04、08、09、11、12、15 章的候选段落和证据映射。
 - `figures/`：dense/sparse/linear/window/block attention 对比图，prefill/decode 成本图。

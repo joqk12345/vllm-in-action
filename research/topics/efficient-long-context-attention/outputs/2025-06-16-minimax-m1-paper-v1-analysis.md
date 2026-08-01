@@ -93,7 +93,7 @@ MiniMax-M1 把 efficient attention 的价值从“长输入”扩展到“长输
 
 1. 核查 `https://github.com/MiniMax-AI/MiniMax-M1` 的 commit、license、README 和 vLLM deployment guide。
 2. 下载 MiniMax-M1 HF config，抽取 attention/hybrid/lightning 配置。
-3. 查 vLLM `v0.25.1` 是否支持 MiniMax-M1 或 MiniMax-Text-01，以及模型类/attention kernel 路径。
+3. 查 vLLM `v0.26.0` 是否支持 MiniMax-M1 或 MiniMax-Text-01，以及模型类/attention kernel 路径。
 4. 抽取论文中 Table 1、核心 benchmark 表和 FLOPs 对比图的完整数值。
 5. 与 Kimi Linear/KDA 的 vLLM support 路径并列到 capability matrix。
 6. 如果后续要讨论 “MiniMax M2 回 full attention”，必须另建 MiniMax-M2 source card。

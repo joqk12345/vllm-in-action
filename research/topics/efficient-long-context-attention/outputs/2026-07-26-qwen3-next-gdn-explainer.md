@@ -1,9 +1,9 @@
 # Qwen3-Next / Qwen3.5 GDN（Gated Delta Networks）解释分析
 
 Owner:
-Purpose: 基于 Gated DeltaNet 论文、DeltaNet 算法博客、Qwen3-Next HF config 和 vLLM v0.25.1 源码，解释 Qwen3-Next/Qwen3.5 中 GDN 路线的机制、证据边界和 serving 验证任务。
+Purpose: 基于 Gated DeltaNet 论文、DeltaNet 算法博客、Qwen3-Next HF config 和 vLLM v0.26.0 源码，解释 Qwen3-Next/Qwen3.5 中 GDN 路线的机制、证据边界和 serving 验证任务。
 Status: captured
-Applies to: Qwen3-Next/Qwen3.5 GDN research；vLLM v0.25.1；research/topics/efficient-long-context-attention
+Applies to: Qwen3-Next/Qwen3.5 GDN research；vLLM v0.26.0；research/topics/efficient-long-context-attention
 Evidence grade: B for GDN paper; A for fixed configs/source snapshots; C/D for blogs/community links.
 Verified date: 2026-07-26
 Assumptions: 用户称 “Qwen3.5 GDN”，当前已固定 Qwen3-Next Instruct config 和 vLLM Qwen3-Next/Qwen3.5 GDN path；Qwen3.5 具体 HF config 尚未固定。
@@ -17,7 +17,7 @@ Handoff: `claims.yml`、第 09/11/12/15 章。
 | Gated DeltaNet paper `arXiv:2412.06464v3` | B | GDN 机制、chunkwise parallel algorithm、hybrid GDN 架构 |
 | DeltaNet Explained Part II | C | DeltaNet chunkwise/WY 算法的教学解释 |
 | Qwen3-Next HF config | A | checkpoint 的层数、full-attention interval、linear attention 参数 |
-| vLLM v0.25.1 source | A | Qwen3-Next/Qwen3.5 GDN serving path |
+| vLLM v0.26.0 source | A | Qwen3-Next/Qwen3.5 GDN serving path |
 | Zhihu link | D | 当前未抓到正文，只作发现线索 |
 
 ## 2. GDN 解决什么问题？
@@ -80,9 +80,9 @@ vLLM `Qwen3NextConfig` 在未显式提供 `layer_types` 时默认：
 
 这和 Kimi Linear 的 hybrid 设计在高层形式上相似，但具体 operator、参数、state layout 和 kernel path 不同，不能混写。
 
-## 5. vLLM v0.25.1 中的 Qwen GDN path
+## 5. vLLM v0.26.0 中的 Qwen GDN path
 
-vLLM `v0.25.1` 静态核查到：
+vLLM `v0.26.0` 静态核查到：
 
 - `docs/models/supported_models.md` 列出 `Qwen3NextForCausalLM`；
 - `vllm/model_executor/models/qwen3_next.py` 根据 `layer_type` 选择：
@@ -94,7 +94,7 @@ vLLM `v0.25.1` 静态核查到：
   - `fused_recurrent_gated_delta_rule_packed_decode`；
   - `fused_sigmoid_gating_delta_rule_update`。
 
-边界：这证明 vLLM v0.25.1 存在 Qwen3-Next/GDN 支持路径，但不证明本仓硬件上已经跑通。
+边界：这证明 vLLM v0.26.0 存在 Qwen3-Next/GDN 支持路径，但不证明本仓硬件上已经跑通。
 
 ## 6. 与 Kimi Linear/KDA 的关系
 
@@ -123,7 +123,7 @@ GDN/Qwen 与 MiniMax-M2 形成一个很好的对照：
 ## 8. 后续验证任务
 
 1. 固定 Qwen3.5 具体 HF config，确认是否与 Qwen3-Next 共用/继承 GDN path。
-2. 基于 vLLM `v0.25.1` 设计 Qwen3-Next smoke test：registry、config、layer construction、GDN backend。
-3. 核查 `--gdn-prefill-backend` 在 vLLM v0.25.1 中的可选值和默认选择。
+2. 基于 vLLM `v0.26.0` 设计 Qwen3-Next smoke test：registry、config、layer construction、GDN backend。
+3. 核查 `--gdn-prefill-backend` 在 vLLM v0.26.0 中的可选值和默认选择。
 4. 抽取 GDN 论文的核心表格：Mamba2 vs DeltaNet vs Gated DeltaNet。
 5. 将 Qwen3-Next/Kimi Linear/MiniMax-M2 放入 capability matrix：operator、full-attention interval、context length、vLLM support、待复现项。

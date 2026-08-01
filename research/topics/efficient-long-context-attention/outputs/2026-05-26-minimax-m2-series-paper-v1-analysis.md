@@ -92,7 +92,7 @@ M2 论文提到的风险包括：
 ## 6. 后续任务
 
 1. 建立 MiniMax-M2 repo/HF config source card。
-2. 查 vLLM `v0.25.1` 是否支持 MiniMax-M2 或其模型类型。
+2. 查 vLLM `v0.26.0` 是否支持 MiniMax-M2 或其模型类型。
 3. 抽取 Table 2/3 中 full attention vs hybrid SWA 的完整数值。
 4. 与 MiniMax-M1 对齐，形成 “M1 Lightning → M2 full attention” 的版本化 case study。
 5. 将 windowed-FIFO、prefix-tree merging、global L3 KV cache pool 交叉移交给 `llm-d-agentic-serving`。

@@ -6,8 +6,8 @@ source_type: technical-report
 title: "Kimi K3: Open Frontier Intelligence"
 author_or_issuer: "Kimi Team"
 published: 2026-07-28
-verified: 2026-07-28
-applies_to: "Kimi K3 technical report; HF/model revision and vLLM support not fixed"
+verified: 2026-08-01
+applies_to: "Kimi K3 technical report; vLLM main support fixed to aeeb36b1, stable release and HF/model revisions not fixed"
 url: "https://huggingface.co/moonshotai/Kimi-K3"
 archive_path: "research/topics/efficient-long-context-attention/source/papers/2026-07-28-kimi-k3-tech-report.pdf"
 stale_after: 2026-10-28
@@ -38,7 +38,7 @@ Kimi K3 作者技术报告。本仓当前只用作高效长上下文注意力专
 
 - 报告中的性能、排行榜、部署效果和 `2.5× scaling efficiency` 均为作者报告，未在本仓复现。
 - `2.5× scaling efficiency` 来自 KDA、Attention Residuals、Stable LatentMoE、数据和训练 recipe 等组合，不能归因于 KDA 单项。
-- 当前未固定 Kimi K3 HF revision、模型 config、公开报告 URL 或 vLLM 支持 release/tag。
+- 当前未固定 Kimi K3 HF revision、模型 config、公开报告 URL或首个稳定 vLLM support release；仅已固定 `main` merge commit。
 - 不能把 Kimi K3 的 3:1 KDA–MLA 写成所有 hybrid attention 模型的通用最优。
 
 ## 验证记录
@@ -46,12 +46,13 @@ Kimi K3 作者技术报告。本仓当前只用作高效长上下文注意力专
 - [x] 本地 PDF 已捕获并登记 SHA256。
 - [ ] 身份与发布日期已通过公开页面核对。
 - [ ] HF model/config revision 已固定。
-- [ ] vLLM 支持版本、源码路径和测试已核查。
+- [x] vLLM `main` 支持 merge commit、源码范围和相关 tests 已核查。
+- [ ] 首个稳定 vLLM release 已核查。
 - [ ] 与本仓 smoke test 或 serving benchmark 交叉验证。
 - [ ] 正文引用位置已登记。
 
 ## 备注
 
 Owner: 未指定
-Open questions: Kimi K3 是否有公开 serving 代码；vLLM 是否支持 Kimi K3/KDA-aware prefix cache/KDA spec decode replay。
+Open questions: 首个稳定 release、HF revisions、镜像 digest、FlashInfer 稳定依赖，以及 KDA-aware cache/KDA spec decode replay 的本仓复现。
 Handoff: 第 08、09、11、12、15 章。

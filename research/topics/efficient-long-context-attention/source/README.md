@@ -1,6 +1,6 @@
 # 来源清单
 
-Verified date: 2026-07-26
+Verified date: 2026-08-01
 
 | Source ID | 文件或地址 | 类型 | 等级 | 主要用途 |
 |---|---|---|---|---|
@@ -8,6 +8,10 @@ Verified date: 2026-07-26
 | `SRC-efficient-attention-seed-list` | [`notes/seed-papers.txt`](notes/seed-papers.txt) | 人工种子列表 | D | 发现 NSA、MoBA、Lightning Attention 等后续来源；不能支撑正文 |
 | `SRC-kimi-linear-paper-v2` | [`papers/2025-11-01-kimi-linear-paper-v2.pdf`](papers/2025-11-01-kimi-linear-paper-v2.pdf) | 作者论文，arXiv v2 | B | Kimi Linear/KDA 架构、3:1 hybrid ratio、KDA kernel/vLLM integration 声明、作者报告 benchmark |
 | `SRC-kimi-k3-tech-report-2026-07-28` | [`papers/2026-07-28-kimi-k3-tech-report.pdf`](papers/2026-07-28-kimi-k3-tech-report.pdf) | 作者技术报告，本地 PDF | B | Kimi K3 的 3:1 KDA–MLA、1M context、FlashKDA/KDA Context Parallelism、KDA-aware prefix cache、spec decode state replay 线索 |
+| `SRC-kimi-k3-vllm-tech-share-local-2026-08-01` | [`../Kimi K3 vLLM Tech Share.pdf`](../Kimi%20K3%20vLLM%20Tech%20Share.pdf)、[`../vLLM day-0 Kimi K3支持：探索智能新前沿的推理边界.srt`](../vLLM%20day-0%20Kimi%20K3支持：探索智能新前沿的推理边界.srt) | 本地 slides + ASR transcript | D | hybrid cache/partial hit/kernel 的解释线索；活动来源与性能条件未固定 |
+| `SRC-vllm-kimi-k3-day0-blog-2026-07-27` | <https://vllm.ai/blog/2026-07-27-k3> | vLLM/Inferact 官方博客 | B | day-0 功能范围、recipe、作者报告 benchmark 和生产边界 |
+| `SRC-vllm-kimi-k3-support-pr-50000` | <https://github.com/vllm-project/vllm/pull/50000> | 固定 merge commit/PR | A | Kimi K3 `main` 支持、代码/tests 范围、专用镜像和 FlashInfer RC 依赖 |
+| `SRC-vllm-partial-cache-rfc-45702` | <https://github.com/vllm-project/vllm/issues/45702> | 上游 RFC/相关已合入 PR | B | `hash_block_size`、partial alias、hit length、copy-on-write 与开放设计问题 |
 | `SRC-minimax-m1-paper-v1` | [`papers/2025-06-16-minimax-m1-paper-v1.pdf`](papers/2025-06-16-minimax-m1-paper-v1.pdf) | 作者论文，arXiv v1 | B | MiniMax-M1 Lightning Attention、1M context、40K/80K thinking budget、作者报告 benchmark |
 | `SRC-minimax-m2-series-paper-v1` | [`papers/2026-05-26-minimax-m2-series-paper-v1.pdf`](papers/2026-05-26-minimax-m2-series-paper-v1.pdf) | 作者论文，arXiv v1 | B | MiniMax-M2 full attention 选择、hybrid/SWA 反例、agentic serving/RL 系统线索 |
 | `SRC-gated-deltanet-paper-v3` | [`papers/2024-12-09-gated-delta-networks-paper-v1.pdf`](papers/2024-12-09-gated-delta-networks-paper-v1.pdf) | 作者论文，arXiv v3 / ICLR 2025 | B | Gated DeltaNet/GDN 机制、gated delta rule、chunkwise parallel algorithm、hybrid GDN 架构 |
@@ -42,12 +46,16 @@ d355a6a41a26b85ca145aec5154650f4d39733c92f54775ae7f5851ecbedf600  papers/2025-06
 83d9017b7e03f187c3bfe9f9a511131478d3d007d180d2abbf352ef99dcc5048  transcripts/2026-kimi-linear-yang-songlin-interview.zh.txt
 a6ac3c2c4b5aa72370f9727f49ffa4432715d20061889acdb37c688be853096e  configs/2026-07-26-kimi-linear-48b-a3b-instruct-config.json
 2d483c7cabad7c8704478ed4038fa7e7b2eff840bc00a118eccbe38e2b488303  configs/2026-07-26-qwen3-next-80b-a3b-instruct-config.json
+f9a1c8cf1736f97f3d2cad11c66c0870be3d70a3ba90db90d8ed390ba08760d2  ../Kimi K3 vLLM Tech Share.pdf
+2f56f81f4dbbdbbd5f4c989fb68fb8f7cf27e7c38d00618231af1102088bf6db  ../vLLM day-0 Kimi K3支持：探索智能新前沿的推理边界.srt
+b2679aaa7de5fecd8fd5db4c8722ebf6207abc52268c8e90c19b47f3d18ee557  ../k3_info.txt
 ```
 
 ## 权利与引用边界
 
 - GLM-5、Kimi Linear、MiniMax-M1/M2、Gated DeltaNet PDF 来自 arXiv，本仓当前只作为内部研究素材；引用正文前需保留标题、作者、arXiv version 和 URL。
 - Kimi K3 技术报告来自本地 PDF 捕获；正文引用前需核对公开发布 URL、模型仓库 revision、权重/配置和报告发布日期。报告中的性能、部署和 scaling efficiency 数字均属作者报告，未在本仓复现。
+- Kimi K3 技术分享 slides/SRT 的活动 URL、发布日期与再分发授权未固定；ASR 只能作 D 级线索，不能作权威引文或性能证据。
 - `seed-papers.txt` 只是待办线索，不是来源证据。
 - `2026-kimi-linear-yang-songlin-interview.zh.txt` 是访谈转写/口述材料，原始 URL、发布日期和授权尚未核对，只能作为 D 级线索。
 - 知乎链接当前未抓取到正文，只能作为 D 级发现线索。
@@ -69,4 +77,5 @@ a6ac3c2c4b5aa72370f9727f49ffa4432715d20061889acdb37c688be853096e  configs/2026-0
 - vLLM current verification baseline：`v0.26.0` (`f2654939e69b4069b13977e9aef3e31d4dcaf051`) 已观察到 `KimiLinearForCausalLM`、`Qwen3NextForCausalLM`、`kimi_gdn_linear_attn.py`、`qwen_gdn_linear_attn.py` 和 `tests/kernels/test_kda.py`；后续 smoke test/benchmark 应优先基于该 tag。
 - vLLM previous verification baseline：`v0.25.1` (`752a3a504485790a2e8491cacbb35c137339ad34`) 保留为历史基线。
 - vLLM Kimi Linear support snapshot：`vllm-project/vllm@1240c74c0a47473449cf0c3a9c2d87a1e159f73b`，研究阶段使用；路径已较 `v0.26.0` 继续重构。
+- vLLM Kimi K3 support snapshot：PR #50000 于 2026-07-30 合入 `main`，merge commit `aeeb36b1f17145975c6713242f2447bb8b98782b`；晚于 v0.26.0，首个稳定 release 尚未确认。PR 当日仍要求 FlashInfer `v0.6.16rc5` 和专用 `kimi-k3` 镜像。
 - NSA/MoBA/MiniMax-01：仅记录 URL，尚未下载、校验或建 source card。

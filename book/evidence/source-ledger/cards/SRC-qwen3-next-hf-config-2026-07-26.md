@@ -35,5 +35,5 @@ Qwen3-Next-80B-A3B-Instruct 的 Hugging Face `config.json`。用于核查 Qwen3-
 - “Qwen3.5 GDN” 的命名需回到 Qwen 官方文档/模型卡进一步核查；本卡当前固定的是 Qwen3-Next Instruct config。
 
 Owner:
-Open questions: 固定 HF revision、Qwen3.5 对应模型 config、vLLM v0.25.1 smoke test、GDN backend 选择。
+Open questions: 固定 HF revision、Qwen3.5 对应模型 config、vLLM v0.26.0 smoke test、GDN backend 选择。
 Handoff: efficient-long-context-attention topic。

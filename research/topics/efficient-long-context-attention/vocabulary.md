@@ -3,10 +3,11 @@ title: "高效长上下文注意力最小系统词汇"
 status: working
 topic: efficient-long-context-attention
 created: 2026-07-26
-verified: 2026-07-26
+verified: 2026-08-01
 applies_to: "长上下文 attention 架构、vLLM serving、KV cache、kernel 和 benchmark"
 source_ids:
   - SRC-glm5-paper-v2
+  - SRC-vllm-partial-cache-rfc-45702
 chapters: ["04", "08", "09", "11", "12", "15"]
 ---
 
@@ -37,6 +38,12 @@ Handoff: 第 04、08、09、11、12、15 章。
 | Long-context fidelity | 长上下文保真度 | 长上下文任务上保持信息访问和推理能力 | evaluate, regress |
 | Prefill cost | 预填充成本 | 处理 prompt/context 时的 attention 计算和 KV 写入成本 | measure, reduce |
 | Decode cost | 解码成本 | 逐 token 生成时的 attention/KV 读取和 kernel 成本 | measure, amortize |
+| Recurrent state cache | 递归状态缓存 | KDA/Mamba/GDN 在某一 prefix boundary 的固定大小状态快照；不是逐 token append-only KV | checkpoint, restore, replay |
+| Hybrid cache group | 混合缓存组 | 同一模型内 MLA/full-attention KV 与 KDA/Mamba state 的联合分配、命中和生命周期管理单元 | align, coordinate, evict |
+| Physical block size | 物理块大小 | 内存分配、所有权和复用的粒度；hybrid state 对齐可能使其变得很大 | allocate, align, reuse |
+| Hash block size | 哈希块大小 | prefix lookup 的细粒度边界；可与物理 block size 解耦 | hash, lookup, alias |
+| Partial cache hit | 部分块缓存命中 | 命中物理 block 内部的合法 prefix boundary，并携带精确 hit length | hit, copy-on-write, extend |
+| State checkpoint | 状态检查点 | 在 block/turn/hash boundary 物化可恢复的 KDA/Mamba recurrent state | materialize, retain, restore |
 
 ## 核心 verbs
 
@@ -52,6 +59,10 @@ Handoff: 第 04、08、09、11、12、15 章。
 | `benchmark` | 评测 | Experiment | 长上下文质量与 serving 指标 |
 | `regress` | 退化 | Model/method | long-context benchmark score |
 | `fallback` | 回退 | Serving system | dense/full attention 或已验证模型 |
+| `align` | 对齐 | Scheduler/cache allocator | chunk、page、full-attention KV 与 recurrent state boundary |
+| `checkpoint` | 检查点化 | KDA/Mamba backend | 可恢复的 prefix recurrent state |
+| `alias` | 建立别名 | Block pool | fine-grained hash 到物理 cache block 的临时映射 |
+| `copy-on-write` | 写时复制 | Cache manager | partial-hit 后的共享 KV/state payload |
 
 ## 三组必须区分的概念
 
@@ -66,3 +77,7 @@ Sparse attention 保留 softmax attention 的部分条目或 block；linear atte
 ### 长上下文 benchmark vs 生产 workload
 
 RULER、RepoQA、LongBench、HELMET 等 benchmark 能测试不同能力，但不能单独代表 agentic tool-use traces、代码仓库 QA 或真实多租户 serving。
+
+### 物理 block granularity vs prefix hash granularity
+
+物理 block 是分配和所有权单位，hash boundary 是 prefix lookup 单位。对 KDA/Mamba hybrid model，两者绑定会因 state/page alignment 产生 1K–6K+ token 的粗命中；解耦后则必须显式处理 hit length、alias cleanup、copy-on-write 和 state checkpoint correctness。

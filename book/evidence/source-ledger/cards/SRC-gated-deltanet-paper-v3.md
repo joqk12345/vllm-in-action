@@ -33,5 +33,5 @@ ICLR 2025 论文，提出 Gated DeltaNet / Gated Delta Networks。论文把 Mamb
 - 论文 PDF 文件名含 `v1`，但 PDF 文本显示 arXiv v3 / ICLR 2025；进入正文前需复核 arXiv 版本和下载 URL。
 
 Owner:
-Open questions: Qwen3-Next/Qwen3.5 中 GDN 的具体参数、层分布、vLLM v0.25.1 serving path 和 kernel backend。
+Open questions: Qwen3-Next/Qwen3.5 中 GDN 的具体参数、层分布、vLLM v0.26.0 serving path 和 kernel backend。
 Handoff: efficient-long-context-attention topic。

@@ -1,0 +1,3 @@
+Kimi K3 recipe: https://recipes.vllm.ai/moonshotai/Kimi-K3
+Kimi K3 support blog: https://vllm.ai/blog/2026-07-27-k3
+Kimi K3 vLLM PR: https://github.com/vllm-project/vllm/pull/50000/commits

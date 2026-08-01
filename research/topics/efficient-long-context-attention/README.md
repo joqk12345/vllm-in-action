@@ -3,11 +3,11 @@
 Owner: 未指定
 Purpose: 系统研究面向长上下文 LLM 的高效注意力机制，包括稀疏注意力、线性注意力、滑动窗口/混合层、MoBA/Lightning Attention/DSA/NSA 等方法，以及它们对 vLLM 推理、KV cache、并行和 benchmark 的影响。
 Status: captured
-Applies to: GLM-5 arXiv v2（2026-02-24）与 seed paper list；vLLM 支持状态尚未固定到 release/tag/commit
-Evidence grade: B/C/D 混合；进入正文前必须回到论文版本、上游实现、vLLM release 或本仓实验
-Verified date: 2026-07-26
+Applies to: GLM-5/Kimi Linear/Kimi K3/MiniMax/GDN/Qwen3-Next；vLLM v0.26.0 与 Kimi K3 main merge `aeeb36b1`
+Evidence grade: A/B/C/D 混合；进入正文前必须回到固定论文版本、上游实现、vLLM release/tag/commit 或本仓实验
+Verified date: 2026-08-01
 Assumptions: 原目录名 `linear-attention` 过窄；当前主题扩展为 efficient long-context attention，以覆盖 sparse、linear、block、window、hybrid 等多类方法。
-Open questions: 哪些机制已在 vLLM 中可 serving；哪些只适合训练期架构；哪些能在目标硬件和 workload 下保持长上下文质量并降低成本。
+Open questions: 哪些机制已进入稳定 vLLM release；Kimi K3 main/special-image 支持何时进入稳定 release；哪些机制能在目标硬件和 workload 下保持长上下文质量并降低成本。
 Handoff: 第 04、08、09、11、12、15 章。
 
 ## 命名判断
@@ -34,11 +34,14 @@ research/topics/efficient-long-context-attention/
 
 - [`source/papers/2026-02-24-glm-5-paper-v2.pdf`](source/papers/2026-02-24-glm-5-paper-v2.pdf) — GLM-5 arXiv v2，本地 PDF。
 - [`source/papers/2026-07-28-kimi-k3-tech-report.pdf`](source/papers/2026-07-28-kimi-k3-tech-report.pdf) — Kimi K3 技术报告，本地 PDF；用于 KDA serving 系统案例，B 级作者报告。
+- [`Kimi K3 vLLM Tech Share.pdf`](Kimi%20K3%20vLLM%20Tech%20Share.pdf)、[`vLLM day-0 Kimi K3支持：探索智能新前沿的推理边界.srt`](vLLM%20day-0%20Kimi%20K3支持：探索智能新前沿的推理边界.srt) — vLLM 技术分享 slides/ASR，D 级解释与发现线索。
 - [`source/notes/seed-papers.txt`](source/notes/seed-papers.txt) — 待补充来源列表，包括 NSA、MoBA、MiniMax Lightning Attention。
 - [`source/README.md`](source/README.md) — 来源等级、文件校验和引用边界。
 - [`claims.yml`](claims.yml) — 本专题 claim spine。
 - [`vocabulary.md`](vocabulary.md) — 最小概念系统。
 - [`tracking/README.md`](tracking/README.md) — 上游论文、实现和 vLLM 支持状态跟踪规则。
+- [`outputs/2026-08-01-kimi-k3-vllm-tech-share-analysis.md`](outputs/2026-08-01-kimi-k3-vllm-tech-share-analysis.md) — 新材料拆解、topic 融合决策、上游版本校正与验证计划。
+- [`outputs/booklet/`](outputs/booklet/) — 当前 topic booklet bundle。
 
 ## 共同研究问题
 

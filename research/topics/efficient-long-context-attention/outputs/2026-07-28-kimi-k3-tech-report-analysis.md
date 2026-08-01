@@ -2,12 +2,12 @@
 
 Owner: 未指定
 Purpose: 捕获 `Kimi K3: Open Frontier Intelligence` 技术报告中与高效长上下文注意力、KDA 系统协同和 serving 相关的可用信息，并给出合并到本专题的边界。
-Status: captured
-Applies to: Kimi K3 Technical Report，本地 PDF metadata 创建/修改日期 2026-07-28；未固定公开 URL、HF revision 或 vLLM 支持版本
+Status: captured; refreshed after vLLM Kimi K3 main merge verification
+Applies to: Kimi K3 Technical Report；vLLM main merge `aeeb36b1`；未固定公开报告 URL、HF revision 或首个稳定 vLLM release
 Evidence grade: B（作者技术报告；性能、部署和 scaling efficiency 结果未本地复现）
-Verified date: 2026-07-28
+Verified date: 2026-08-01
 Assumptions: 本记录只使用本地 PDF 文本抽取与人工快速核读；报告中的 benchmark、部署效果和 scaling efficiency 均按作者报告处理。
-Open questions: Kimi K3 的公开报告 URL、HF config revision、权重 revision、KDA/AttnRes/Stable LatentMoE 代码路径，以及 vLLM 是否支持 Kimi K3 或其 KDA-aware cache 机制。
+Open questions: Kimi K3 的公开报告 URL、HF revisions、首个稳定 vLLM release、镜像/FlashInfer 依赖，以及 KDA-aware cache 的本仓 correctness/performance。
 Handoff: 第 08、09、11、12、15 章。
 
 ## Source
@@ -36,7 +36,7 @@ Kimi K3 报告最适合合并为 **KDA 从 Kimi Linear 论文机制走向 3T 级
 - Attention mechanism: MLA → Hybrid KDA–MLA
 - Attention-layer composition: 61 MLA → 69 KDA + 24 MLA
 
-边界：这些是作者报告的设计信息。进入正文或实验前仍需固定 HF revision/config，并核查 vLLM release/tag 是否包含 Kimi K3 支持。
+边界：这些是作者报告的设计信息。vLLM PR #50000 已于 2026-07-30 合入 `main`，但晚于 v0.26.0；进入正文或实验前仍需固定 HF revision/config、镜像 digest、依赖和首个稳定 release。
 
 ## KDA 系统协同
 
@@ -83,6 +83,6 @@ Kimi K3 报告最适合合并为 **KDA 从 Kimi Linear 论文机制走向 3T 级
 ## 后续验证任务
 
 1. 捕获公开报告 URL 和 Kimi-K3 HF model/config revision。
-2. 查询 vLLM release/tag 是否支持 Kimi K3、KDA-aware prefix cache、KDA state checkpoint、KDA prefill/decode kernels。
-3. 若支持，设计最小 smoke test：模型加载、KDA/MLA 层识别、prefill、decode、prefix cache、spec decode 禁用/启用边界。
-4. 若不支持，把 Kimi K3 保留为系统设计案例，不进入 vLLM production recommendation。
+2. 固定 vLLM Kimi K3 `main@aeeb36b1` 对应的专用镜像 digest、FlashInfer 依赖，并确认首个稳定 release。
+3. 设计最小 smoke test：模型加载、KDA/MLA 层识别、prefill、decode、partial prefix hit、eviction/reuse、PD transfer、spec decode rejection。
+4. 在 stable release 和本仓复现完成前，把 Kimi K3 保留为 main/special-image 系统设计案例，不进入 vLLM production recommendation。

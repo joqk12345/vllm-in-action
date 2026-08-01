@@ -1,9 +1,9 @@
-# vLLM v0.25.1 Kimi Linear smoke test plan
+# vLLM v0.26.0 Kimi Linear smoke test plan
 
 Owner:
-Purpose: 为 Kimi Linear 在 vLLM `v0.25.1` 上的最小验证设计 smoke test，先验证支持路径和状态形状，再进入端到端 serving benchmark。
+Purpose: 为 Kimi Linear 在 vLLM `v0.26.0` 上的最小验证设计 smoke test，先验证支持路径和状态形状，再进入端到端 serving benchmark。
 Status: drafted
-Applies to: vLLM `v0.25.1` (`752a3a504485790a2e8491cacbb35c137339ad34`), `moonshotai/Kimi-Linear-48B-A3B-Instruct` config captured 2026-07-26
+Applies to: vLLM `v0.26.0` (`f2654939e69b4069b13977e9aef3e31d4dcaf051`), `moonshotai/Kimi-Linear-48B-A3B-Instruct` config captured 2026-07-26
 Evidence grade: Plan; supporting facts from A-grade source/config cards; no local GPU run yet.
 Verified date: 2026-07-26
 Assumptions: 当前环境不一定具备 4×GPU 或足够显存；先设计分层验证，避免把未跑通的命令写成结果。
@@ -14,8 +14,8 @@ Handoff: 第 11/12/15 章；benchmark 记录目录。
 
 | 项 | 值 |
 |---|---|
-| vLLM tag | `v0.25.1` |
-| vLLM commit | `752a3a504485790a2e8491cacbb35c137339ad34` |
+| vLLM tag | `v0.26.0` |
+| vLLM commit | `f2654939e69b4069b13977e9aef3e31d4dcaf051` |
 | Model config | `source/configs/2026-07-26-kimi-linear-48b-a3b-instruct-config.json` |
 | Config SHA256 | `a6ac3c2c4b5aa72370f9727f49ffa4432715d20061889acdb37c688be853096e` |
 | Model class | `KimiLinearForCausalLM` |
@@ -35,9 +35,9 @@ Downloaded config shows:
 
 This is exactly a 20:7 KDA:full-MLA layer split, close to the paper's 3:1 description but not identical if counted over 27 layers. Use the config as the serving truth for this checkpoint.
 
-## 3. Expected KDA state shapes in v0.25.1
+## 3. Expected KDA state shapes in v0.26.0
 
-In `vllm/model_executor/layers/mamba/mamba_utils.py` at `v0.25.1`, KDA state shape is derived as:
+In `vllm/model_executor/layers/mamba/mamba_utils.py` at `v0.26.0`, KDA state shape is derived as:
 
 ```python
 conv_dim = proj_size + 2 * proj_k_size
@@ -117,7 +117,7 @@ Boundary: this may use Transformers remote code; record package versions and HF 
 
 Goal: verify vLLM package can import Kimi Linear model class without loading 48B weights.
 
-Candidate checks after installing vLLM `v0.25.1`:
+Candidate checks after installing vLLM `v0.26.0`:
 
 ```bash
 python - <<'PY'
@@ -166,7 +166,7 @@ Boundary: KDA kernel precision test is not an end-to-end serving benchmark.
 
 Goal: verify vLLM server can load the real checkpoint.
 
-Candidate command, adapted from Kimi README but fixed to vLLM `v0.25.1`:
+Candidate command, adapted from Kimi README but fixed to vLLM `v0.26.0`:
 
 ```bash
 vllm serve moonshotai/Kimi-Linear-48B-A3B-Instruct \
@@ -194,9 +194,9 @@ When actually executed, create a benchmark/experiment record with:
 
 ```text
 Owner:
-Purpose: Kimi Linear smoke test on vLLM v0.25.1
+Purpose: Kimi Linear smoke test on vLLM v0.26.0
 Status:
-Applies to: vLLM v0.25.1, Kimi-Linear-48B-A3B-Instruct, fixed HF revision
+Applies to: vLLM v0.26.0, Kimi-Linear-48B-A3B-Instruct, fixed HF revision
 Evidence grade: A if commands and raw logs are preserved
 Verified date:
 Hardware:
@@ -212,7 +212,7 @@ Handoff:
 
 Until Layer D/E runs, do not claim:
 
-- vLLM `v0.25.1` can serve Kimi Linear in this environment;
+- vLLM `v0.26.0` can serve Kimi Linear in this environment;
 - 1M context works locally;
 - TP=4 is sufficient or optimal;
 - paper-reported 6× throughput or 75% KV reduction is reproduced;

@@ -1,9 +1,9 @@
 schema_version: 1
 topic: efficient-long-context-attention
-as_of: 2026-07-26
-target_release: vLLM v0.26.0
+as_of: 2026-08-01
+target_release: "vLLM v0.26.0 for Kimi Linear/Qwen3-Next; Kimi K3 main@aeeb36b1 (first stable release unverified)"
 roadmap_status: researching
-release_status: captured
+release_status: partial
 local_test_status: not_run
 source_ids:
   - SRC-glm5-paper-v2
@@ -15,6 +15,10 @@ source_ids:
   - SRC-minimax-m1-paper-v1
   - SRC-minimax-m2-series-paper-v1
   - SRC-vllm-kimi-linear-support-v0-26-0
+  - SRC-vllm-kimi-k3-day0-blog-2026-07-27
+  - SRC-vllm-kimi-k3-support-pr-50000
+  - SRC-vllm-partial-cache-rfc-45702
+  - SRC-kimi-k3-vllm-tech-share-local-2026-08-01
 status: draft
 policy:
   body_ready_grades: [A, B]
@@ -24,6 +28,73 @@ policy:
     - commands_and_raw_logs
     - hardware_and_workload_manifest
   notes: "Paper results are author-reported unless reproduced in this repository. C/D sources are discovery only."
+
+statuses:
+  roadmap_status:
+    checked: "Observed in an upstream roadmap, RFC, blog, or merged-main integration signal."
+    unchecked: "No upstream status check recorded."
+    discussion-required: "State is ambiguous or still under active design."
+  release_status:
+    verified: "Merge commit and first containing stable release/tag are established and inspected."
+    unverified: "Implementation may exist on main or in a special image, but stable release boundary is not established."
+    not-in-target: "Capability is absent from the named target release."
+  local_test_status:
+    passed: "Repository contains a reproducible passing test for the stated workload."
+    failed: "Repository contains a reproducible failing test."
+    partial: "Only part of the workload or correctness surface passed."
+    not-run: "No local reproducible run is recorded."
+
+capabilities:
+  - id: kimi-k3-model-main
+    layer: parameter-model
+    capability: "KimiK3ForConditionalGeneration model registration and Kimi K3 model/kernel integration"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for: [model_load, multimodal_serve, kda_mla_execution]
+    chapters: ["08", "11", "12", "15"]
+    source_ids: [SRC-vllm-kimi-k3-support-pr-50000, SRC-vllm-kimi-k3-day0-blog-2026-07-27]
+    fixed_commit: aeeb36b1f17145975c6713242f2447bb8b98782b
+    target_release_boundary: "not in v0.26.0; first stable release unverified"
+    dependency_boundary: "PR note requires FlashInfer v0.6.16rc5 and vllm/vllm-openai:kimi-k3 image"
+
+  - id: hybrid-kda-mla-cache
+    layer: operations
+    capability: "Joint allocation, scheduling, lifecycle, and hit-boundary coordination for MLA KV and KDA recurrent state"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for: [prefix_caching, long_context_prefill, pd_disaggregation]
+    chapters: ["04", "08", "11", "13", "15"]
+    source_ids: [SRC-kimi-k3-tech-report-2026-07-28, SRC-vllm-kimi-k3-support-pr-50000, SRC-vllm-kimi-k3-day0-blog-2026-07-27]
+    risks: [state_kv_boundary_mismatch, large_physical_block, stale_state_on_reuse, pd_tail_zeroing_race]
+
+  - id: hybrid-partial-prefix-hit
+    layer: operations
+    capability: "Fine-grained prefix lookup inside a larger physical hybrid-cache block using hash_block_size, aliases, explicit hit length, and copy-on-write"
+    roadmap_status: discussion-required
+    release_status: unverified
+    local_test_status: not-run
+    required_for: [agentic_prefix_reuse, system_prompt_reuse, turn_boundary_reuse]
+    chapters: ["04", "08", "11", "13", "15"]
+    source_ids: [SRC-vllm-partial-cache-rfc-45702, SRC-vllm-kimi-k3-support-pr-50000]
+    merged_prs:
+      - "#45939@6bc6f2d86d7800f878a4a13495b51a6e3b728c37"
+      - "#46384@481e481be786c1ca3229e26aa34c15ffd22375af"
+      - "#49502@d74285661064541f12be14e49a16defa27de67c6"
+    open_design: [final_tail_checkpointing, same_step_reuse]
+
+  - id: kimi-k3-dspark-low-latency
+    layer: endpoint
+    capability: "Kimi K3 DSpark speculative decoding for low-concurrency decode"
+    roadmap_status: checked
+    release_status: unverified
+    local_test_status: not-run
+    required_for: [single_user_low_latency]
+    chapters: ["09", "11", "12", "15"]
+    source_ids: [SRC-vllm-kimi-k3-day0-blog-2026-07-27, SRC-vllm-kimi-k3-support-pr-50000]
+    author_reported_baseline: "GB300 NVL72, batch size 1: TP8 111→331 tok/s/user; TP16 118→370 tok/s/user"
+    risks: [acceptance_rate_workload_sensitivity, kda_state_rejection_correctness, batch_size_speedup_decay]
 
 methods:
   - id: glm5-dsa
@@ -90,12 +161,19 @@ methods:
     primary_sources:
       - SRC-kimi-k3-tech-report-2026-07-28
       - SRC-kimi-linear-paper-v2
+      - SRC-vllm-kimi-k3-support-pr-50000
+      - SRC-vllm-kimi-k3-day0-blog-2026-07-27
     evidence_grade: B
     model_or_project: moonshotai/Kimi-K3
     architecture_claim: "Technical report claims 2.8T total parameters, 104B activated parameters, 1M context, and 69 KDA + 24 Gated MLA layers in a repeated 3:1 KDA:MLA block pattern."
-    vllm_status: unknown
-    serving_claim: "Author describes KDA-aware prefix cache, KDA state checkpoints, FlashKDA/KDA Context Parallelism, and speculative decoding state replay; none verified in vLLM."
-    current_state: captured_needs_public_url_hf_revision_and_vllm_support_check
+    vllm_status:
+      main_merge: aeeb36b1f17145975c6713242f2447bb8b98782b
+      merged_at: 2026-07-30
+      latest_stable_release_at_check: v0.26.0
+      stable_release_containing_merge: unverified
+      local_test: not_run
+    serving_claim: "Official blog/merged PR establish a main/special-image Kimi K3 path including hybrid cache, DSpark and kernels; stable release and local correctness/performance remain unverified."
+    current_state: main_merged_special_image_available_stable_release_unverified
     chapters: ["08", "09", "11", "12", "15"]
     risks:
       - author_report_not_reproduced
@@ -105,7 +183,9 @@ methods:
       - speculative_decode_state_rollback
     next_steps:
       - "Capture public report URL and Kimi-K3 HF config revision."
-      - "Check vLLM support for Kimi K3 and KDA-aware cache/state handling."
+      - "Fix Kimi K3/DSpark HF revisions, image digest and FlashInfer dependency."
+      - "Confirm first stable vLLM release containing PR #50000."
+      - "Run partial-hit, eviction/reuse, PD transfer and DSpark rejection correctness tests."
       - "Separate model-quality benchmark claims from serving-system design claims."
 
   - id: qwen3-next-gdn

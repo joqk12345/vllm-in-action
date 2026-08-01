@@ -36,5 +36,5 @@ Kimi Linear Instruct checkpoint 的 Hugging Face `config.json`。用于核查 vL
 - Config 证明模型结构参数，不证明权重可下载、vLLM 可启动或性能可复现。
 
 Owner:
-Open questions: 固定 HF repository revision、tokenizer/chat template、权重文件和 vLLM v0.25.1 实际加载行为。
+Open questions: 固定 HF repository revision、tokenizer/chat template、权重文件和 vLLM v0.26.0 实际加载行为。
 Handoff: efficient-long-context-attention topic。

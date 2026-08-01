@@ -1,5 +1,5 @@
 topic: efficient-long-context-attention
-as_of: 2026-07-26
+as_of: 2026-08-01
 policy:
   body_ready_grades: [A, B]
   seed_list_grade: D
@@ -214,3 +214,43 @@ claims:
     chapters: ["08", "11", "12"]
     counterexample: "标准 softmax attention 的 context parallelism 主要交换随上下文增长的 KV blocks；不能直接等同于 KDA 的 fixed-state synchronization。"
     verification_gap: "核查 FlashKDA/FLA PR、公开实现 commit，以及 vLLM 是否调用相关 backend。"
+
+  - id: EA-C22
+    statement: "Kimi K3 模型支持已通过 vLLM PR #50000 于 2026-07-30 合入 `main`，固定 merge commit 的 supported-models 表登记 `KimiK3ForConditionalGeneration`；该合并晚于 v0.26.0，因此当前不能把 Kimi K3 写成 v0.26.0 的稳定 release 能力。"
+    kind: implementation-support
+    grade: A
+    applies_to: "vLLM PR #50000 merge commit aeeb36b1f17145975c6713242f2447bb8b98782b；v0.26.0 为合并前最新稳定 release"
+    sources: [SRC-vllm-kimi-k3-support-pr-50000]
+    chapters: ["08", "11", "12", "15"]
+    invalid_generalization: "`main` 已合入、专用镜像可用或官方称 day-0 support，都不等于某个稳定 release/wheel、任意硬件和生产配置已经可用。"
+    verification_gap: "固定 `vllm/vllm-openai:kimi-k3` 镜像 digest、FlashInfer 依赖和 HF revisions；确认首个包含该 merge commit 的稳定 release，并运行本仓 smoke test。"
+
+  - id: EA-C23
+    statement: "vLLM hybrid-model partial cache hit 路线把 prefix hash granularity 与物理 cache block size 解耦，并为 partial hit 引入显式 hit length、cache alias 和 copy-on-write；相关 PR 已合入，但 RFC #45702 的 final-tail checkpointing 与 same-step reuse 仍是动态设计问题。"
+    kind: system-design
+    grade: A/B
+    applies_to: "vLLM RFC #45702；PR #45939/#46384/#49502；hybrid full-attention + Mamba/GDN/KDA cache"
+    sources: [SRC-vllm-partial-cache-rfc-45702, SRC-vllm-kimi-k3-support-pr-50000]
+    chapters: ["04", "08", "11", "13", "15"]
+    counterexample: "纯 full-attention 模型的小 block KV cache 不必承担 KDA/Mamba state 对齐造成的 1K–6K+ token 物理 block；更细 hash granularity 也不保证端到端收益，可能增加 alias、copy、checkpoint 和内存开销。"
+    verification_gap: "固定首个 release，运行 partial-tail extension、eviction/reuse、PD offload 和 KDA state correctness tests，并在目标 agentic workload 上测 TTFT/cache-hit/HBM。"
+
+  - id: EA-C24
+    statement: "vLLM 官方博客报告 Kimi K3 在 GB300 NVL72、batch size 1 条件下，TP8 为 111 tok/s/user、启用 DSpark 后 331 tok/s/user；TP16 为 118 与 370 tok/s/user。"
+    kind: benchmark-observation
+    grade: B
+    applies_to: "vLLM/Inferact 2026-07-27 官方博客；GB300 NVL72；batch size 1；博客 recipe 的 Kimi K3/DSpark 配置；未本地复现"
+    sources: [SRC-vllm-kimi-k3-day0-blog-2026-07-27]
+    chapters: ["09", "11", "12"]
+    invalid_generalization: "不能把 370 tok/s/user 写成任意 GPU、TP/DP/EP、batch、输入输出分布、DSpark acceptance、cache/backend 或稳定 release 下的 Kimi K3 性能。"
+    verification_gap: "固定镜像、HF revisions、FlashInfer、完整命令和数据集；复现 TP8/TP16 baseline 与 DSpark，并补充 TTFT/ITL/E2E/acceptance/HBM。"
+
+  - id: EA-C25
+    statement: "本地技术分享 PDF/SRT 适合解释 KDA hybrid cache 的设计动机，但其 410/464 tok/s 口头数字与官方博客的 331/370 tok/s 不一致，在代码、硬件和 workload 对齐前只能作为变化线索。"
+    kind: evidence-boundary
+    grade: D
+    applies_to: "本地 23 页 slides 与约 95 分钟 ASR transcript，捕获于 2026-08-01；活动 URL/日期未固定"
+    sources: [SRC-kimi-k3-vllm-tech-share-local-2026-08-01, SRC-vllm-kimi-k3-day0-blog-2026-07-27]
+    chapters: ["09", "11", "12", "15"]
+    invalid_generalization: "不得把 ASR 字幕当权威引文，也不得在缺失 benchmark manifest 时挑选更高的一组 tok/s 数字。"
+    verification_gap: "补充原始活动/回放 URL、发布日期、公开 slides 和 talk 使用的 commit/镜像/GPU/workload；解释与官方博客数字差异。"

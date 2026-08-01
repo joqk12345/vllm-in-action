@@ -17,7 +17,7 @@ Handoff: `claims.yml`、后续 benchmark、chapter 11/12/15。
 | `MoonshotAI/Kimi-Linear` | `8c1d85eb6b5f8fcefb15758691b0ce50b0827ce3` | README、模型链接、vLLM serve 示例 |
 | `fla-org/flash-linear-attention` | `0a9b9f222e86b9a895c2447767e9b4cce6c8d530` | `fla/ops/kda` kernel/operator 实现 |
 | `vllm-project/vllm` | `v0.11.1` / `439368496db48d8f992ba8c606a0c0b1eebbfa69` | 当前已观察到的首个包含 `KimiLinearForCausalLM` 支持入口的稳定 tag |
-| `vllm-project/vllm` | `v0.25.1` / `752a3a504485790a2e8491cacbb35c137339ad34` | 当前应优先验证的 release 基线；包含 Kimi Linear/KDA 支持路径 |
+| `vllm-project/vllm` | `v0.26.0` / `f2654939e69b4069b13977e9aef3e31d4dcaf051` | 当前应优先验证的 release 基线；包含 Kimi Linear/KDA 支持路径 |
 | `vllm-project/vllm` | `1240c74c0a47473449cf0c3a9c2d87a1e159f73b` | vLLM Kimi Linear support snapshot；后续 main/research commit，路径已继续重构 |
 
 ## 2. Kimi-Linear repository snapshot
@@ -82,9 +82,9 @@ vllm serve moonshotai/Kimi-Linear-48B-A3B-Instruct \
 - `vllm/model_executor/layers/kda.py` 存在 `KimiDeltaAttention`，并调用 `chunk_kda`、`fused_kda_gate`、`fused_recurrent_kda`。
 - `vllm/model_executor/layers/fla/ops/kda.py` 存在 vendored KDA operator 实现。
 
-## 5. Current vLLM release baseline: v0.25.1
+## 5. Current vLLM release baseline: v0.26.0
 
-用户提醒当前 vLLM 已到 `v0.25.1`，因此后续 smoke test 和 benchmark 不应停留在 `v0.11.1`。固定 `v0.25.1` tag commit `752a3a504485790a2e8491cacbb35c137339ad34` 中观察到：
+用户提醒当前 vLLM 已到 `v0.26.0`，因此后续 smoke test 和 benchmark 不应停留在 `v0.11.1`。固定 `v0.26.0` tag commit `f2654939e69b4069b13977e9aef3e31d4dcaf051` 中观察到：
 
 - `docs/models/supported_models.md` 列出 `KimiLinearForCausalLM`。
 - `vllm/model_executor/models/registry.py` 注册 `KimiLinearForCausalLM`。
@@ -130,8 +130,8 @@ vllm serve moonshotai/Kimi-Linear-48B-A3B-Instruct \
 
 ## 8. 下一步
 
-1. 基于 vLLM `v0.25.1` 建立最小启动命令和依赖清单。
+1. 基于 vLLM `v0.26.0` 建立最小启动命令和依赖清单。
 2. 核查 Kimi Linear HF config 中 `linear_attn_config`、`kda_layers` 和 MLA 层分布。
 3. 抽取 vLLM KDA state shape/cache dtype 逻辑，判断 KV cache 计量方式。
-4. 比较 `v0.11.1`、`v0.25.1` 与后续 main snapshot 的 KDA path 重构差异。
+4. 比较 `v0.11.1`、`v0.26.0` 与后续 main snapshot 的 KDA path 重构差异。
 5. 设计 smoke test：不跑 48B 全量模型时，可先用 config-only/model-loader 路径或小型 mock config 验证 registry 与 layer construction。

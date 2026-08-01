@@ -123,7 +123,7 @@ Table 3 比较语言建模 perplexity 与 commonsense zero-shot accuracy。这�
 GDN 论文提供的是机制前提和小/中规模 benchmark 证据。Qwen3-Next/Qwen3.5 的 serving 事实还需要：
 
 1. 固定 Qwen checkpoint config；
-2. 固定 vLLM tag，例如 v0.25.1；
+2. 固定 vLLM tag，例如 v0.26.0；
 3. 验证 `QwenGatedDeltaNetAttention` 的 prefill/decode backend；
 4. 运行 smoke test 与 serving benchmark。
 
