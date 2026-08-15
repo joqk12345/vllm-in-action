@@ -5,7 +5,7 @@ Purpose: 跟踪 DSpark、Speculators 与 vLLM speculative decoding 的算法和�
 Status: active
 Applies to: 研究阶段跟踪论文和上游 `main`；正文结论固定到 release/tag/commit
 Evidence grade: discovery only；接受结论时回到论文版本、源码、测试或本仓实验
-Verified date: 2026-07-25
+Verified date: 2026-08-15
 Assumptions: 上游 README/文档负责发现能力，不证明目标 workload 已可用
 Open questions: 第一个可在本书基准环境稳定复现 DSpark 端到端收益的版本组合
 Handoff: 第 10、11、15 章

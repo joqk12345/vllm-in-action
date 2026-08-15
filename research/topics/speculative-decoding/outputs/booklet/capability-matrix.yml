@@ -1,12 +1,15 @@
 schema_version: 1
 topic: speculative-decoding
-scope: "DSpark、Speculators、vLLM speculative decoding、hidden states 训练链路；核对至 2026-07-25，未固定 release/commit"
-as_of: "2026-07-25"
-target_release: "unfixed"
+scope: "DSpark、Speculators、vLLM speculative decoding、hidden states 训练链路；目标核对 v0.27.1"
+as_of: "2026-08-15"
+target_release: "vLLM v0.27.1 + Speculators current docs/release to be fixed"
 policy:
   evidence_rule: "roadmap_status 不证明 release_status；release_status 不证明 local_test_status；ASR QA 只作 D 级线索。"
   stable_body_grades: [A, B]
   transcript_grade: D
+source_ids:
+  - SRC-vllm-release-v0-27-1
+  - SRC-vllm-speculators-docs-2026-08-15
 statuses:
   roadmap_status:
     checked: "已在 roadmap、README、演讲或讨论中观察到，但不代表 release。"

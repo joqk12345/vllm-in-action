@@ -1,6 +1,6 @@
 topic: rust-frontend
 generated_from: ../claims.yml
-as_of: 2026-07-25
+as_of: 2026-08-15
 deliverables:
   - id: rust-frontend-brief
     type: research-brief
@@ -10,7 +10,7 @@ deliverables:
   - id: rust-frontend-topic-booklet
     type: topic-booklet
     status: complete
-    research_status: captured
+    research_status: needs-refresh
     files:
       - booklet/README.md
       - booklet/rust-frontend-topic-booklet.md

@@ -5,7 +5,7 @@ Purpose: 跟踪 llm-d、vLLM、InferenceX/AgentX 与 Wide EP/PD/KV routing 相�
 Status: active
 Applies to: 研究阶段跟踪浮动上游；正文结论固定到 release/tag/commit 和本仓实验。
 Evidence grade: discovery only；接受结论时回到源码、测试、release 文档、PR 或实验。
-Verified date: 2026-07-26
+Verified date: 2026-08-15
 Assumptions: Office Hours 线索不证明目标版本可用；AgentX/InferenceX 数字不证明本仓 workload 可复现。
 Open questions: 第一个可稳定复现 llm-d + vLLM agentic workload 收益的版本组合。
 Handoff: 第 11、12、15 章。

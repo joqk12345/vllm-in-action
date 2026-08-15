@@ -2,7 +2,8 @@ deliverables:
   - id: llm-d-agentic-serving-topic-booklet
     type: topic-booklet
     status: complete
-    research_status: captured
+    research_status: needs-refresh
+    stale_reason: "上游 vLLM 已更新至 v0.27.1；llm-d/vLLM release matrix 尚未固定"
     files:
       - booklet/README.md
       - booklet/llm-d-agentic-serving-topic-booklet.md

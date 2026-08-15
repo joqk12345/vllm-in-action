@@ -4,9 +4,9 @@ subtitle: "主题研究小册子"
 status: draft
 edition: "0.2"
 created: 2026-07-26
-verified: 2026-08-01
+verified: 2026-08-15
 topic: efficient-long-context-attention
-applies_to: "vLLM v0.26.0 Kimi Linear/Qwen3-Next；Kimi K3 main@aeeb36b1，稳定 release 尚未确认"
+applies_to: "vLLM v0.27.1；v0.26.0 与 Kimi K3 main@aeeb36b1 作为历史基线，稳定 release 尚未确认"
 source_ids:
   - SRC-kimi-linear-paper-v2
   - SRC-kimi-k3-tech-report-2026-07-28
@@ -23,7 +23,7 @@ Purpose: 将 sparse、linear、GDN/KDA、Lightning、SWA/full attention 反例�
 Status: draft
 Applies to: research/topics/efficient-long-context-attention
 Evidence grade: A/B 为正文候选；C/D 仅作解释、发现和待核查问题。
-Verified date: 2026-08-01
+Verified date: 2026-08-15
 Assumptions: 论文 benchmark 均为作者报告；生产建议必须回到固定 vLLM release、源码/测试和本仓实验。
 Open questions: NSA/MoBA/MiniMax-01、Qwen3.5 config、GLM-5/DSA vLLM 支持、Kimi/Qwen smoke test、Kimi K3 首个稳定 release 与 partial-hit correctness。
 Handoff: book/chapter-briefs/09, 11, 12, 15；与 `llm-d-agentic-serving` 交叉。
@@ -228,7 +228,7 @@ Kimi K3 是本专题的系统纵切面。它展示的因果链不是“线性 at
 动态状态：
 
 - roadmap_status：researching；
-- release_status：v0.26.0 已捕获 Kimi Linear/Qwen3-Next；Kimi K3 `main@aeeb36b1` 已合入但首个稳定 release 未确认；
+- release_status：目标核对 v0.27.1；v0.26.0 作为历史基线，Kimi K3 `main@aeeb36b1` 已合入但首个稳定 release 未确认；
 - local_test_status：not_run；
 - Kimi K3 dependency：专用镜像 + FlashInfer RC，待固定 digest/稳定版本；
 - stale_after：2026-09-01。
@@ -252,7 +252,7 @@ Next review date:
 
 ## 18. 下一步
 
-1. 基于 vLLM v0.26.0 跑 Kimi Linear 和 Qwen3-Next smoke test。
+1. 基于 vLLM v0.27.1 跑 Kimi Linear 和 Qwen3-Next smoke test，并保留 v0.26.0 对照。
 2. 固定 HF revision 和模型 config。
 3. 补齐 NSA、MoBA、MiniMax-01 source cards。
 4. 抽取 GLM-5/DSA 和 GDN/KDA 的更多表格设置。

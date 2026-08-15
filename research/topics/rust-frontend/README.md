@@ -2,12 +2,12 @@
 
 Owner: 未指定
 Purpose: 追踪 vLLM Rust Frontend 的动机、架构、性能边界与生产成熟度
-Status: captured
-Applies to: 演讲 benchmark 使用 vLLM 0.19.0；项目状态核对至 2026-07-25
+Status: needs-refresh
+Applies to: vLLM Rust frontend；目标核对版本 v0.27.1，演讲 benchmark 的 v0.19.0 仅作历史基线
 Evidence grade: A/B 混合
-Verified date: 2026-07-25
+Verified date: 2026-08-15
 Assumptions: 暂未在本仓库环境复现实验
-Open questions: 功能对齐、资源成本、稳定性和真实 GPU-bound 工作负载收益
+Open questions: v0.27.1 中实际进入 release 的能力、API/parser parity、TLS/auth/LoRA/multimodal 缺口、资源成本、稳定性和真实 GPU-bound 工作负载收益
 Handoff: 第 3、6、9、13、14、15 章
 
 ## 目录

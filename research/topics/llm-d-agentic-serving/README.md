@@ -2,12 +2,12 @@
 
 Owner: 未指定
 Purpose: 系统研究 llm-d + vLLM 在 Kubernetes 上服务 agentic long-context workloads 的路由、KV cache、PD 分离、Wide EP、QoS 与成本边界。
-Status: captured
-Applies to: vLLM Office Hours #53（2026-07-09）公开分享；llm-d/vLLM 上游状态尚未固定到 release 或 commit
+Status: needs-refresh
+Applies to: llm-d + vLLM agentic serving；目标核对版本 vLLM v0.27.1，llm-d release/commit 仍待固定
 Evidence grade: C/D 起步；进入正文前必须回到 llm-d/vLLM 源码、PR、release、官方文档或本仓实验
-Verified date: 2026-07-26
+Verified date: 2026-08-15
 Assumptions: `LMD`/`LLMD`/`VLM` 等字幕写法多为 ASR 误识别，分别按 `llm-d` 和 `vLLM` 理解。
-Open questions: 哪些 llm-d 能力已经发布、哪些需要特定 vLLM release、Wide EP/DP attention 在目标硬件和 AgentX-like workload 下是否可复现收益。
+Open questions: llm-d 当前 release 与 v0.27.1 的兼容矩阵、gRPC engine API/KV transfer/PD 路径，以及 Wide EP/DP attention 在目标硬件和 AgentX-like workload 下是否可复现收益。
 Handoff: 第 11、12、15 章；Kubernetes 部署与生产调度章节。
 
 ## 主题边界

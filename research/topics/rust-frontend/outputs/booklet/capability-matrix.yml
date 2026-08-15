@@ -1,11 +1,11 @@
 schema_version: 1
 topic: rust-frontend
 scope: representative
-as_of: 2026-07-25
+as_of: 2026-08-15
 roadmap_issue: "https://github.com/vllm-project/vllm/issues/44280"
 roadmap_updated_at: "2026-07-24T11:34:59Z"
-latest_release_signal: "v0.25.1"
-target_release: null
+latest_release_signal: "v0.27.1"
+target_release: "v0.27.1"
 policy:
   roadmap_checked_means: "上游 roadmap 作者标记完成；不是 release 或本地验证证明"
   release_verified_means: "已找到 merge commit、首个包含它的 tag，并在目标 tag 核对源码/测试"

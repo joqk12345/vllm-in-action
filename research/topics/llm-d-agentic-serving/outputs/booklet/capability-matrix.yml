@@ -1,8 +1,8 @@
 schema_version: 1
 topic: llm-d-agentic-serving
-scope: "llm-d + vLLM serving for agentic long-context workloads；核对至 2026-07-26，未固定 release/commit"
-as_of: "2026-07-26"
-target_release: "unfixed"
+scope: "llm-d + vLLM serving for agentic long-context workloads；目标 vLLM v0.27.1，llm-d 版本组合待固定"
+as_of: "2026-08-15"
+target_release: "vLLM v0.27.1 + llm-d release/commit to be fixed"
 policy:
   evidence_rule: "Office Hours 与自动字幕只作发现线索；roadmap_status 不证明 release_status；release_status 不证明 local_test_status。"
   stable_body_grades: [A, B]

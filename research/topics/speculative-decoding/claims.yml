@@ -1,5 +1,5 @@
 topic: speculative-decoding
-as_of: 2026-07-25
+as_of: 2026-08-15
 policy:
   body_ready_grades: [A, B]
   transcript_grade: D

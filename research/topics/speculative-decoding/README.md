@@ -2,12 +2,12 @@
 
 Owner: 未指定
 Purpose: 系统研究投机解码的算法、vLLM 集成、性能边界与生产采用方法，并以 DSpark 作为首个重点案例
-Status: captured
-Applies to: DSpark arXiv v1（2026-07-06）；Speculators 与 vLLM 状态核对至 2026-07-25
+Status: needs-refresh
+Applies to: DSpark、Speculators 与 vLLM speculative decoding；目标核对版本 v0.27.1
 Evidence grade: B/C/D 混合
-Verified date: 2026-07-25
+Verified date: 2026-08-15
 Assumptions: 尚未在本仓库复现 DSpark 训练、接受长度或端到端 serving benchmark
-Open questions: 哪类 workload、并发和硬件下，接受长度收益能稳定转化为 ITL、吞吐或 goodput 收益
+Open questions: v0.27.1/Speculators 中各 proposer 的 release 边界，以及不同 workload、并发、采样参数和硬件下接受长度能否转化为 ITL、吞吐或 goodput 收益
 Handoff: 第 10、11 章为主；训练与分布式隐藏状态链路作为第 8、12 章背景材料
 
 ## 研究边界

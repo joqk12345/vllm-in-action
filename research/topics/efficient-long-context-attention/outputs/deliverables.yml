@@ -1,35 +1,35 @@
 topic: efficient-long-context-attention
-as_of: 2026-08-01
+as_of: 2026-08-15
 status: complete
-research_status: captured
+research_status: needs-refresh
 owner: ""
 skill: topic-booklet
 outputs:
   booklet:
     path: booklet/efficient-long-context-attention-topic-booklet.md
     status: complete
-    research_status: captured
+    research_status: needs-refresh
     evidence_grade: mixed_A_B_C_D
   seminar_guide:
     path: booklet/seminar-guide.md
     status: complete
-    research_status: captured
+    research_status: needs-refresh
   reading_list:
     path: booklet/reading-list.md
     status: complete
-    research_status: captured
+    research_status: needs-refresh
   capability_matrix:
     path: booklet/capability-matrix.yml
     status: complete
-    research_status: captured
+    research_status: needs-refresh
   readme:
     path: booklet/README.md
     status: complete
-    research_status: captured
+    research_status: needs-refresh
   kimi_k3_vllm_tech_share_analysis:
     path: 2026-08-01-kimi-k3-vllm-tech-share-analysis.md
     status: complete
-    research_status: captured
+    research_status: needs-refresh
     evidence_grade: mixed_A_B_D
   chapter_placement_proposal:
     path: chapter-handoff/chapter-placement-proposal.md

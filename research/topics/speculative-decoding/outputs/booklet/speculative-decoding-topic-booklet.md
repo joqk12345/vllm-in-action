@@ -1,12 +1,12 @@
 ---
 title: "投机解码"
 subtitle: "主题研究小册子"
-status: captured
+status: needs-refresh
 edition: "0.1"
 created: 2026-07-25
-verified: 2026-07-25
+verified: 2026-08-15
 topic: speculative-decoding
-applies_to: "DSpark arXiv v1；Speculators 与 vLLM 浮动状态核对至 2026-07-25；尚未固定 release/commit 或本仓复现"
+applies_to: "DSpark、Speculators；目标核对 vLLM v0.27.1，尚未完成本仓复现"
 source_ids:
   - SRC-dspark-paper-v1
   - SRC-dspark-talk-2026-07-22
@@ -20,10 +20,10 @@ chapters: ["10", "11", "15"]
 
 Owner:
 Purpose: 支持投机解码算法、vLLM 集成、DSpark 案例和生产采用边界的系统性研讨与章节交接。
-Status: captured
+Status: needs-refresh
 Applies to: DSpark arXiv v1；Speculators/vLLM 浮动状态核对至 2026-07-25；当前未固定 release/commit。
 Evidence grade: B/C/D 混合；ASR QA 仅作 D 级线索。
-Verified date: 2026-07-25
+Verified date: 2026-08-15
 Assumptions: 尚未在本仓复现 DSpark 训练、接受长度或端到端 serving benchmark。
 Open questions: vLLM/Speculators 对 DSpark 的真实 release 支持、confidence head 推理、LoRA 兼容、Mooncake/KVConnector 在线训练链路和目标 workload 的 speedup。
 Handoff: 第 10、11、15 章；hidden states 训练链路可作为第 8、12 章背景。
@@ -240,6 +240,10 @@ DSpark 针对并行 drafter 的一个核心问题：并行生成多个位置时�
 
 ## 12. 动态附录（Dynamic appendix）
 
+<!-- verified: v0.27.1, 2026-08-15 -->
+
+当前 vLLM 基线为 v0.27.1；Speculators 已有独立部署文档，DSpark 应作为案例而非唯一工程入口。release 支持和本地性能仍未验证。
+
 动态材料位置：
 
 - 能力状态：[`capability-matrix.yml`](capability-matrix.yml)
@@ -250,6 +254,8 @@ DSpark 针对并行 drafter 的一个核心问题：并行生成多个位置时�
 - 版本跟踪规则：`../../tracking/README.md`
 
 刷新后优先更新 capability matrix，再决定是否修改本稳定主体。
+
+下一步验证：固定 target/drafter 模型、硬件、采样参数和并发，比较 EAGLE/DFlash/DSpark 或 MTP 的 acceptance length、ITL、吞吐、显存和 goodput。
 
 ## 13. 研讨结论模板（Seminar decision template）
 
@@ -263,4 +269,3 @@ Required tests/experiments:
 Owner:
 Review date:
 ```
-

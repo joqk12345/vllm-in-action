@@ -1,12 +1,12 @@
 ---
 title: "llm-d 分布式推理与 Agentic Workloads"
 subtitle: "主题研究小册子"
-status: captured
+status: needs-refresh
 edition: "0.1"
 created: 2026-07-26
-verified: 2026-07-26
+verified: 2026-08-15
 topic: llm-d-agentic-serving
-applies_to: "vLLM Office Hours #53；llm-d/vLLM/InferenceX 状态尚未固定 release/commit"
+applies_to: "目标核对 vLLM v0.27.1；llm-d/vLLM/InferenceX 版本组合尚未固定"
 source_ids:
   - SRC-vllm-office-hours-53-llm-d
   - SRC-vllm-office-hours-53-llm-d-transcript
@@ -20,10 +20,10 @@ chapters: ["11", "12", "15"]
 
 Owner:
 Purpose: 支持 llm-d + vLLM 在 agentic long-context workloads 下的分布式 serving 研究、研讨和章节交接。
-Status: captured
+Status: needs-refresh
 Applies to: vLLM Office Hours #53；llm-d/vLLM/InferenceX 上游状态尚未固定 release/commit。
 Evidence grade: C/D 起步；进入正文前必须补 A/B 级来源或本仓实验。
-Verified date: 2026-07-26
+Verified date: 2026-08-15
 Assumptions: 当前主要素材是公开分享和自动字幕；`VLM/BLM` 按 `vLLM` 理解，`LMD/LLMD` 按 `llm-d` 理解。
 Open questions: router/EPP、KV tiering、PD、Wide EP/DP attention、flow control、batch 和 AgentX benchmark 的准确 release 边界。
 Handoff: 第 11、12、15 章。
@@ -229,6 +229,10 @@ Client / Batch API
 
 ## 12. 动态附录（Dynamic appendix）
 
+<!-- verified: v0.27.1, 2026-08-15 -->
+
+当前 vLLM 基线为 v0.27.1；llm-d guide/image 仍需固定 release/commit 后，才能判断接口和部署兼容性。Office Hours 材料继续作为 C/D 级发现线索。
+
 动态材料位置：
 
 - 能力状态：[`capability-matrix.yml`](capability-matrix.yml)
@@ -237,6 +241,8 @@ Client / Batch API
 - Claim spine：`../../claims.yml`
 - 术语：`../../vocabulary.md`
 - 结构化分析：`../2026-07-09-office-hours-53-llm-d-wide-ep-analysis.md`
+
+下一步验证：固定 llm-d release、vLLM tag、模型/硬件/网络拓扑，运行 OpenAI API 与 gRPC engine smoke test，再测 prefix affinity、KV transfer 和 PD 对照。
 
 ## 13. 研讨结论模板（Seminar decision template）
 

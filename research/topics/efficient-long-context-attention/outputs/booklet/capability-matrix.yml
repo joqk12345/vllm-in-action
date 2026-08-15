@@ -1,7 +1,7 @@
 schema_version: 1
 topic: efficient-long-context-attention
-as_of: 2026-08-01
-target_release: "vLLM v0.26.0 for Kimi Linear/Qwen3-Next; Kimi K3 main@aeeb36b1 (first stable release unverified)"
+as_of: 2026-08-15
+target_release: "vLLM v0.27.1; v0.26.0 and Kimi K3 main@aeeb36b1 retained as historical baselines"
 roadmap_status: researching
 release_status: partial
 local_test_status: not_run
@@ -19,7 +19,7 @@ source_ids:
   - SRC-vllm-kimi-k3-support-pr-50000
   - SRC-vllm-partial-cache-rfc-45702
   - SRC-kimi-k3-vllm-tech-share-local-2026-08-01
-status: draft
+status: needs-refresh
 policy:
   body_ready_grades: [A, B]
   production_claim_requires:

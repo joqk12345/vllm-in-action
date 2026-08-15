@@ -2,7 +2,8 @@ deliverables:
   - id: speculative-decoding-topic-booklet
     type: topic-booklet
     status: complete
-    research_status: captured
+    research_status: needs-refresh
+    stale_reason: "vLLM/Speculators 已形成新的官方文档与 v0.27.1 能力边界，需刷新算法和 release matrix"
     files:
       - booklet/README.md
       - booklet/speculative-decoding-topic-booklet.md

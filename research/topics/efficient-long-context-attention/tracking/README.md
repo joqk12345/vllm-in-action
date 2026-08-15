@@ -5,7 +5,7 @@ Purpose: 跟踪 DSA/NSA/MoBA/Lightning/linear-window-hybrid attention 的论文�
 Status: active
 Applies to: 研究阶段跟踪论文和上游 main；正文结论固定到论文版本、release/tag/commit 或本仓实验。
 Evidence grade: discovery only；接受结论时回到论文、源码、测试或实验。
-Verified date: 2026-08-01
+Verified date: 2026-08-15
 Assumptions: seed list 只是来源发现入口，不证明算法结论。
 Open questions: 哪类高效 attention 能在目标 vLLM serving workload 中同时保持质量和降低成本。
 Handoff: 第 04、08、09、11、12、15 章。

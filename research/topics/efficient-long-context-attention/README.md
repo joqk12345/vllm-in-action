@@ -2,12 +2,12 @@
 
 Owner: 未指定
 Purpose: 系统研究面向长上下文 LLM 的高效注意力机制，包括稀疏注意力、线性注意力、滑动窗口/混合层、MoBA/Lightning Attention/DSA/NSA 等方法，以及它们对 vLLM 推理、KV cache、并行和 benchmark 的影响。
-Status: captured
-Applies to: GLM-5/Kimi Linear/Kimi K3/MiniMax/GDN/Qwen3-Next；vLLM v0.26.0 与 Kimi K3 main merge `aeeb36b1`
+Status: needs-refresh
+Applies to: GLM-5/Kimi Linear/Kimi K3/MiniMax/GDN/Qwen3-Next；目标核对版本 vLLM v0.27.1，v0.26.0 与 `aeeb36b1` 作为历史基线
 Evidence grade: A/B/C/D 混合；进入正文前必须回到固定论文版本、上游实现、vLLM release/tag/commit 或本仓实验
-Verified date: 2026-08-01
+Verified date: 2026-08-15
 Assumptions: 原目录名 `linear-attention` 过窄；当前主题扩展为 efficient long-context attention，以覆盖 sparse、linear、block、window、hybrid 等多类方法。
-Open questions: 哪些机制已进入稳定 vLLM release；Kimi K3 main/special-image 支持何时进入稳定 release；哪些机制能在目标硬件和 workload 下保持长上下文质量并降低成本。
+Open questions: v0.27.1 中各 hybrid/linear/GDN/KDA 路径的首个包含 commit、Kimi K3 stable release、partial-hit/KDA state correctness，以及目标硬件和 workload 下的性能复现。
 Handoff: 第 04、08、09、11、12、15 章。
 
 ## 命名判断

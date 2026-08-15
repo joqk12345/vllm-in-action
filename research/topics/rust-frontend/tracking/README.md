@@ -5,7 +5,7 @@ Purpose: 把 Issue #44280 的能力变化与 vLLM release 变化持续转成可�
 Status: active
 Applies to: vLLM Rust Frontend，研究阶段跟踪 `main`，正文结论固定到 release tag/commit
 Evidence grade: discovery only；接受结论时回到 vLLM 上游 A/B 级证据
-Verified date: 2026-07-25
+Verified date: 2026-08-15
 Assumptions: Version Monitor 负责 release intelligence，不负责证明 Issue 条目已经进入 release
 Open questions: 第一个满足本书最小生产就绪门槛的 release
 Handoff: 第 3、6、9、13、14、15 章

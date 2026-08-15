@@ -1,12 +1,12 @@
 ---
 title: "vLLM Rust Frontend：架构边界、能力契约与生产采用"
 subtitle: "主题研究小册子"
-status: captured
+status: needs-refresh
 edition: "0.1"
 created: 2026-07-25
-verified: 2026-07-25
+verified: 2026-08-15
 topic: rust-frontend
-applies_to: "架构材料核对至 2026-07-25；benchmark 使用 vLLM 0.19.0；尚未固定正文目标 release"
+applies_to: "目标核对 vLLM v0.27.1；benchmark 使用 vLLM 0.19.0 仅作历史基线"
 source_ids:
   - SRC-vllm-rust-frontend-rfc-40846
   - SRC-vllm-rust-frontend-pr-40848
@@ -23,10 +23,10 @@ chapters: ["03", "06", "09", "13", "14", "15"]
 
 Owner: performance research / book editorial
 Purpose: 为专项阅读、架构研讨和生产采用评审提供共同的问题、术语、证据和行动框架
-Status: captured
+Status: needs-refresh
 Applies to: vLLM Rust Frontend；动态状态核对至 2026-07-25
 Evidence grade: A/B 为主体；C 级演讲只补充背景；D 级转写只保留为线索
-Verified date: 2026-07-25
+Verified date: 2026-08-15
 Assumptions: 本仓库尚未复现 benchmark，也未完成目标 release 的 capability test
 Open questions: 目标 release、真实资源成本、GPU-bound 收益与生产回退语义
 Handoff: 第 3、6、9、13、14、15 章
@@ -438,11 +438,15 @@ RFC 证明特定压力测试中的 frontend ceiling，不回答大模型 GPU-bou
 Issue #44280: Open
 Issue updated: 2026-07-24T11:34:59Z
 Checklist: 40 checked / 61 unchecked
-Latest vLLM release: v0.25.1
-Version Monitor snapshot: v0.25.1, cutoff 2026-07-18
+Latest vLLM release: v0.27.1
+Version Monitor snapshot: stale (v0.25.1, cutoff 2026-07-18); release baseline: v0.27.1
 ```
 
 这些数字只用于发现变化；引用任何具体能力前必须重新核对。
+
+<!-- verified: v0.27.1, 2026-08-15 -->
+
+下一步验证：在 v0.27.1 固定 tag 上核对 roadmap 已列能力的源码/测试，并用 OpenAI、Anthropic、TLS/auth、LoRA、multimodal 请求做参数级 parity smoke test。
 
 ---
 
