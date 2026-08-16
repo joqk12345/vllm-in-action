@@ -2,9 +2,9 @@
 chapter_id: "07-model-loading-and-precision"
 part: II
 title: "模型加载、精度与量化"
-status: brief
+status: draft
 depends_on: ["05-environment-and-installation"]
-evidence_status: missing
+evidence_status: partial
 ---
 
 # 章节承诺

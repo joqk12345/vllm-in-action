@@ -2,9 +2,9 @@
 chapter_id: "11-latency-optimization"
 part: III
 title: "优化 TTFT 与 ITL"
-status: brief
+status: draft
 depends_on: ["09-benchmarking", "10-scheduling-and-batching"]
-evidence_status: missing
+evidence_status: partial
 ---
 
 # 章节承诺

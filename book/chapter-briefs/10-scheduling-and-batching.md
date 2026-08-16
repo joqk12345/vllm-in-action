@@ -2,9 +2,9 @@
 chapter_id: "10-scheduling-and-batching"
 part: III
 title: "调度、批处理与排队"
-status: brief
+status: draft
 depends_on: ["03-inside-vllm", "09-benchmarking"]
-evidence_status: missing
+evidence_status: partial
 ---
 
 # 章节承诺

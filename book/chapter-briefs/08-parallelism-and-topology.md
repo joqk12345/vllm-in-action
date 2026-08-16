@@ -2,9 +2,9 @@
 chapter_id: "08-parallelism-and-topology"
 part: II
 title: "并行策略与硬件拓扑"
-status: brief
+status: draft
 depends_on: ["04-memory-and-kv-cache", "07-model-loading-and-precision"]
-evidence_status: missing
+evidence_status: partial
 ---
 
 # 章节承诺

@@ -2,9 +2,9 @@
 chapter_id: "01-from-demo-to-production"
 part: I
 title: "从能跑到能上线"
-status: brief
+status: draft
 depends_on: []
-evidence_status: missing
+evidence_status: partial
 ---
 
 # 章节承诺

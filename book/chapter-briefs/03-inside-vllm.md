@@ -2,9 +2,9 @@
 chapter_id: "03-inside-vllm"
 part: I
 title: "vLLM 的请求生命周期"
-status: brief
+status: draft
 depends_on: ["02-workload-slo-and-metrics"]
-evidence_status: missing
+evidence_status: partial
 ---
 
 # 章节承诺

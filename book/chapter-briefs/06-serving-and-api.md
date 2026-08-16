@@ -2,9 +2,9 @@
 chapter_id: "06-serving-and-api"
 part: II
 title: "服务入口与 API 契约"
-status: brief
+status: draft
 depends_on: ["05-environment-and-installation"]
-evidence_status: missing
+evidence_status: partial
 ---
 
 # 章节承诺

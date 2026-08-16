@@ -2,9 +2,9 @@
 chapter_id: "09-benchmarking"
 part: III
 title: "构建可信的 Benchmark"
-status: brief
+status: draft
 depends_on: ["02-workload-slo-and-metrics", "06-serving-and-api"]
-evidence_status: missing
+evidence_status: partial
 ---
 
 # 章节承诺

@@ -1,0 +1,11 @@
+{
+  "name": "vllm-deep-dive-book",
+  "private": true,
+  "version": "1.0.0-alpha.1",
+  "description": "《vLLM 深入研究》零依赖书籍与静态网站构建",
+  "scripts": {
+    "build": "node scripts/build-book.mjs",
+    "check": "node scripts/check-book.mjs",
+    "preview": "node scripts/serve-book.mjs"
+  }
+}

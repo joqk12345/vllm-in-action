@@ -2,9 +2,9 @@
 chapter_id: "05-environment-and-installation"
 part: II
 title: "环境、安装与兼容性"
-status: brief
+status: draft
 depends_on: ["01-from-demo-to-production"]
-evidence_status: missing
+evidence_status: partial
 ---
 
 # 章节承诺

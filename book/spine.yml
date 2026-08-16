@@ -36,5 +36,7 @@ parts:
       - "16-production-playbook"
 
 back_matter:
+  - file: book/back-matter/source-code-map.md
+  - file: book/back-matter/labs.md
   - file: book/back-matter/glossary.md
   - file: book/back-matter/references.md

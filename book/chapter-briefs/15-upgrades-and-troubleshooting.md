@@ -2,9 +2,9 @@
 chapter_id: "15-upgrades-and-troubleshooting"
 part: IV
 title: "升级、回滚与故障诊断"
-status: brief
+status: draft
 depends_on: ["05-environment-and-installation", "13-observability-and-capacity", "14-reliability-and-security"]
-evidence_status: missing
+evidence_status: partial
 ---
 
 # 章节承诺

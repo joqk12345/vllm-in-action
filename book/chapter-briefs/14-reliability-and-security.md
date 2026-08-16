@@ -2,9 +2,9 @@
 chapter_id: "14-reliability-and-security"
 part: IV
 title: "可靠性、隔离与安全"
-status: brief
+status: draft
 depends_on: ["06-serving-and-api", "13-observability-and-capacity"]
-evidence_status: missing
+evidence_status: partial
 ---
 
 # 章节承诺

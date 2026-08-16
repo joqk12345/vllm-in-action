@@ -2,9 +2,9 @@
 chapter_id: "04-memory-and-kv-cache"
 part: I
 title: "显存、KV Cache 与容量边界"
-status: brief
+status: draft
 depends_on: ["03-inside-vllm"]
-evidence_status: missing
+evidence_status: partial
 ---
 
 # 章节承诺

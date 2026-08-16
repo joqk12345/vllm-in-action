@@ -1,164 +1,65 @@
-# vLLM in Action / vLLM 工程实践
+# vLLM 深入研究 / vLLM Deep Dive
 
-> **《vLLM 工程实践：从推理原理到生产级服务》**
-> *vLLM in Action: From Inference Mechanics to Production Serving*
+> **《vLLM 深入研究：从 Token 到生产服务》**
+>
+> 一部基于当前源码、面向推理工程师与平台负责人的中文开源书。
 
-这是一个面向长期维护的开源书籍知识库：持续追踪 vLLM 的架构、版本变化与生产实践，并把可验证的经验沉淀为一本中文技术书。
+本仓库不再只有知识库骨架：`book/chapters/` 已包含 16 章连续正文，系统讲解请求生命周期、Paged KV、混合/线性注意力、调度、分布式推理、量化、推测解码、编译与算子、观测、安全和生产运营；附录提供源码地图与八个实验。`website/` 和零依赖 Node 构建器同时生成静态网站与单文件 Markdown book。
 
-它参考了 `../no-one-did-it` 的“正文—证据—流程—出版”分层，但当前保持轻量：先把研究、实验和章节契约做扎实，等正文成熟后再加入 EPUB/PDF 构建。
+## 当前代码基线
 
-## 当前版本
+正文针对 vLLM commit `fe1c317157d4478fdc0e02096447e61305b871e9`（`v0.27.2rc0-129-gfe1c317157`）于 2026-08-16 核对。版本敏感结论必须在目标部署 tag 上重验。书中不虚构 GPU benchmark 数字；硬件相关结论以可执行实验说明交付。
 
-- 知识库开发版本：[`0.2.0-dev`](VERSION.md)
-- 变更记录：[`CHANGELOG.md`](CHANGELOG.md)
-- 当前书稿阶段：知识库骨架完成，进入证据采集、专题研究和章节调研
+## 阅读
 
-知识库版本、vLLM 上游版本和单项实验版本是三个不同概念。知识库版本描述本仓库的结构与研究能力；技术结论仍必须在 Source Card、claim 或实验记录中单独声明适用的 vLLM tag/commit。
+- [前言](book/front-matter/preface.md)
+- [第 1 章：从能跑到能上线](book/chapters/01-from-demo-to-production.md)
+- [第 4 章：显存、分页 KV Cache 与混合注意力](book/chapters/04-memory-and-kv-cache.md)
+- [第 8 章：分布式推理与硬件拓扑](book/chapters/08-parallelism-and-topology.md)
+- [第 11 章：热点注意力与延迟优化](book/chapters/11-latency-optimization.md)
+- [第 12 章：算子优化、编译与单位成本](book/chapters/12-throughput-and-cost.md)
+- [源码研究地图](book/back-matter/source-code-map.md)
+- [八个递进实验](book/back-matter/labs.md)
+- [完整书脊](book/spine.yml)
 
-## 这本书解决什么问题
+## 构建 book 与 website
 
-vLLM 的参数很多，但生产问题通常不是“某个 flag 怎么写”，而是目标和约束没有对齐：
-
-- 为什么吞吐上去了，首 token 延迟却恶化？
-- 什么时候该用张量并行、流水线并行或数据并行？
-- KV cache、批处理、量化和推测解码之间如何互相影响？
-- benchmark 为什么无法复现，怎样建立公平基线？
-- 如何做容量规划、可观测性、故障降级和安全升级？
-
-本书将围绕一个统一决策框架组织答案：
-
-> 工作负载 → SLO → 模型与硬件约束 → 引擎机制 → 配置 → 测量 → 生产反馈
-
-## 从哪里开始
-
-- 看全书结构：[`book/toc.yml`](book/toc.yml)
-- 看当前进度：[`book/STATUS.md`](book/STATUS.md)
-- 看待追踪主题：[`research/watchlist.yml`](research/watchlist.yml)
-- 看 Rust Frontend 专题：[`research/topics/rust-frontend/`](research/topics/rust-frontend/)
-- 读 Rust Frontend 小册子：[`research/topics/rust-frontend/outputs/booklet/rust-frontend-topic-booklet.md`](research/topics/rust-frontend/outputs/booklet/rust-frontend-topic-booklet.md)
-- 看投机解码专题：[`research/topics/speculative-decoding/`](research/topics/speculative-decoding/)
-- 看 llm-d agentic serving 专题：[`research/topics/llm-d-agentic-serving/`](research/topics/llm-d-agentic-serving/)
-- 看高效长上下文注意力专题：[`research/topics/efficient-long-context-attention/`](research/topics/efficient-long-context-attention/)
-- 读 llm-d agentic serving 小册子：[`research/topics/llm-d-agentic-serving/outputs/booklet/llm-d-agentic-serving-topic-booklet.md`](research/topics/llm-d-agentic-serving/outputs/booklet/llm-d-agentic-serving-topic-booklet.md)
-- 读投机解码小册子：[`research/topics/speculative-decoding/outputs/booklet/speculative-decoding-topic-booklet.md`](research/topics/speculative-decoding/outputs/booklet/speculative-decoding-topic-booklet.md)
-- 跟踪 DSpark 分享 QA：[`research/topics/speculative-decoding/tracking/2026-07-22-dspark-talk-qa.yml`](research/topics/speculative-decoding/tracking/2026-07-22-dspark-talk-qa.yml)
-- 审阅投机解码正文落点建议：[`research/topics/speculative-decoding/outputs/chapter-handoff/chapter-placement-proposal.md`](research/topics/speculative-decoding/outputs/chapter-handoff/chapter-placement-proposal.md)
-- 新增来源：复制 [`templates/source-card.md`](templates/source-card.md)
-- 跑实验：复制 [`templates/experiment.md`](templates/experiment.md)
-- 跟进新版本：复制 [`templates/release-impact.md`](templates/release-impact.md)
-- 生成专题小册子：使用 `$topic-booklet`
-- 写章节：先完成对应的 `book/chapter-briefs/`，再在 `book/chapters/` 起草
-
-## 主题研究小册子
-
-专题研究小册子位于 Research Brief 与正式书稿之间，用共同问题组织多个来源，并把结论转成研讨、能力测试、实验和章节交接。
-
-直接在当前 Agent 中执行：
-
-```text
-使用 $topic-booklet，为 research/topics/<topic>
-生成或刷新主题研究小册子，完成校验但不要 commit。
-```
-
-素材较多、需要隔离上下文时：
-
-```text
-使用 topic_booklet subagent，为 research/topics/<topic>
-执行 $topic-booklet，完成校验但不要 commit。
-```
-
-- Skill：[`.agents/skills/topic-booklet/SKILL.md`](.agents/skills/topic-booklet/SKILL.md)
-- Subagent：[`.codex/agents/topic-booklet.toml`](.codex/agents/topic-booklet.toml)
-- 通用模板：[`templates/topic-booklet.md`](templates/topic-booklet.md)
-- 专题方法：[`research/topics/README.md`](research/topics/README.md)
-
-## 持续跟踪 Rust Frontend
-
-Rust Frontend 使用双信号跟踪：
-
-- vLLM Issue #44280 发现 roadmap、checkbox 和评论变化；
-- vLLM Version Monitor 发现新 release 和 release-note 线索；
-- 最终结论回到 vLLM 官方 tag、commit、源码、测试和本仓库实验。
-
-手动检查：
+只需 Node.js 18+，无第三方 npm 依赖：
 
 ```bash
-python3 scripts/check_rust_frontend_tracking.py
+npm run check       # 校验正文并构建
+npm run build       # 生成 dist/
+npm run preview     # http://127.0.0.1:4173
 ```
 
-GitHub Actions 每周运行同一检查。检测到漂移只表示需要人工分诊，不代表能力已经发布、验证或可以进入正文。
+产物：
 
-## 投机解码专题
+- `dist/index.html`：响应式静态网站，含侧栏、前后章导航与中文全文搜索；
+- `dist/vllm-deep-dive.md`：按书脊合并的单文件 book，可继续交给 Pandoc 等工具制作 EPUB/PDF；
+- 每章独立 HTML，可直接部署到 GitHub Pages、对象存储或任意静态站点。
 
-投机解码专题以 `draft → verify → accept/reject → measure` 为稳定分析框架，以 DSpark 为首个重点案例，研究 drafter 延迟、接受长度、验证预算和生产指标之间的取舍。
+知识库结构校验：
 
-当前已建立：
+```bash
+python3 scripts/validate_kb.py
+```
 
-- 版本化来源清单与文件校验值；
-- SD-C01～SD-C08 claim spine；
-- 论文、Speculators 和 vLLM 的持续跟踪协议；
-- 2026-07-22 DSpark 分享 QA tracker 与 QA tracking best practices；
-- 投机解码主题小册子 bundle：主题综合、研讨指南、阅读路径和 capability matrix；
-- 第 9、10、11、12、15 章的正文落点建议。
+## 内容与证据
 
-专题仍处于 `captured` 状态。DSpark 论文结果属于作者报告，Speculators/vLLM 工程事实尚需固定到 tag 或 commit，并在本仓库复现低并发 latency 与高并发 throughput/goodput 场景后，才可进入正文。
-
-## llm-d agentic serving 专题
-
-llm-d agentic serving 专题研究 Kubernetes 上的分布式 LLM serving：prefix-aware routing、KV cache tiering、prefill/decode disaggregation、Wide EP / DP attention、flow control 和 batch processing 如何共同支撑长上下文多轮 agentic workloads。
-
-当前已建立初始主题骨架、source 清单、LD-C01～LD-C07 claim spine、最小术语表、tracking 规则、Office Hours QA tracker 和主题小册子 bundle。该主题仍处于 `captured` 状态，Office Hours 幻灯片和自动字幕只能作为 C/D 级线索；进入正文前必须固定 llm-d/vLLM release 或 commit，并复现 AgentX-like workload 的关键指标。
-
-## 高效长上下文注意力专题
-
-高效长上下文注意力专题从原 `linear-attention` 线索扩展而来，覆盖 DSA/NSA、MoBA、Lightning Attention、linear/window/hybrid attention 等方法，研究它们对长上下文质量、prefill/decode 成本、KV cache、kernel 和 vLLM serving 的影响。
-
-当前已建立初始主题骨架、GLM-5 v2 来源清单、EA-C01～EA-C07 claim spine、最小术语表和 tracking 规则。该主题仍处于 `captured` 状态；seed paper list 只是 D 级线索，进入正文前必须补齐论文版本、vLLM 支持状态和本仓长上下文 serving benchmark。
-
-## 建议的日常节奏
-
-每周处理一次 watchlist 和上游变化；每月复查所有 `stale_after` 到期的来源；每个 vLLM 版本发布后创建一份 release impact；每个进入正文的性能结论至少对应一份实验记录。
+`book/spine.yml` 是阅读顺序唯一来源；`book/chapters/` 是正文唯一来源；`book/evidence/` 保存来源与实验；`research/topics/` 保存尚需证据门禁的投机解码、llm-d、长上下文注意力和 Rust frontend 专题。当前本地源码快照来源卡为 `SRC-vllm-local-fe1c317`。
 
 ## 仓库地图
 
 ```text
-book/
-  chapter-briefs/       章节契约与证据缺口
-  chapters/             正文唯一来源
-  evidence/             来源台账、benchmark、实验
-  front-matter/         前言等
-  back-matter/          术语、参考资料等
-research/
-  releases/             版本影响记录
-  topics/               专题研究
-  decision-log/         关键决策
-process/
-  review-memos/         技术审校与事实核查
-  reader-reports/       读者测试
-templates/              所有标准模板
-scripts/                知识库校验工具
-.agents/skills/         仓库级可复用工作流
-.codex/agents/          项目级自定义 Subagent
-.github/workflows/      定时上游漂移检查
+book/chapters/       16 章正文
+book/back-matter/    源码地图、实验、术语与参考
+book/evidence/       来源卡、benchmark 与实验记录
+research/topics/     热点专题研究
+website/             网站样式与搜索逻辑
+scripts/build-book.mjs  零依赖构建器
+scripts/check-book.mjs  书稿门禁
 ```
 
-## 校验
+## 边界与披露
 
-```bash
-python3 scripts/validate_kb.py
-python3 .agents/skills/topic-booklet/scripts/validate_topic_booklet.py \
-  research/topics/rust-frontend
-git diff --check
-```
-
-知识库校验器检查必要目录、书脊、章节 brief、front matter 和 Source ID 的基本格式；小册子校验器检查五类标准输出、claims、来源卡、capability matrix 和 deliverables 登记。
-
-## 当前边界
-
-- 仓库中的配置不是默认生产建议；只有在适用条件和证据齐全时才进入正文。
-- 暂不绑定具体出版工具链，避免知识结构被某个渲染器反向约束。
-- Rust Frontend 的 target release 尚未固定，本仓 benchmark 尚未复现。
-- 投机解码专题尚未固定兼容的 vLLM/Speculators 版本组合，也未独立复现 DSpark 端到端收益。
-- roadmap checkbox 和 Version Monitor 输出都是变化线索，不能替代 release/local-test 证据。
-- DSpark 演讲 PPT 与字幕的再分发授权状态尚未核对。
-- 许可证尚未选择；公开发布或接受外部贡献前应补充 `LICENSE` 与贡献约定。
+本书由人类发起并使用 AI 辅助写作。性能配置不是通用推荐；公开出版前，人类提交者应逐行审阅、运行目标硬件实验、完成技术/安全审校并选择许可证。vLLM 是快速演进项目，源码与目标版本冲突时以目标 tag 的源码、测试和实际实验为准。

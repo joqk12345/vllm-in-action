@@ -2,9 +2,9 @@
 chapter_id: "16-production-playbook"
 part: IV
 title: "端到端生产 Playbook"
-status: brief
+status: draft
 depends_on: ["13-observability-and-capacity", "14-reliability-and-security", "15-upgrades-and-troubleshooting"]
-evidence_status: missing
+evidence_status: partial
 ---
 
 # 章节承诺

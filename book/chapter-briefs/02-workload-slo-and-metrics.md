@@ -2,9 +2,9 @@
 chapter_id: "02-workload-slo-and-metrics"
 part: I
 title: "工作负载、SLO 与指标"
-status: brief
+status: draft
 depends_on: ["01-from-demo-to-production"]
-evidence_status: missing
+evidence_status: partial
 ---
 
 # 章节承诺

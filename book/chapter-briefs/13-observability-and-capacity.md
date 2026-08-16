@@ -2,9 +2,9 @@
 chapter_id: "13-observability-and-capacity"
 part: IV
 title: "可观测性与容量规划"
-status: brief
+status: draft
 depends_on: ["02-workload-slo-and-metrics", "12-throughput-and-cost"]
-evidence_status: missing
+evidence_status: partial
 ---
 
 # 章节承诺

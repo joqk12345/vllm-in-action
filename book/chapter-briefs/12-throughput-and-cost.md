@@ -2,9 +2,9 @@
 chapter_id: "12-throughput-and-cost"
 part: III
 title: "吞吐、利用率与单位成本"
-status: brief
+status: draft
 depends_on: ["08-parallelism-and-topology", "09-benchmarking", "10-scheduling-and-batching"]
-evidence_status: missing
+evidence_status: partial
 ---
 
 # 章节承诺
